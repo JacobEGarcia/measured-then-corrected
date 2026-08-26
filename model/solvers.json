@@ -1,0 +1,77 @@
+{
+  "easy": [
+    {
+      "solver": "Newton",
+      "steps_per_s": 20735.8,
+      "penetration_mm": 1.7688,
+      "stable": true
+    },
+    {
+      "solver": "CG",
+      "steps_per_s": 8167.9,
+      "penetration_mm": 1.7689,
+      "stable": true
+    },
+    {
+      "solver": "PGS",
+      "steps_per_s": 1479.1,
+      "penetration_mm": 1.7702,
+      "stable": true
+    }
+  ],
+  "hard": [
+    {
+      "solver": "Newton",
+      "iterations": 1,
+      "steps_per_s": 113488.1,
+      "squash_mm": 50.177,
+      "light_sank_mm": 49.177,
+      "finite": true
+    },
+    {
+      "solver": "Newton",
+      "iterations": 100,
+      "steps_per_s": 109466.6,
+      "squash_mm": 50.177,
+      "light_sank_mm": 49.177,
+      "finite": true
+    },
+    {
+      "solver": "CG",
+      "iterations": 1,
+      "steps_per_s": 168726.5,
+      "squash_mm": 102.929,
+      "light_sank_mm": -1.821,
+      "finite": true
+    },
+    {
+      "solver": "CG",
+      "iterations": 100,
+      "steps_per_s": 99964.6,
+      "squash_mm": 101.0,
+      "light_sank_mm": 0.108,
+      "finite": true
+    },
+    {
+      "solver": "PGS",
+      "iterations": 1,
+      "steps_per_s": 112032.8,
+      "squash_mm": 100.997,
+      "light_sank_mm": 0.066,
+      "finite": true
+    },
+    {
+      "solver": "PGS",
+      "iterations": 100,
+      "steps_per_s": 22408.9,
+      "squash_mm": 101.0,
+      "light_sank_mm": 0.108,
+      "finite": true
+    }
+  ],
+  "hard_summary": {
+    "best_squash_mm": 50.177,
+    "worst_squash_mm": 102.929,
+    "spread_mm": 52.752
+  }
+}
