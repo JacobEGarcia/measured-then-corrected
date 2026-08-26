@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+dist/
+out/_*
+cpp/sim_bench
+cpp/.rpath/
+media/_frames/
+*.egg-info/

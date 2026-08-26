@@ -1,0 +1,18 @@
+{
+  "cross_validation": {
+    "comparisons": 151,
+    "mismatches": [],
+    "worst_field": "base.mass mjcf-spec",
+    "worst_abs_diff": 4.440892098500626e-16
+  },
+  "forward_kinematics": {
+    "samples": 2000,
+    "max_abs_err_m": 3.3306690738754696e-16,
+    "mean_abs_err_m": 6.57755100386126e-17
+  },
+  "conventions_checked": [
+    "MJCF size is a HALF extent; URDF/SDF box size is the FULL extent",
+    "inertia stated explicitly in all three, never compiler-inferred",
+    "URDF joint origin offset by -half_length to sit at the child's lower face"
+  ]
+}

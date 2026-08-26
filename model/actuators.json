@@ -1,0 +1,124 @@
+{
+  "gear_torque": [
+    {
+      "gear": 1.0,
+      "applied_joint_torque": 1.0,
+      "predicted": 1.0,
+      "err_pct": 0.0
+    },
+    {
+      "gear": 5.0,
+      "applied_joint_torque": 5.0,
+      "predicted": 5.0,
+      "err_pct": 0.0
+    },
+    {
+      "gear": 20.0,
+      "applied_joint_torque": 20.0,
+      "predicted": 20.0,
+      "err_pct": 0.0
+    },
+    {
+      "gear": 100.0,
+      "applied_joint_torque": 100.0,
+      "predicted": 100.0,
+      "err_pct": 0.0
+    }
+  ],
+  "reflected_inertia": [
+    {
+      "gear": 1.0,
+      "reflected_inertia": 2e-05,
+      "I_link": 0.087071,
+      "I_thin_rod_wrong": 0.083333,
+      "qacc_measured": 28.160065,
+      "qacc_predicted": 28.160065,
+      "err_pct": 0.0
+    },
+    {
+      "gear": 10.0,
+      "reflected_inertia": 0.002,
+      "I_link": 0.087071,
+      "I_thin_rod_wrong": 0.083333,
+      "qacc_measured": 27.534085,
+      "qacc_predicted": 27.534085,
+      "err_pct": 0.0
+    },
+    {
+      "gear": 50.0,
+      "reflected_inertia": 0.05,
+      "I_link": 0.087071,
+      "I_thin_rod_wrong": 0.083333,
+      "qacc_measured": 17.892132,
+      "qacc_predicted": 17.892132,
+      "err_pct": 0.0
+    },
+    {
+      "gear": 100.0,
+      "reflected_inertia": 0.2,
+      "I_link": 0.087071,
+      "I_thin_rod_wrong": 0.083333,
+      "qacc_measured": 8.54317,
+      "qacc_predicted": 8.54317,
+      "err_pct": 0.0
+    }
+  ],
+  "saturation": [
+    {
+      "forcerange_cap": 0.5,
+      "gear": 50.0,
+      "actuator_force": 0.5,
+      "joint_torque_Nm": 25.0,
+      "expected_actuator_force": 0.5,
+      "correct": true
+    },
+    {
+      "forcerange_cap": 2.0,
+      "gear": 50.0,
+      "actuator_force": 1.0,
+      "joint_torque_Nm": 50.0,
+      "expected_actuator_force": 1.0,
+      "correct": true
+    },
+    {
+      "forcerange_cap": 10.0,
+      "gear": 50.0,
+      "actuator_force": 1.0,
+      "joint_torque_Nm": 50.0,
+      "expected_actuator_force": 1.0,
+      "correct": true
+    }
+  ],
+  "torque_speed": [
+    {
+      "omega": 0.0,
+      "tau_available": 4.0,
+      "frac_of_stall": 1.0,
+      "predicted_frac": 1.0
+    },
+    {
+      "omega": 7.5,
+      "tau_available": 3.0,
+      "frac_of_stall": 0.75,
+      "predicted_frac": 0.75
+    },
+    {
+      "omega": 15.0,
+      "tau_available": 2.0,
+      "frac_of_stall": 0.5,
+      "predicted_frac": 0.5
+    },
+    {
+      "omega": 22.5,
+      "tau_available": 1.0,
+      "frac_of_stall": 0.25,
+      "predicted_frac": 0.25
+    },
+    {
+      "omega": 30.0,
+      "tau_available": 0.0,
+      "frac_of_stall": 0.0,
+      "predicted_frac": 0.0
+    }
+  ]
+}

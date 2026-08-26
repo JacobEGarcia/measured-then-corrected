@@ -1,0 +1,116 @@
+{
+  "true": {
+    "damping": [
+      0.155,
+      0.083,
+      0.061
+    ],
+    "frictionloss": 0.037
+  },
+  "multi": {
+    "n_trajectories": 5,
+    "damping": [
+      0.366500190373658,
+      0.38300267053069714,
+      0.062366368400200926
+    ],
+    "frictionloss": 0.10104582120190807,
+    "param_errors_pct": {
+      "damping": [
+        136.45173572494065,
+        361.4490006393941,
+        2.239948197050701
+      ],
+      "frictionloss": 173.09681405921103
+    },
+    "heldout_rms": 0.06639229454222294,
+    "mean_abs_param_error_pct": 168.30937465514913
+  },
+  "multistart": {
+    "n_starts": 12,
+    "damping": [
+      0.6536386361097444,
+      0.12303740549641061,
+      0.06267388411908138
+    ],
+    "frictionloss": 0.03950929025625435,
+    "param_errors_pct": {
+      "damping": [
+        321.7023458772544,
+        48.23783794748265,
+        2.7440723263629248
+      ],
+      "frictionloss": 6.781865557444185
+    },
+    "mean_abs_param_error_pct": 94.86653042713604,
+    "heldout_rms": 0.008271261150917942,
+    "train_residual": 0.015284486834478072
+  },
+  "single_mean_abs_param_error_pct": 168.75592205726713,
+  "initial_guess": {
+    "damping": [
+      0.3,
+      0.3,
+      0.3
+    ],
+    "frictionloss": 0.1
+  },
+  "recovered": {
+    "damping": [
+      0.09199173424969839,
+      0.42034056833695493,
+      0.05842573432849401
+    ],
+    "frictionloss": 0.11977590673647254
+  },
+  "param_errors_pct": {
+    "damping": [
+      40.65049403245265,
+      406.4344196830782,
+      4.2201076582065395
+    ],
+    "frictionloss": 223.71866685533118
+  },
+  "encoder_noise_rad": 0.002,
+  "sample_hz": 100,
+  "iterations": 223,
+  "train_rms_rad": 0.07733307795914858,
+  "heldout": {
+    "q0": [
+      -0.6,
+      0.5,
+      -0.9
+    ],
+    "rms_nominal": 1.5315929538318431,
+    "rms_identified": 0.07489109288569598,
+    "improvement_x": 20.45093608354023
+  },
+  "sensitivity": [
+    {
+      "param": "damping_j1",
+      "sensitivity_rad": 0.0,
+      "identifiable": false
+    },
+    {
+      "param": "damping_j2",
+      "sensitivity_rad": 4.207024497068762,
+      "identifiable": true
+    },
+    {
+      "param": "damping_j3",
+      "sensitivity_rad": 2.1657684355800035,
+      "identifiable": true
+    },
+    {
+      "param": "frictionloss",
+      "sensitivity_rad": 2.7911755380886043,
+      "identifiable": true
+    }
+  ],
+  "mean_error_identifiable_only_pct": 19.254591943763256,
+  "identifiable_params": [
+    "damping_j2",
+    "damping_j3",
+    "frictionloss"
+  ]
+}

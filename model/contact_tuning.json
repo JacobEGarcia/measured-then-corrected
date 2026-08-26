@@ -1,0 +1,215 @@
+{
+  "penetration_vs_solref": [
+    {
+      "solref_timeconst": 0.001,
+      "rest_z": 0.0499956,
+      "penetration_mm": 0.0044
+    },
+    {
+      "solref_timeconst": 0.005,
+      "rest_z": 0.0499932,
+      "penetration_mm": 0.0068
+    },
+    {
+      "solref_timeconst": 0.01,
+      "rest_z": 0.0499727,
+      "penetration_mm": 0.0273
+    },
+    {
+      "solref_timeconst": 0.02,
+      "rest_z": 0.0498922,
+      "penetration_mm": 0.1078
+    },
+    {
+      "solref_timeconst": 0.05,
+      "rest_z": 0.0495086,
+      "penetration_mm": 0.4914
+    }
+  ],
+  "penetration_vs_mass": [
+    {
+      "mass_kg": 0.1,
+      "rest_z": 0.0498922,
+      "penetration_mm": 0.1078
+    },
+    {
+      "mass_kg": 1.0,
+      "rest_z": 0.0498922,
+      "penetration_mm": 0.1078
+    },
+    {
+      "mass_kg": 10.0,
+      "rest_z": 0.0498922,
+      "penetration_mm": 0.1078
+    },
+    {
+      "mass_kg": 100.0,
+      "rest_z": 0.0498922,
+      "penetration_mm": 0.1078
+    }
+  ],
+  "restitution": [
+    {
+      "solref_dampratio": 1.0,
+      "rebound_height_m": 0.07603,
+      "restitution_measured": 0.2405
+    },
+    {
+      "solref_dampratio": 0.7,
+      "rebound_height_m": 0.07603,
+      "restitution_measured": 0.2405
+    },
+    {
+      "solref_dampratio": 0.4,
+      "rebound_height_m": 0.09513,
+      "restitution_measured": 0.3167
+    },
+    {
+      "solref_dampratio": 0.2,
+      "rebound_height_m": 0.17758,
+      "restitution_measured": 0.5324
+    }
+  ],
+  "stability": [
+    {
+      "dt": 0.0005,
+      "solref_timeconst": 0.0005,
+      "stable": true,
+      "penetration_mm": 0.0,
+      "timeconst_over_dt": 1.0
+    },
+    {
+      "dt": 0.0005,
+      "solref_timeconst": 0.002,
+      "stable": true,
+      "penetration_mm": 0.001,
+      "timeconst_over_dt": 4.0
+    },
+    {
+      "dt": 0.0005,
+      "solref_timeconst": 0.01,
+      "stable": true,
+      "penetration_mm": 0.027,
+      "timeconst_over_dt": 20.0
+    },
+    {
+      "dt": 0.0005,
+      "solref_timeconst": 0.05,
+      "stable": true,
+      "penetration_mm": 0.491,
+      "timeconst_over_dt": 100.0
+    },
+    {
+      "dt": 0.001,
+      "solref_timeconst": 0.0005,
+      "stable": true,
+      "penetration_mm": 0.001,
+      "timeconst_over_dt": 0.5
+    },
+    {
+      "dt": 0.001,
+      "solref_timeconst": 0.002,
+      "stable": true,
+      "penetration_mm": 0.001,
+      "timeconst_over_dt": 2.0
+    },
+    {
+      "dt": 0.001,
+      "solref_timeconst": 0.01,
+      "stable": true,
+      "penetration_mm": 0.027,
+      "timeconst_over_dt": 10.0
+    },
+    {
+      "dt": 0.001,
+      "solref_timeconst": 0.05,
+      "stable": true,
+      "penetration_mm": 0.491,
+      "timeconst_over_dt": 50.0
+    },
+    {
+      "dt": 0.002,
+      "solref_timeconst": 0.0005,
+      "stable": true,
+      "penetration_mm": 0.004,
+      "timeconst_over_dt": 0.25
+    },
+    {
+      "dt": 0.002,
+      "solref_timeconst": 0.002,
+      "stable": true,
+      "penetration_mm": 0.004,
+      "timeconst_over_dt": 1.0
+    },
+    {
+      "dt": 0.002,
+      "solref_timeconst": 0.01,
+      "stable": true,
+      "penetration_mm": 0.027,
+      "timeconst_over_dt": 5.0
+    },
+    {
+      "dt": 0.002,
+      "solref_timeconst": 0.05,
+      "stable": true,
+      "penetration_mm": 0.491,
+      "timeconst_over_dt": 25.0
+    },
+    {
+      "dt": 0.005,
+      "solref_timeconst": 0.0005,
+      "stable": true,
+      "penetration_mm": 0.027,
+      "timeconst_over_dt": 0.1
+    },
+    {
+      "dt": 0.005,
+      "solref_timeconst": 0.002,
+      "stable": true,
+      "penetration_mm": 0.027,
+      "timeconst_over_dt": 0.4
+    },
+    {
+      "dt": 0.005,
+      "solref_timeconst": 0.01,
+      "stable": true,
+      "penetration_mm": 0.027,
+      "timeconst_over_dt": 2.0
+    },
+    {
+      "dt": 0.005,
+      "solref_timeconst": 0.05,
+      "stable": true,
+      "penetration_mm": 0.491,
+      "timeconst_over_dt": 10.0
+    },
+    {
+      "dt": 0.01,
+      "solref_timeconst": 0.0005,
+      "stable": true,
+      "penetration_mm": 0.108,
+      "timeconst_over_dt": 0.05
+    },
+    {
+      "dt": 0.01,
+      "solref_timeconst": 0.002,
+      "stable": true,
+      "penetration_mm": 0.108,
+      "timeconst_over_dt": 0.2
+    },
+    {
+      "dt": 0.01,
+      "solref_timeconst": 0.01,
+      "stable": true,
+      "penetration_mm": 0.108,
+      "timeconst_over_dt": 1.0
+    },
+    {
+      "dt": 0.01,
+      "solref_timeconst": 0.05,
+      "stable": true,
+      "penetration_mm": 0.491,
+      "timeconst_over_dt": 5.0
+    }
+  ]
+}
