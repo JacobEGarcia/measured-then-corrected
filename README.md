@@ -121,7 +121,7 @@ evidence of correct physics.**
 
 ## CI — `tests/`, `.github/workflows/simulation-ci.yml`
 
-17 gates, ~0.6 s.
+38 gates, ~90 s.
 
 **Gates assert closed-form physics, not golden files.** Golden values rot the
 moment someone regenerates them; `v²/(2μg)` cannot be regenerated.
@@ -159,11 +159,152 @@ timer array reads zero, which looks exactly like "every phase is free".
 
 ---
 
+## Closed kinematic chains — `model/closed_chain.py`
+
+**URDF cannot express a loop.** Every link has exactly one parent, so four-bar
+linkages, parallel jaws, delta arms and differential drives are outside the
+format's data model. MJCF closes a loop with `<equality><connect>`; SDF with a
+second `<joint>` back to an existing link.
+
+What the missing closure costs, on a four-bar:
+
+```
+                open chain      closed loop
+crank travel    1.7659 rad      1.2334 rad
+rocker travel   0.0000 rad      0.7191 rad
+```
+
+**The rocker never moves at all.** Export a four-bar to URDF, drop the closure,
+and half the mechanism is inert — but it still simulates, and still looks
+plausible in a viewer.
+
+**A loop closure is a soft constraint, not a hard one.** The default leaves
+11.5 mm of mean gap between the pivots; `solref`/`solimp` tighten it 109x.
+
+**Wrong diagnosis, then the correction.** A 57 mm *maximum* gap looked like the
+constraint was too soft, but stiffening moved the mean 109x and the max barely
+at all. The max is at **step 0**: `qpos` was set to a configuration where the
+loop is already broken by 60.7 mm, and the solver spends ~200 steps hauling it
+shut. Settled gap is 0.036 mm. Loop-closed models must be initialised **on the
+constraint manifold** — a tree model accepts any joint vector, a loop-closed
+one does not.
+
+---
+
+## Collision cost — `model/collision_cost.py`
+
+Raw throughput says meshes are catastrophic:
+
+```
+primitive sphere      21,793 steps/s
+mesh (282 hull v)      1,842 steps/s     11.8x slower
+```
+
+**That number is measuring the wrong thing.** The scenes do not generate the
+same number of contacts — a sphere pair yields 1, a box pair up to 4. Per
+contact:
+
+```
+                    hull v   us/step   contacts   us/CONTACT
+primitive sphere         0     45.89       40.0       1.1473
+primitive box            0    126.25      160.0       0.7891
+mesh                    12    120.86      109.5       1.1037
+mesh                   282    542.89      103.9       5.2251
+```
+
+**Per contact the box is *cheaper* than the sphere** — it only looked slow
+because it makes 4x the contacts. The clean comparison is mesh-vs-mesh at
+near-equal contact counts: **23.5x the hull vertices costs 4.73x**, i.e.
+roughly `sqrt(n)`, consistent with hull-based GJK/MPR.
+
+A gate guards the confound itself, so the "raw steps/s is the wrong metric"
+argument fails loudly if its own example ever inverts.
+
+---
+
+## Determinism and the chaos horizon — `model/determinism.py`
+
+Three questions that get conflated in every "my run isn't reproducible" report:
+
+```
+repeated runs, same model      bit-identical
+re-parsed model, same XML      bit-identical
+untouched box added 3 m away   changes nothing
+```
+
+So reproducibility failures here are not solver nondeterminism. What *does*
+bound them is chaos:
+
+```
+double pendulum (smooth)    lambda = 2.24 /s    e-folding 0.44 s
+box on a 20 deg incline     lambda = 0.35 /s    e-folding 2.9 s
+```
+
+**Contact chaos is 6.5x slower than smooth chaos** — friction and inelastic
+contact dissipate.
+
+Validated three ways: two perturbation sizes (1 ULP and 1e-12) recover the same
+exponent to **1.2%**, and the exponent fitted on one run blind-predicts the
+other's 1 mm crossing at 9.18 s against **9.72 s measured**.
+
+**Two floating-point traps, both now gated:**
+
+- a 1-ULP-at-1.0 nudge (`2.22e-16`) added to a coordinate of `2.0`, whose ULP
+  is `4.44e-16`, **rounds away entirely**. The two runs were bit-identical and
+  the result read as "no chaos".
+- `nextafter(0.0, 1.0)` is the smallest **denormal** (`4.94e-324`), not a
+  usable ULP. It produced a meaningless `2e305x` growth figure.
+
+**And a bad experiment design.** The first scene was a settling pile of boxes —
+dissipative, contractive, and therefore incapable of exhibiting a chaos horizon
+at all. Growth factor came out exactly `1.000`.
+
+---
+
+## Stability frontier — `model/stability_frontier.py`
+
+The first sweep found **no instability anywhere** — an equal-mass tower is not a
+hard contact problem, so there was no frontier. Rebuilt around **mass ratio**,
+which dominates timestep as a failure axis:
+
+```
+ratio 1      survives dt = 0.032
+ratio 10000  fails    at dt = 0.001
+```
+
+**Solver iterations buy nothing.** 1 vs 50 gives identical squash to 1e-3 mm.
+The squash is the soft-contact model behaving as specified, not a convergence
+failure — so the standard "raise iterations for stiff contacts" advice does not
+apply here.
+
+The first sweep did independently reproduce the **2·dt clamp**: penetration was
+identical (1.637 mm) for dt from 0.0005 to 0.008, then jumped at 0.016 —
+exactly where `2*dt` passes `solref`'s 0.02 s default.
+
+### Reconciling a contradiction
+
+`contact_tuning.py` measured penetration as mass-**independent**; this sweep saw
+it scale **237x**. Same total load, delivered two ways:
+
+```
+load     one box on the floor     the same load on a 1 kg box
+2 kg               0.1078 mm                        0.2072 mm
+1000 kg            0.1078 mm                       49.1324 mm
+```
+
+**Both were right.** Mass normalisation cancels only when the load equals the
+contact's own effective mass. A stack breaks that assumption, and the residual
+error *is* the mass ratio. This is why a heavy body on a light one is the
+classic solver killer.
+
+---
+
 ## Layout
 
 ```
-model/      robot spec, three generators, validation, sysid, contact + actuator studies
-tests/      17 CI gates, four of which test the gates themselves
+model/      robot spec, three generators, validation, sysid, contact,
+            actuators, closed chains, collision cost, determinism, stability
+tests/      38 CI gates, four of which test the gates themselves
 cpp/        C++ profiling harness + build script
 .github/    CI workflow
 ```
