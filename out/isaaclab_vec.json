@@ -1,0 +1,28 @@
+{
+  "vectorized_scaling": [
+    {
+      "num_envs": 64,
+      "env_steps_per_s": 3864.8,
+      "policy_steps_per_s": 60.4,
+      "vram_used_gb": 2.33
+    },
+    {
+      "num_envs": 256,
+      "env_steps_per_s": 13917.0,
+      "policy_steps_per_s": 54.4,
+      "vram_used_gb": 3.0
+    },
+    {
+      "num_envs": 1024,
+      "env_steps_per_s": 55565.9,
+      "policy_steps_per_s": 54.3,
+      "vram_used_gb": 3.81
+    },
+    {
+      "num_envs": 4096,
+      "env_steps_per_s": 212899.1,
+      "policy_steps_per_s": 52.0,
+      "vram_used_gb": 4.22
+    }
+  ]
+}

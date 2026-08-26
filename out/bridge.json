@@ -1,0 +1,25 @@
+{
+  "ros_install": {
+    "rc": 0,
+    "out": "symbolic link\n\n/sbin/ldconfig.real: /usr/local/lib/libur_loader.so.0 is not a symbolic link\n\n/sbin/ldconfig.real: /usr/local/lib/libtbb.so.12 is not a symbolic link\n\n/sbin/ldconfig.real: /usr/local/lib/libumf.so.1 is not a symbolic link\n\n/sbin/ldconfig.real: /usr/local/lib/libtcm_debug.so.1 is not a symbolic link\n\n/sbin/ldconfig.real: /usr/local/lib/libur_adapter_opencl.so.0 is not a symbolic link\n\n/sbin/ldconfig.real: /usr/local/lib/libtbbmalloc_proxy.so.2 is not a symbolic link\n\n/sbin/ldconfig.real: /usr/local/lib/libtcm.so.1 is not a symbolic link\n\n/sbin/ldconfig.real: /usr/local/lib/libtbbmalloc.so.2 is not a symbolic link\n\n/sbin/ldconfig.real: /usr/local/lib/libhwloc.so.15 is not a symbolic link\n\nW: Skipping acquire of configured file 'main/source/Sources' as repository 'https://r2u.stat.illinois.edu/ubuntu jammy InRelease' does not seem to provide it (sources.list entry misspelt?)\n"
+  },
+  "bridge_ext_present": {
+    "rc": 0,
+    "out": "/usr/local/lib/python3.12/dist-packages/isaacsim/exts/isaacsim.ros2.bridge\n"
+  },
+  "isaac_side": {
+    "rc": 0,
+    "ok": true,
+    "out": "ager::createHydraEngineWithDefaultConfigImpl - no valid foundation interface found\n2026-08-26T10:56:30Z [20,372ms] [Warning] [omni.graph.core.plugin] OmniGraphSettings::getCudaDeviceOrdinal: unable to get a valid CUDA device id from the renderer. Defaulting to GPU0.\n[22.989s] Simulation App Startup Complete\n[22.990s] app ready\nISAAC_DONE 120 frames, 9 joints\n[26.433s] Simulation App Shutting Down\n",
+    "err": ""
+  },
+  "ros_side": {
+    "rc": 0,
+    "out": "BRIDGE_OK received 60 JointState msgs; joints: 9\n"
+  },
+  "verdict": {
+    "isaac_produced_jointstate": true,
+    "ros_published_and_received": true,
+    "end_to_end": true
+  }
+}

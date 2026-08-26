@@ -1,0 +1,46 @@
+{
+  "results": [
+    {
+      "num_envs": 4096,
+      "ok": true,
+      "env_steps_per_s": 211304.8,
+      "policy_steps_per_s": 51.6,
+      "vram_used_gb": 2.87,
+      "vram_total_gb": 15.64
+    },
+    {
+      "num_envs": 8192,
+      "ok": true,
+      "env_steps_per_s": 401217.6,
+      "policy_steps_per_s": 49.0,
+      "vram_used_gb": 3.49,
+      "vram_total_gb": 15.64
+    },
+    {
+      "num_envs": 16384,
+      "ok": true,
+      "env_steps_per_s": 556476.1,
+      "policy_steps_per_s": 34.0,
+      "vram_used_gb": 4.59,
+      "vram_total_gb": 15.64
+    },
+    {
+      "num_envs": 32768,
+      "ok": true,
+      "env_steps_per_s": 717906.9,
+      "policy_steps_per_s": 21.9,
+      "vram_used_gb": 6.92,
+      "vram_total_gb": 15.64
+    },
+    {
+      "num_envs": 65536,
+      "ok": true,
+      "env_steps_per_s": 812670.3,
+      "policy_steps_per_s": 12.4,
+      "vram_used_gb": 11.36,
+      "vram_total_gb": 15.64
+    }
+  ],
+  "max_envs_ok": 65536,
+  "peak_env_steps_per_s": 812670.3
+}

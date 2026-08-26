@@ -1,0 +1,451 @@
+{
+  "source": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.0/Isaac/Robots/",
+  "isaac_version": "6.0",
+  "n_vendors": 50,
+  "n_robot_usd": 2034,
+  "extensions_counted": [
+    ".usd",
+    ".usda",
+    ".usdc",
+    ".usdz"
+  ],
+  "vendors": [
+    {
+      "vendor": "1X",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/1X/Neo/Neo.usd"
+      ]
+    },
+    {
+      "vendor": "ANYbotics",
+      "n_usd": 7,
+      "candidates": [
+        "Isaac/Robots/ANYbotics/anymal_b/anymal_b.usd",
+        "Isaac/Robots/ANYbotics/anymal_c/anymal_c.usd",
+        "Isaac/Robots/ANYbotics/anymal_d/anymal_d.usd",
+        "Isaac/Robots/ANYbotics/anymal_c/legacy/anymal.usd",
+        "Isaac/Robots/ANYbotics/anymal_c/legacy/anymal_base.usd"
+      ]
+    },
+    {
+      "vendor": "Addverb",
+      "n_usd": 19,
+      "candidates": [
+        "Isaac/Robots/Addverb/Trakr/trakr.usd",
+        "Isaac/Robots/Addverb/Syncro5/Syncro5.usda",
+        "Isaac/Robots/Addverb/Syncro10/Syncro10.usda"
+      ]
+    },
+    {
+      "vendor": "Agibot",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/Agibot/A2D/A2D.usd"
+      ]
+    },
+    {
+      "vendor": "AgilexRobotics",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/AgilexRobotics/limo/limo.usd"
+      ]
+    },
+    {
+      "vendor": "Agility",
+      "n_usd": 2,
+      "candidates": [
+        "Isaac/Robots/Agility/Cassie/cassie.usd",
+        "Isaac/Robots/Agility/Digit/digit_v4.usd"
+      ]
+    },
+    {
+      "vendor": "Bitcraze",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/Bitcraze/Crazyflie/cf2x.usd"
+      ]
+    },
+    {
+      "vendor": "BoosterRobotics",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/BoosterRobotics/BoosterT1/T1_locomotion.usd"
+      ]
+    },
+    {
+      "vendor": "BostonDynamics",
+      "n_usd": 2,
+      "candidates": [
+        "Isaac/Robots/BostonDynamics/spot/spot.usd",
+        "Isaac/Robots/BostonDynamics/spot/spot_with_arm.usd"
+      ]
+    },
+    {
+      "vendor": "Clearpath",
+      "n_usd": 7,
+      "candidates": [
+        "Isaac/Robots/Clearpath/Dingo/dingo.usd",
+        "Isaac/Robots/Clearpath/Jackal/jackal.usd",
+        "Isaac/Robots/Clearpath/Dingo/dingo_basic.usd",
+        "Isaac/Robots/Clearpath/Jackal/jackal_basic.usd",
+        "Isaac/Robots/Clearpath/RidgebackUr/ridgeback_ur5.usd",
+        "Isaac/Robots/Clearpath/RidgebackFranka/ridgeback_franka.usd"
+      ]
+    },
+    {
+      "vendor": "DeepRobotics",
+      "n_usd": 3,
+      "candidates": [
+        "Isaac/Robots/DeepRobotics/M20/M20.usd",
+        "Isaac/Robots/DeepRobotics/X30/X30.usd",
+        "Isaac/Robots/DeepRobotics/Lite3/Lite3.usd"
+      ]
+    },
+    {
+      "vendor": "Denso",
+      "n_usd": 2,
+      "candidates": [
+        "Isaac/Robots/Denso/CobottaPro900/cobotta_pro_900.usd",
+        "Isaac/Robots/Denso/CobottaPro1300/cobotta_pro_1300.usd"
+      ]
+    },
+    {
+      "vendor": "Fanuc",
+      "n_usd": 85,
+      "candidates": [
+        "Isaac/Robots/Fanuc/er4ia/er4ia.usd",
+        "Isaac/Robots/Fanuc/sr3ia/sr3ia.usd",
+        "Isaac/Robots/Fanuc/sr6ia/sr6ia.usd",
+        "Isaac/Robots/Fanuc/crx5ia/crx5ia.usd",
+        "Isaac/Robots/Fanuc/sr12ia/sr12ia.usd",
+        "Isaac/Robots/Fanuc/sr20ia/sr20ia.usd"
+      ]
+    },
+    {
+      "vendor": "Flexiv",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/Flexiv/Rizon4/flexiv_rizon4.usd"
+      ]
+    },
+    {
+      "vendor": "FourierIntelligence",
+      "n_usd": 2,
+      "candidates": [
+        "Isaac/Robots/FourierIntelligence/GR-1/GR1T1/GR1_T1.usd",
+        "Isaac/Robots/FourierIntelligence/GR-1/GR1T2_fourier_hand_6dof/GR1T2_fourier_hand_6dof.usd"
+      ]
+    },
+    {
+      "vendor": "FrankaRobotics",
+      "n_usd": 23,
+      "candidates": [
+        "Isaac/Robots/FrankaRobotics/FrankaFR3/fr3.usd",
+        "Isaac/Robots/FrankaRobotics/FrankaPanda/franka.usd",
+        "Isaac/Robots/FrankaRobotics/FactoryFranka/factory_franka.usd",
+        "Isaac/Robots/FrankaRobotics/FrankaPanda/DetailedProps/realsense.usd",
+        "Isaac/Robots/FrankaRobotics/FrankaPanda/DetailedProps/panda_hand.usd",
+        "Isaac/Robots/FrankaRobotics/FrankaPanda/DetailedProps/logo_decals.usd"
+      ]
+    },
+    {
+      "vendor": "Fraunhofer",
+      "n_usd": 53,
+      "candidates": [
+        "Isaac/Robots/Fraunhofer/O3dyn/o3dyn.usd",
+        "Isaac/Robots/Fraunhofer/Evobot/evobot.usd",
+        "Isaac/Robots/Fraunhofer/O3dyn/o3dyn_trimmed.usd",
+        "Isaac/Robots/Fraunhofer/O3dyn/o3dyn_controller.usd"
+      ]
+    },
+    {
+      "vendor": "Galbot",
+      "n_usd": 57,
+      "candidates": [
+        "Isaac/Robots/Galbot/galbot_g1/galbot_g1.usda"
+      ]
+    },
+    {
+      "vendor": "Idealworks",
+      "n_usd": 13,
+      "candidates": [
+        "Isaac/Robots/Idealworks/iwhub/iw_hub.usd",
+        "Isaac/Robots/Idealworks/iwhub/iw_hub_static.usd",
+        "Isaac/Robots/Idealworks/iwhub/iw_hub_sensors.usd"
+      ]
+    },
+    {
+      "vendor": "Ihmcrobotics",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/Ihmcrobotics/Valkyrie/valkyrie.usd"
+      ]
+    },
+    {
+      "vendor": "InspireRobots",
+      "n_usd": 8,
+      "candidates": [
+        "Isaac/Robots/InspireRobots/Inspire_Hand_RH56DFX_right/inspire_hand.usda"
+      ]
+    },
+    {
+      "vendor": "IsaacSim",
+      "n_usd": 18,
+      "candidates": [
+        "Isaac/Robots/IsaacSim/Ant/ant.usd",
+        "Isaac/Robots/IsaacSim/Ant/ant_colored.usd",
+        "Isaac/Robots/IsaacSim/Cartpole/cartpole.usd",
+        "Isaac/Robots/IsaacSim/Humanoid/humanoid.usd",
+        "Isaac/Robots/IsaacSim/ForkliftB/forklift_b.usd",
+        "Isaac/Robots/IsaacSim/ForkliftC/forklift_c.usd"
+      ]
+    },
+    {
+      "vendor": "Kawasaki",
+      "n_usd": 5,
+      "candidates": [
+        "Isaac/Robots/Kawasaki/RS007L/rs007l_onrobot_rg2.usd",
+        "Isaac/Robots/Kawasaki/RS007N/rs007n_onrobot_rg2.usd",
+        "Isaac/Robots/Kawasaki/RS013N/rs013n_onrobot_rg2.usd",
+        "Isaac/Robots/Kawasaki/RS025N/rs025n_onrobot_rg2.usd",
+        "Isaac/Robots/Kawasaki/RS080N/rs080n_onrobot_rg2.usd"
+      ]
+    },
+    {
+      "vendor": "Kinova",
+      "n_usd": 3,
+      "candidates": [
+        "Isaac/Robots/Kinova/Gen3/gen3n7_instanceable.usd",
+        "Isaac/Robots/Kinova/Jaco2/J2N6S300/j2n6s300_instanceable.usd",
+        "Isaac/Robots/Kinova/Jaco2/J2N7S300/j2n7s300_instanceable.usd"
+      ]
+    },
+    {
+      "vendor": "Kuka",
+      "n_usd": 12,
+      "candidates": [
+        "Isaac/Robots/Kuka/LBR_iiwa/kuka.usda",
+        "Isaac/Robots/Kuka/KR210_L150/kr210_l150.usd"
+      ]
+    },
+    {
+      "vendor": "Mecademic",
+      "n_usd": 9,
+      "candidates": [
+        "Isaac/Robots/Mecademic/meca500/meca500.usda"
+      ]
+    },
+    {
+      "vendor": "NASA",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/NASA/Ingenuity/ingenuity.usd"
+      ]
+    },
+    {
+      "vendor": "NTNU",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/NTNU/ARL-Robot-1/arl_robot_1.usd"
+      ]
+    },
+    {
+      "vendor": "NVIDIA",
+      "n_usd": 1524,
+      "candidates": [
+        "Isaac/Robots/NVIDIA/Kaya/kaya.usd",
+        "Isaac/Robots/NVIDIA/Jetbot/jetbot.usd",
+        "Isaac/Robots/NVIDIA/Carter/carter_v1.usd",
+        "Isaac/Robots/NVIDIA/Kaya/kaya_ogn_gamepad.usd",
+        "Isaac/Robots/NVIDIA/NovaCarter/nova_carter.usd",
+        "Isaac/Robots/NVIDIA/Leatherback/leatherback.usd"
+      ]
+    },
+    {
+      "vendor": "OpenArm",
+      "n_usd": 2,
+      "candidates": [
+        "Isaac/Robots/OpenArm/openarm_bimanual/openarm_bimanual.usd",
+        "Isaac/Robots/OpenArm/openarm_unimanual/openarm_unimanual.usd"
+      ]
+    },
+    {
+      "vendor": "Psyonic",
+      "n_usd": 4,
+      "candidates": [
+        "Isaac/Robots/Psyonic/ability_hand_left_large/ability_hand_left_large.usd",
+        "Isaac/Robots/Psyonic/ability_hand_left_small/ability_hand_left_small.usd",
+        "Isaac/Robots/Psyonic/ability_hand_right_large/ability_hand_right_large.usd",
+        "Isaac/Robots/Psyonic/ability_hand_right_small/ability_hand_right_small.usd"
+      ]
+    },
+    {
+      "vendor": "RethinkRobotics",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/RethinkRobotics/Sawyer/sawyer_instanceable.usd"
+      ]
+    },
+    {
+      "vendor": "RobotEra",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/RobotEra/STAR1/star1.usd"
+      ]
+    },
+    {
+      "vendor": "RobotStudio",
+      "n_usd": 2,
+      "candidates": [
+        "Isaac/Robots/RobotStudio/so100/so100.usd",
+        "Isaac/Robots/RobotStudio/so101_new_calib/so101_new_calib.usd"
+      ]
+    },
+    {
+      "vendor": "Robotiq",
+      "n_usd": 52,
+      "candidates": [
+        "Isaac/Robots/Robotiq/2F-85/Robotiq_2F_85_edit.usd",
+        "Isaac/Robots/Robotiq/2F-140/Robotiq_2F_140_base.usd",
+        "Isaac/Robots/Robotiq/Hand-E/Robotiq_Hand_E_base.usd",
+        "Isaac/Robots/Robotiq/Hand-E/Robotiq_Hand_E_edit.usd",
+        "Isaac/Robots/Robotiq/2F-140/Robotiq_2F_140_config.usd",
+        "Isaac/Robots/Robotiq/Hand-E/Robotiq_Hand_E_config.usd"
+      ]
+    },
+    {
+      "vendor": "SanctuaryAI",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/SanctuaryAI/Phoenix/phoenix.usd"
+      ]
+    },
+    {
+      "vendor": "Schunk",
+      "n_usd": 10,
+      "candidates": [
+        "Isaac/Robots/Schunk/egk_25/schunk_egk_25.usd",
+        "Isaac/Robots/Schunk/egu_50/schunk_egu_50.usd",
+        "Isaac/Robots/Schunk/ezu_35/schunk_ezu_35.usd",
+        "Isaac/Robots/Schunk/svh-flat-l/svh-flat-l_v2.usd",
+        "Isaac/Robots/Schunk/svh-flat-r/svh-flat-r_v2.usd",
+        "Isaac/Robots/Schunk/egu_50/configurations/schunk_fgr_1.usd"
+      ]
+    },
+    {
+      "vendor": "ShadowRobot",
+      "n_usd": 14,
+      "candidates": [
+        "Isaac/Robots/ShadowRobot/ShadowHand/shadow_hand.usd",
+        "Isaac/Robots/ShadowRobot/ShadowHandNoTendons/shadow_hand.usd"
+      ]
+    },
+    {
+      "vendor": "Techman",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/Techman/TM12/tm12.usd"
+      ]
+    },
+    {
+      "vendor": "Turtlebot",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/Turtlebot/Turtlebot3/turtlebot3_burger.usd"
+      ]
+    },
+    {
+      "vendor": "Ufactory",
+      "n_usd": 6,
+      "candidates": [
+        "Isaac/Robots/Ufactory/lite6/lite6.usd",
+        "Isaac/Robots/Ufactory/uf850/uf850.usd",
+        "Isaac/Robots/Ufactory/xarm6/xarm6.usd",
+        "Isaac/Robots/Ufactory/xarm7/xarm7.usd",
+        "Isaac/Robots/Ufactory/xarm_gripper/xarm_gripper.usd",
+        "Isaac/Robots/Ufactory/lite6_gripper/uf_lite_gripper.usd"
+      ]
+    },
+    {
+      "vendor": "Unitree",
+      "n_usd": 46,
+      "candidates": [
+        "Isaac/Robots/Unitree/A1/a1.usd",
+        "Isaac/Robots/Unitree/B2/b2.usd",
+        "Isaac/Robots/Unitree/G1/g1.usd",
+        "Isaac/Robots/Unitree/H1/h1.usd",
+        "Isaac/Robots/Unitree/Z1/z1.usd",
+        "Isaac/Robots/Unitree/H2/H2.usda"
+      ]
+    },
+    {
+      "vendor": "UniversalRobots",
+      "n_usd": 15,
+      "candidates": [
+        "Isaac/Robots/UniversalRobots/ur3/ur3.usd",
+        "Isaac/Robots/UniversalRobots/ur5/ur5.usd",
+        "Isaac/Robots/UniversalRobots/ur10/ur10.usd",
+        "Isaac/Robots/UniversalRobots/ur20/ur20.usd",
+        "Isaac/Robots/UniversalRobots/ur30/ur30.usd",
+        "Isaac/Robots/UniversalRobots/ur3e/ur3e.usd"
+      ]
+    },
+    {
+      "vendor": "WonikRobotics",
+      "n_usd": 3,
+      "candidates": [
+        "Isaac/Robots/WonikRobotics/AllegroHand/allegro.usd",
+        "Isaac/Robots/WonikRobotics/AllegroHand/allegro_hand.usd"
+      ]
+    },
+    {
+      "vendor": "XHumanoid",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/XHumanoid/Tien Kung/tienkung.usd"
+      ]
+    },
+    {
+      "vendor": "XiaoPeng",
+      "n_usd": 2,
+      "candidates": [
+        "Isaac/Robots/XiaoPeng/PX5/px5.usd",
+        "Isaac/Robots/XiaoPeng/PX5/px5_without_housing.usd"
+      ]
+    },
+    {
+      "vendor": "Yahboom",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/Yahboom/Dofbot/dofbot.usd"
+      ]
+    },
+    {
+      "vendor": "Yaskawa",
+      "n_usd": 6,
+      "candidates": [
+        "Isaac/Robots/Yaskawa/Motoman Next/NEX4/NEX4_C00.usd",
+        "Isaac/Robots/Yaskawa/Motoman Next/NEX10/NEX10_C00.usd",
+        "Isaac/Robots/Yaskawa/Motoman Next/NEX20/NEX20_C00.usd",
+        "Isaac/Robots/Yaskawa/Motoman Next/NEX35/NEX35_C00.usd",
+        "Isaac/Robots/Yaskawa/Motoman Next/NHC12/NHC12_A00.usd",
+        "Isaac/Robots/Yaskawa/Motoman Next/NEX7/NEX7_C00_c00.usd"
+      ]
+    },
+    {
+      "vendor": "comau",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/comau/n-220-27/n-220-27.usd"
+      ]
+    },
+    {
+      "vendor": "iRobot",
+      "n_usd": 1,
+      "candidates": [
+        "Isaac/Robots/iRobot/Create3/create_3.usd"
+      ]
+    }
+  ]
+}

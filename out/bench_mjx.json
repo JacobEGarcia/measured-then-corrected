@@ -1,0 +1,72 @@
+{
+  "engine": "mjx",
+  "mujoco_version": "3.12.0",
+  "jax_version": "0.11.1",
+  "backend": "cpu",
+  "devices": [
+    "cpu:0"
+  ],
+  "platform": "macOS-26.7-arm64-arm-64bit",
+  "batch_scaling": [
+    {
+      "batch_size": 1,
+      "steps_per_env": 300,
+      "total_env_steps": 300,
+      "compile_s": 1.221,
+      "wall_s": 0.0424,
+      "env_steps_per_s": 7082.3,
+      "realtime_factor_total": 35.4,
+      "speedup_vs_batch1": 1.0
+    },
+    {
+      "batch_size": 4,
+      "steps_per_env": 300,
+      "total_env_steps": 1200,
+      "compile_s": 1.326,
+      "wall_s": 0.0495,
+      "env_steps_per_s": 24242.9,
+      "realtime_factor_total": 121.2,
+      "speedup_vs_batch1": 3.42
+    },
+    {
+      "batch_size": 16,
+      "steps_per_env": 300,
+      "total_env_steps": 4800,
+      "compile_s": 1.163,
+      "wall_s": 0.0548,
+      "env_steps_per_s": 87514.3,
+      "realtime_factor_total": 437.6,
+      "speedup_vs_batch1": 12.36
+    },
+    {
+      "batch_size": 64,
+      "steps_per_env": 300,
+      "total_env_steps": 19200,
+      "compile_s": 1.596,
+      "wall_s": 0.0803,
+      "env_steps_per_s": 239185.2,
+      "realtime_factor_total": 1195.9,
+      "speedup_vs_batch1": 33.77
+    },
+    {
+      "batch_size": 256,
+      "steps_per_env": 300,
+      "total_env_steps": 76800,
+      "compile_s": 1.369,
+      "wall_s": 0.0924,
+      "env_steps_per_s": 831288.8,
+      "realtime_factor_total": 4156.4,
+      "speedup_vs_batch1": 117.38
+    },
+    {
+      "batch_size": 1024,
+      "steps_per_env": 300,
+      "total_env_steps": 307200,
+      "compile_s": 1.267,
+      "wall_s": 0.2028,
+      "env_steps_per_s": 1514971.6,
+      "realtime_factor_total": 7574.9,
+      "speedup_vs_batch1": 213.91
+    }
+  ]
+}

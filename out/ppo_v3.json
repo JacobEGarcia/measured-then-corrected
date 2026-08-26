@@ -1,0 +1,81 @@
+{
+  "task": "Isaac-Cartpole-Direct-v0",
+  "num_envs": 4096,
+  "iterations": 300,
+  "rollout_T": 32,
+  "baseline_return": 9.708,
+  "final_return": 10.03,
+  "improvement_x": 1.03,
+  "baseline_ep_len": 41.3,
+  "final_ep_len": 41.1,
+  "ep_len_gain_x": 0.99,
+  "learned": false,
+  "wall_s": 214.1,
+  "history": [
+    {
+      "iter": 0,
+      "mean_reward_per_rollout": 13.152,
+      "ep_len_in_rollout": 67.3
+    },
+    {
+      "iter": 25,
+      "mean_reward_per_rollout": 8.642,
+      "ep_len_in_rollout": 38.5
+    },
+    {
+      "iter": 50,
+      "mean_reward_per_rollout": 8.487,
+      "ep_len_in_rollout": 38.3
+    },
+    {
+      "iter": 75,
+      "mean_reward_per_rollout": 8.073,
+      "ep_len_in_rollout": 37.4
+    },
+    {
+      "iter": 100,
+      "mean_reward_per_rollout": 8.017,
+      "ep_len_in_rollout": 37.8
+    },
+    {
+      "iter": 125,
+      "mean_reward_per_rollout": 8.286,
+      "ep_len_in_rollout": 37.6
+    },
+    {
+      "iter": 150,
+      "mean_reward_per_rollout": 8.227,
+      "ep_len_in_rollout": 38.2
+    },
+    {
+      "iter": 175,
+      "mean_reward_per_rollout": 7.964,
+      "ep_len_in_rollout": 37.6
+    },
+    {
+      "iter": 200,
+      "mean_reward_per_rollout": 8.64,
+      "ep_len_in_rollout": 38.6
+    },
+    {
+      "iter": 225,
+      "mean_reward_per_rollout": 8.44,
+      "ep_len_in_rollout": 38.3
+    },
+    {
+      "iter": 250,
+      "mean_reward_per_rollout": 8.12,
+      "ep_len_in_rollout": 37.8
+    },
+    {
+      "iter": 275,
+      "mean_reward_per_rollout": 8.696,
+      "ep_len_in_rollout": 38.3
+    },
+    {
+      "iter": 299,
+      "mean_reward_per_rollout": 8.409,
+      "ep_len_in_rollout": 38.1
+    }
+  ]
+}

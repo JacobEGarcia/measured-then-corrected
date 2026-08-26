@@ -1,0 +1,91 @@
+{
+  "dof": {
+    "open_chain_nv": 3,
+    "closed_chain_nv": 3,
+    "equality_constraints": 1
+  },
+  "loop_gap": {
+    "open_mean_m": 0.4929201702961803,
+    "open_max_m": 0.9008127124789299,
+    "closed_mean_m": 0.01151842826513717,
+    "closed_max_m": 0.06060676301857559
+  },
+  "motion": {
+    "open_crank_range_rad": 1.7659240632753535,
+    "closed_crank_range_rad": 1.2334384399776215,
+    "open_rocker_range_rad": 0.0,
+    "closed_rocker_range_rad": 0.7191264080651764
+  },
+  "format_support": {
+    "URDF": "cannot express -- strictly a tree, one parent per link",
+    "MJCF": "<equality><connect> between two sites",
+    "SDF": "a second <joint> reconnecting to an existing link"
+  },
+  "loop_stiffness_sweep": [
+    {
+      "solref": "0.02 1",
+      "solref_label": "default",
+      "solimp": "0.9 0.95 0.001",
+      "mean_gap_mm": 11.5184,
+      "max_gap_mm": 60.6068
+    },
+    {
+      "solref": "0.02 1",
+      "solref_label": "default",
+      "solimp": "0.99 0.9999 0.0001",
+      "mean_gap_mm": 0.8868,
+      "max_gap_mm": 60.609
+    },
+    {
+      "solref": "0.005 1",
+      "solref_label": "stiffer",
+      "solimp": "0.9 0.95 0.001",
+      "mean_gap_mm": 1.4754,
+      "max_gap_mm": 59.6868
+    },
+    {
+      "solref": "0.005 1",
+      "solref_label": "stiffer",
+      "solimp": "0.99 0.9999 0.0001",
+      "mean_gap_mm": 0.2571,
+      "max_gap_mm": 59.7107
+    },
+    {
+      "solref": "0.002 1",
+      "solref_label": "stiffer still",
+      "solimp": "0.9 0.95 0.001",
+      "mean_gap_mm": 0.4657,
+      "max_gap_mm": 56.9432
+    },
+    {
+      "solref": "0.002 1",
+      "solref_label": "stiffer still",
+      "solimp": "0.99 0.9999 0.0001",
+      "mean_gap_mm": 0.1059,
+      "max_gap_mm": 56.9355
+    },
+    {
+      "solref": "0.001 1",
+      "solref_label": "at 2*dt limit",
+      "solimp": "0.9 0.95 0.001",
+      "mean_gap_mm": 0.4657,
+      "max_gap_mm": 56.9432
+    },
+    {
+      "solref": "0.001 1",
+      "solref_label": "at 2*dt limit",
+      "solimp": "0.99 0.9999 0.0001",
+      "mean_gap_mm": 0.1059,
+      "max_gap_mm": 56.9355
+    }
+  ],
+  "spawn_manifold": {
+    "gap_at_spawn_mm": 60.6811,
+    "argmax_step": 0,
+    "max_gap_mm": 56.9355,
+    "mean_first_100_steps_mm": 2.1786,
+    "settled_mean_mm": 0.0345,
+    "settled_max_mm": 0.0359,
+    "diagnosis": "max gap is at step 0 -- an off-manifold spawn, not a soft constraint. Loop-closed models must be initialised ON the constraint manifold."
+  }
+}

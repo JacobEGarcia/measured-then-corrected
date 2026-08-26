@@ -1,0 +1,67 @@
+{
+  "engine": "mujoco",
+  "version": "3.12.0",
+  "v0": 2.0,
+  "dt": 0.004166666666666667,
+  "integrator": "RK4",
+  "note": "friction identical on box and floor to neutralise differing contact-combination rules",
+  "wall_s": 0.1,
+  "runs": [
+    {
+      "mu": 0.2,
+      "stop_x": 1.0194,
+      "final_speed": 0.0,
+      "stopped": true,
+      "analytic": 1.01937,
+      "err_pct_vs_analytic": 0.0
+    },
+    {
+      "mu": 0.3,
+      "stop_x": 0.67968,
+      "final_speed": 0.0,
+      "stopped": true,
+      "analytic": 0.67958,
+      "err_pct_vs_analytic": 0.01
+    },
+    {
+      "mu": 0.4,
+      "stop_x": 0.5098,
+      "final_speed": 0.0,
+      "stopped": true,
+      "analytic": 0.50968,
+      "err_pct_vs_analytic": 0.02
+    },
+    {
+      "mu": 0.5,
+      "stop_x": 0.40786,
+      "final_speed": 0.0,
+      "stopped": true,
+      "analytic": 0.40775,
+      "err_pct_vs_analytic": 0.03
+    },
+    {
+      "mu": 0.6,
+      "stop_x": 0.34001,
+      "final_speed": 0.0,
+      "stopped": true,
+      "analytic": 0.33979,
+      "err_pct_vs_analytic": 0.06
+    },
+    {
+      "mu": 0.8,
+      "stop_x": 0.25578,
+      "final_speed": 0.0,
+      "stopped": true,
+      "analytic": 0.25484,
+      "err_pct_vs_analytic": 0.37
+    },
+    {
+      "mu": 1.0,
+      "stop_x": 0.17117,
+      "final_speed": 0.0,
+      "stopped": true,
+      "analytic": 0.20387,
+      "err_pct_vs_analytic": 16.04
+    }
+  ]
+}

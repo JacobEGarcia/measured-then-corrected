@@ -1,0 +1,38 @@
+{
+  "runs": [
+    {
+      "mass": 1.0,
+      "friction_set": 0.05,
+      "friction_readback": 0.05000000074505806,
+      "stop_x_m": 0.6093,
+      "final_speed": 0.0459,
+      "monotonic": false
+    },
+    {
+      "mass": 1.0,
+      "friction_set": 0.3,
+      "friction_readback": 0.30000001192092896,
+      "stop_x_m": 0.4617,
+      "final_speed": 0.046,
+      "monotonic": false
+    },
+    {
+      "mass": 1.0,
+      "friction_set": 0.9,
+      "friction_readback": 0.8999999761581421,
+      "stop_x_m": 0.2659,
+      "final_speed": 0.0456,
+      "monotonic": false
+    },
+    {
+      "mass": 5.0,
+      "friction_set": 0.3,
+      "friction_readback": 0.30000001192092896,
+      "stop_x_m": 0.4857,
+      "final_speed": 0.0462,
+      "monotonic": false
+    }
+  ],
+  "friction_changes_distance": true,
+  "mass_independent (Coulomb check)": true
+}

@@ -1,0 +1,74 @@
+{
+  "protocol": {
+    "settle_steps": 400,
+    "timed_steps": 100,
+    "physics_dt": 0.004,
+    "note": "Identical layout and step budget on both engines. The settle phase is untimed, so every measurement is steady-state contact resolution rather than free fall."
+  },
+  "mujoco": {
+    "version": "3.12.0",
+    "accelerator": "CPU (Apple M-series)"
+  },
+  "isaac": {
+    "version": "6.0.1.0",
+    "accelerator": "Tesla T4 (free Kaggle tier)"
+  },
+  "comparison": [
+    {
+      "n_boxes": 4,
+      "mujoco_steps_per_s": 54809.54,
+      "isaac_steps_per_s": 351.79,
+      "contacts": 16,
+      "winner": "mujoco"
+    },
+    {
+      "n_boxes": 16,
+      "mujoco_steps_per_s": 4835.12,
+      "isaac_steps_per_s": 303.59,
+      "contacts": 64,
+      "winner": "mujoco"
+    },
+    {
+      "n_boxes": 64,
+      "mujoco_steps_per_s": 462.73,
+      "isaac_steps_per_s": 259.36,
+      "contacts": 256,
+      "winner": "mujoco"
+    },
+    {
+      "n_boxes": 128,
+      "mujoco_steps_per_s": 147.76,
+      "isaac_steps_per_s": 231.41,
+      "contacts": 512,
+      "winner": "isaac"
+    },
+    {
+      "n_boxes": 256,
+      "mujoco_steps_per_s": 57.8,
+      "isaac_steps_per_s": 220.65,
+      "contacts": 1025,
+      "winner": "isaac"
+    },
+    {
+      "n_boxes": 512,
+      "mujoco_steps_per_s": 35.4,
+      "isaac_steps_per_s": 166.28,
+      "contacts": 2067,
+      "winner": "isaac"
+    },
+    {
+      "n_boxes": 1024,
+      "mujoco_steps_per_s": 27.1,
+      "isaac_steps_per_s": 110.29,
+      "contacts": 4127,
+      "winner": "isaac"
+    },
+    {
+      "n_boxes": 2048,
+      "mujoco_steps_per_s": 8.5,
+      "isaac_steps_per_s": 71.7,
+      "contacts": 8530,
+      "winner": "isaac"
+    }
+  ]
+}

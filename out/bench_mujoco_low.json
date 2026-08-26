@@ -1,0 +1,46 @@
+{
+  "engine": "mujoco",
+  "version": "3.12.0",
+  "accelerator": "CPU (Apple M-series)",
+  "protocol": {
+    "settle_steps": 400,
+    "timed_steps": 100
+  },
+  "throughput": [
+    {
+      "n_boxes": 4,
+      "settle_steps": 400,
+      "timed_steps": 100,
+      "steps_per_s": 54809.54,
+      "contacts_at_measure": 16
+    },
+    {
+      "n_boxes": 16,
+      "settle_steps": 400,
+      "timed_steps": 100,
+      "steps_per_s": 4835.12,
+      "contacts_at_measure": 64
+    },
+    {
+      "n_boxes": 64,
+      "settle_steps": 400,
+      "timed_steps": 100,
+      "steps_per_s": 462.73,
+      "contacts_at_measure": 256
+    },
+    {
+      "n_boxes": 128,
+      "settle_steps": 400,
+      "timed_steps": 100,
+      "steps_per_s": 147.76,
+      "contacts_at_measure": 512
+    },
+    {
+      "n_boxes": 256,
+      "settle_steps": 400,
+      "timed_steps": 100,
+      "steps_per_s": 83.65,
+      "contacts_at_measure": 1025
+    }
+  ]
+}

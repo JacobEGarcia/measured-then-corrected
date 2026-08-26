@@ -1,0 +1,38 @@
+{
+  "micromamba": {
+    "rc": 0,
+    "s": 4.5,
+    "out": ""
+  },
+  "mm_version": {
+    "rc": 0,
+    "s": 0.0,
+    "out": "2.9.0\n"
+  },
+  "create": {
+    "rc": 0,
+    "s": 42.9,
+    "out": "y311h02f9806_3\nLinking gz-sim8-python-8.10.0-py311h2400447_3\nLinking gz-sim8-8.10.0-hfc2019e_3\n\nTransaction finished\n\n\nTo activate this environment, use:\n\n    micromamba activate /kaggle/working/gzenv\n\nOr to execute a single command in this environment, use:\n\n    micromamba run -p /kaggle/working/gzenv mycommand\n\nwarning  libmamba Security Warning: This transaction includes executing package scripts (pre/post-link/unlink) if present. These scripts can contain arbitrary code. Please ensure you trust the package sources.\nwarning  libmamba [xorg-xorgproto-2025.1-h280c20c_1] The following files were already present in the environment:\n    - include/X11/extensions/xf86vm.h\n    - include/X11/extensions/xf86vmproto.h\n    - include/X11/extensions/xf86vmstr.h\nwarning  libmamba Executing post-link script for package 'gdk-pixbuf'.\nwarning  libmamba Executing post-link script for package 'librsvg'.\n"
+  },
+  "gz_version": {
+    "rc": 0,
+    "s": 0.3,
+    "out": "Gazebo Sim, version 8.10.0\nCopyright (C) 2018 Open Source Robotics Foundation.\nReleased under the Apache 2.0 License.\n\n"
+  },
+  "run_50": {
+    "rc": 0,
+    "s": 2.4,
+    "out": ""
+  },
+  "run_500": {
+    "rc": 0,
+    "s": 4.7,
+    "out": ""
+  },
+  "verdict": {
+    "installed": true,
+    "ran": true,
+    "scales_with_iterations": true,
+    "heap_corruption": false
+  }
+}

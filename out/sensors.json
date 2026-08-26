@@ -1,0 +1,186 @@
+{
+ "sensor_discovery": {
+  "isaacsim.sensors.experimental.physics": [
+   "Contact",
+   "ContactSensor",
+   "ContactSensorReading",
+   "EffortSensor",
+   "EffortSensorReading",
+   "IMUSensor",
+   "IMUSensorReading",
+   "JointStateSensor",
+   "JointStateSensorReading",
+   "RaycastSensor"
+  ],
+  "using": "isaacsim.sensors.experimental.physics",
+  "isaacsim.sensors.physics": [],
+  "isaacsim.sensors.physx": [
+   "IsaacSensorCreateLightBeamSensor",
+   "IsaacSensorSchema",
+   "ProximitySensor",
+   "ProximitySensorManager",
+   "RangeSensorCreateGeneric",
+   "RangeSensorCreateLidar",
+   "RangeSensorCreatePrim",
+   "RangeSensorSchema"
+  ],
+  "ContactSensor.__init__": "(self, path: \"'str | Contact'\") -> 'None'",
+  "ContactSensor.methods": [
+   "add_raw_contact_data_to_frame",
+   "authoring_object",
+   "contact",
+   "get_data",
+   "get_raw_data",
+   "get_sensor_reading",
+   "on_physics_step",
+   "on_timeline_stop",
+   "remove_raw_contact_data_from_frame",
+   "reset"
+  ],
+  "IMUSensor.__init__": "(self, path: \"'str | _PhysicsSensorAuthoring'\") -> 'None'",
+  "IMUSensor.methods": [
+   "authoring_object",
+   "get_data",
+   "get_sensor_reading",
+   "imu",
+   "on_physics_step",
+   "on_timeline_stop",
+   "reset"
+  ],
+  "EffortSensor.__init__": "(self, path: 'str', enabled: 'bool' = True) -> 'None'",
+  "EffortSensor.methods": [
+   "change_buffer_size",
+   "get_data",
+   "get_sensor_reading",
+   "on_physics_step",
+   "on_timeline_stop",
+   "reset",
+   "update_dof_name"
+  ],
+  "JointStateSensor.__init__": "(self, path: 'str', enabled: 'bool' = True) -> 'None'",
+  "JointStateSensor.methods": [
+   "get_data",
+   "get_sensor_reading",
+   "on_physics_step",
+   "on_timeline_stop",
+   "reset"
+  ],
+  "RaycastSensor.__init__": "(self, path: \"'str | _PhysicsSensorAuthoring'\") -> 'None'",
+  "RaycastSensor.methods": [
+   "authoring_object",
+   "get_data",
+   "get_sensor_reading",
+   "on_physics_step",
+   "on_timeline_stop",
+   "raycast",
+   "reset"
+  ]
+ },
+ "sensor_commands": [
+  "IsaacSensorCreateLightBeamSensor",
+  "RangeSensorCreateGeneric",
+  "RangeSensorCreateLidar",
+  "RangeSensorCreatePrim",
+  "IsaacSensorCreateRtxIDS",
+  "IsaacSensorCreateRtxLidar",
+  "IsaacSensorCreateRtxRadar",
+  "IsaacSensorCreateRtxSensor",
+  "IsaacSensorCreateRtxUltrasonic"
+ ],
+ "authoring_types": [
+  "Contact"
+ ],
+ "contact_authoring_sig": "(self, path: 'str', *, positions: 'list | np.ndarray | wp.array | None' = None, translations: 'list | np.ndarray | wp.array | None' = None, orientations: 'list | np.ndarray | wp.array | None' = None, ",
+ "contact_authoring_methods": [
+  "apply_visual_materials",
+  "create",
+  "ensure_api",
+  "get_applied_visual_materials",
+  "get_default_state",
+  "get_local_poses",
+  "get_local_scales",
+  "get_max_threshold",
+  "get_min_threshold",
+  "get_radius",
+  "get_visibilities",
+  "get_world_poses",
+  "is_non_root_articulation_link",
+  "paths"
+ ],
+ "authoring_sig": {
+  "create": "(path: 'str', **kwargs: 'Any') -> \"'_PhysicsSensorAuthoring'\""
+ },
+ "author_err": {
+  "create": "TypeError: Contact.__init__() got an unexpected keyword argument 'sensor_period'"
+ },
+ "reading_types": {
+  "contact": "NoneType",
+  "imu": "NoneType"
+ },
+ "contact": {
+  "ok": true,
+  "measured_N": NaN,
+  "expected_mg_N": 19.62,
+  "err_pct": NaN,
+  "samples": 0
+ },
+ "imu_authoring_methods": null,
+ "imu": {
+  "ok": true,
+  "acc_magnitude": 0.0,
+  "expected_g": 9.81,
+  "err_pct": 100.0,
+  "gyro_norm": 0.0,
+  "samples": 240
+ },
+ "effort": {
+  "ok": true,
+  "api": "get_measured_joint_efforts",
+  "n": 9,
+  "efforts_Nm": [
+   -0.0009,
+   -7.6046,
+   -0.0007,
+   16.9182,
+   -0.0,
+   0.9429,
+   -0.0
+  ],
+  "nonzero": true,
+  "note": "gravity-loaded arm: shoulder/elbow must carry load"
+ },
+ "joint_state": {
+  "ok": true,
+  "num_dof": 9,
+  "max_abs_err_rad": 0.016382,
+  "commanded": [
+   0.3,
+   -0.5,
+   0.2,
+   -1.9,
+   0.1,
+   1.4,
+   0.6,
+   0.0,
+   0.0
+  ],
+  "readback": [
+   0.2999,
+   -0.4996,
+   0.2001,
+   -1.9164,
+   0.1,
+   1.4,
+   0.6,
+   0.0,
+   0.0
+  ]
+ },
+ "ctor_used": {
+  "raycast_cmd": "IsaacSensorCreateRaycastSensor -> False"
+ },
+ "raycast": {
+  "ok": false,
+  "error": "ValueError: Raycast.create requires both 'ray_origins' and 'ray_directions' (the C++ backend disables sensors whose ray-array lengths don't match numRays)."
+ }
+}

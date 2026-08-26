@@ -1,0 +1,508 @@
+{
+  "n_tested": 50,
+  "n_loaded": 49,
+  "isaac_version": "6.0.1.0",
+  "gpu": "Tesla T4 (free Kaggle tier)",
+  "chunk_size": 8,
+  "wall_s": 472.3,
+  "results": [
+    {
+      "vendor": "1X",
+      "usd": "Isaac/Robots/1X/Neo/Neo.usd",
+      "load_s": 1.73,
+      "num_dof": 33,
+      "steps_per_s": 114.0,
+      "realtime_factor": 1.9,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "ANYbotics",
+      "usd": "Isaac/Robots/ANYbotics/anymal_b/anymal_b.usd",
+      "load_s": 3.92,
+      "num_dof": 12,
+      "steps_per_s": 191.9,
+      "realtime_factor": 3.2,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Addverb",
+      "usd": "Isaac/Robots/Addverb/Trakr/trakr.usd",
+      "load_s": 1.86,
+      "num_dof": 12,
+      "steps_per_s": 238.8,
+      "realtime_factor": 3.98,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Agibot",
+      "usd": "Isaac/Robots/Agibot/A2D/A2D.usd",
+      "load_s": 2.14,
+      "num_dof": 34,
+      "steps_per_s": 379.1,
+      "realtime_factor": 6.32,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "AgilexRobotics",
+      "usd": "Isaac/Robots/AgilexRobotics/limo/limo.usd",
+      "load_s": 2.3,
+      "num_dof": 4,
+      "steps_per_s": 605.5,
+      "realtime_factor": 10.09,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Agility",
+      "usd": "Isaac/Robots/Agility/Cassie/cassie.usd",
+      "load_s": 4.68,
+      "num_dof": 14,
+      "steps_per_s": 229.6,
+      "realtime_factor": 3.83,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Bitcraze",
+      "usd": "Isaac/Robots/Bitcraze/Crazyflie/cf2x.usd",
+      "load_s": 1.6,
+      "num_dof": 4,
+      "steps_per_s": 652.7,
+      "realtime_factor": 10.88,
+      "joints_moved": false,
+      "ok": true
+    },
+    {
+      "vendor": "BoosterRobotics",
+      "usd": "Isaac/Robots/BoosterRobotics/BoosterT1/T1_locomotion.usd",
+      "load_s": 4.03,
+      "num_dof": 23,
+      "steps_per_s": 140.5,
+      "realtime_factor": 2.34,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "BostonDynamics",
+      "usd": "Isaac/Robots/BostonDynamics/spot/spot.usd",
+      "load_s": 0.72,
+      "num_dof": 12,
+      "steps_per_s": 237.7,
+      "realtime_factor": 3.96,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Clearpath",
+      "usd": "Isaac/Robots/Clearpath/Dingo/dingo.usd",
+      "load_s": 3.02,
+      "num_dof": 2,
+      "steps_per_s": 474.0,
+      "realtime_factor": 7.9,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "DeepRobotics",
+      "usd": "Isaac/Robots/DeepRobotics/M20/M20.usd",
+      "load_s": 1.37,
+      "num_dof": 16,
+      "steps_per_s": 330.7,
+      "realtime_factor": 5.51,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Denso",
+      "usd": "Isaac/Robots/Denso/CobottaPro900/cobotta_pro_900.usd",
+      "load_s": 1.04,
+      "num_dof": 12,
+      "steps_per_s": 502.3,
+      "realtime_factor": 8.37,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Fanuc",
+      "usd": "Isaac/Robots/Fanuc/er4ia/er4ia.usd",
+      "load_s": 3.49,
+      "num_dof": 6,
+      "steps_per_s": 565.0,
+      "realtime_factor": 9.42,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Flexiv",
+      "usd": "Isaac/Robots/Flexiv/Rizon4/flexiv_rizon4.usd",
+      "load_s": 2.42,
+      "num_dof": 7,
+      "steps_per_s": 630.4,
+      "realtime_factor": 10.51,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "FourierIntelligence",
+      "usd": "Isaac/Robots/FourierIntelligence/GR-1/GR1T1/GR1_T1.usd",
+      "load_s": 1.71,
+      "num_dof": 32,
+      "steps_per_s": 105.5,
+      "realtime_factor": 1.76,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "FrankaRobotics",
+      "usd": "Isaac/Robots/FrankaRobotics/FrankaFR3/fr3.usd",
+      "load_s": 3.09,
+      "num_dof": 9,
+      "steps_per_s": 576.0,
+      "realtime_factor": 9.6,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Fraunhofer",
+      "usd": "Isaac/Robots/Fraunhofer/O3dyn/o3dyn.usd",
+      "load_s": 12.23,
+      "num_dof": 64,
+      "steps_per_s": 66.4,
+      "realtime_factor": 1.11,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Galbot",
+      "usd": "Isaac/Robots/Galbot/galbot_g1/galbot_g1.usda",
+      "load_s": 9.7,
+      "num_dof": 77,
+      "steps_per_s": 47.1,
+      "realtime_factor": 0.78,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Idealworks",
+      "usd": "Isaac/Robots/Idealworks/iwhub/iw_hub.usd",
+      "load_s": 2.26,
+      "num_dof": 7,
+      "steps_per_s": 584.2,
+      "realtime_factor": 9.74,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Ihmcrobotics",
+      "usd": "Isaac/Robots/Ihmcrobotics/Valkyrie/valkyrie.usd",
+      "load_s": 1.89,
+      "num_dof": 25,
+      "steps_per_s": 129.7,
+      "realtime_factor": 2.16,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "InspireRobots",
+      "usd": "Isaac/Robots/InspireRobots/Inspire_Hand_RH56DFX_right/inspire_hand.usda",
+      "load_s": 2.64,
+      "num_dof": 12,
+      "steps_per_s": 396.7,
+      "realtime_factor": 6.61,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "IsaacSim",
+      "usd": "Isaac/Robots/IsaacSim/Ant/ant.usd",
+      "load_s": 0.65,
+      "num_dof": 8,
+      "steps_per_s": 488.4,
+      "realtime_factor": 8.14,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Kawasaki",
+      "usd": "Isaac/Robots/Kawasaki/RS007L/rs007l_onrobot_rg2.usd",
+      "load_s": 0.56,
+      "num_dof": 12,
+      "steps_per_s": 623.3,
+      "realtime_factor": 10.39,
+      "joints_moved": false,
+      "ok": true
+    },
+    {
+      "vendor": "Kinova",
+      "usd": "Isaac/Robots/Kinova/Gen3/gen3n7_instanceable.usd",
+      "load_s": 3.34,
+      "num_dof": 7,
+      "steps_per_s": 307.9,
+      "realtime_factor": 5.13,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Kuka",
+      "usd": "Isaac/Robots/Kuka/LBR_iiwa/kuka.usda",
+      "load_s": 4.39,
+      "num_dof": 7,
+      "steps_per_s": 604.5,
+      "realtime_factor": 10.07,
+      "joints_moved": false,
+      "ok": true
+    },
+    {
+      "vendor": "Mecademic",
+      "usd": "Isaac/Robots/Mecademic/meca500/meca500.usda",
+      "load_s": 1.15,
+      "num_dof": 6,
+      "steps_per_s": 268.7,
+      "realtime_factor": 4.48,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "NASA",
+      "usd": "Isaac/Robots/NASA/Ingenuity/ingenuity.usd",
+      "load_s": 1.5,
+      "num_dof": 4,
+      "steps_per_s": 638.2,
+      "realtime_factor": 10.64,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "NTNU",
+      "usd": "Isaac/Robots/NTNU/ARL-Robot-1/arl_robot_1.usd",
+      "load_s": 2.2,
+      "num_dof": 0,
+      "ok": false,
+      "error": "ValueError: zero-size array to reduction operation maximum which has no identity"
+    },
+    {
+      "vendor": "NVIDIA",
+      "usd": "Isaac/Robots/NVIDIA/Kaya/kaya.usd",
+      "load_s": 1.67,
+      "num_dof": 33,
+      "steps_per_s": 418.0,
+      "realtime_factor": 6.97,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "OpenArm",
+      "usd": "Isaac/Robots/OpenArm/openarm_bimanual/openarm_bimanual.usd",
+      "load_s": 1.03,
+      "num_dof": 22,
+      "steps_per_s": 464.4,
+      "realtime_factor": 7.74,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Psyonic",
+      "usd": "Isaac/Robots/Psyonic/ability_hand_left_large/ability_hand_left_large.usd",
+      "load_s": 0.92,
+      "num_dof": 10,
+      "steps_per_s": 649.1,
+      "realtime_factor": 10.82,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "RethinkRobotics",
+      "usd": "Isaac/Robots/RethinkRobotics/Sawyer/sawyer_instanceable.usd",
+      "load_s": 1.79,
+      "num_dof": 8,
+      "steps_per_s": 311.6,
+      "realtime_factor": 5.19,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "RobotEra",
+      "usd": "Isaac/Robots/RobotEra/STAR1/star1.usd",
+      "load_s": 4.2,
+      "num_dof": 55,
+      "steps_per_s": 79.0,
+      "realtime_factor": 1.32,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "RobotStudio",
+      "usd": "Isaac/Robots/RobotStudio/so100/so100.usd",
+      "load_s": 0.8,
+      "num_dof": 6,
+      "steps_per_s": 604.6,
+      "realtime_factor": 10.08,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Robotiq",
+      "usd": "Isaac/Robots/Robotiq/2F-85/Robotiq_2F_85_edit.usd",
+      "load_s": 1.6,
+      "num_dof": 6,
+      "steps_per_s": 561.2,
+      "realtime_factor": 9.35,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "SanctuaryAI",
+      "usd": "Isaac/Robots/SanctuaryAI/Phoenix/phoenix.usd",
+      "load_s": 5.93,
+      "num_dof": 77,
+      "steps_per_s": 59.4,
+      "realtime_factor": 0.99,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Schunk",
+      "usd": "Isaac/Robots/Schunk/egk_25/schunk_egk_25.usd",
+      "load_s": 2.97,
+      "num_dof": 2,
+      "steps_per_s": 707.2,
+      "realtime_factor": 11.79,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "ShadowRobot",
+      "usd": "Isaac/Robots/ShadowRobot/ShadowHand/shadow_hand.usd",
+      "load_s": 0.76,
+      "num_dof": 24,
+      "steps_per_s": 174.2,
+      "realtime_factor": 2.9,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Techman",
+      "usd": "Isaac/Robots/Techman/TM12/tm12.usd",
+      "load_s": 3.26,
+      "num_dof": 6,
+      "steps_per_s": 589.5,
+      "realtime_factor": 9.82,
+      "joints_moved": false,
+      "ok": true
+    },
+    {
+      "vendor": "Turtlebot",
+      "usd": "Isaac/Robots/Turtlebot/Turtlebot3/turtlebot3_burger.usd",
+      "load_s": 1.83,
+      "num_dof": 2,
+      "steps_per_s": 623.1,
+      "realtime_factor": 10.38,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Ufactory",
+      "usd": "Isaac/Robots/Ufactory/lite6/lite6.usd",
+      "load_s": 3.55,
+      "num_dof": 6,
+      "steps_per_s": 649.8,
+      "realtime_factor": 10.83,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Unitree",
+      "usd": "Isaac/Robots/Unitree/A1/a1.usd",
+      "load_s": 5.71,
+      "num_dof": 12,
+      "steps_per_s": 251.8,
+      "realtime_factor": 4.2,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "UniversalRobots",
+      "usd": "Isaac/Robots/UniversalRobots/ur3/ur3.usd",
+      "load_s": 2.0,
+      "num_dof": 6,
+      "steps_per_s": 670.5,
+      "realtime_factor": 11.17,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "WonikRobotics",
+      "usd": "Isaac/Robots/WonikRobotics/AllegroHand/allegro.usd",
+      "load_s": 1.82,
+      "num_dof": 16,
+      "steps_per_s": 567.4,
+      "realtime_factor": 9.46,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "XHumanoid",
+      "usd": "Isaac/Robots/XHumanoid/Tien Kung/tienkung.usd",
+      "load_s": 4.84,
+      "num_dof": 54,
+      "steps_per_s": 103.3,
+      "realtime_factor": 1.72,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "XiaoPeng",
+      "usd": "Isaac/Robots/XiaoPeng/PX5/px5.usd",
+      "load_s": 4.11,
+      "num_dof": 16,
+      "steps_per_s": 150.7,
+      "realtime_factor": 2.51,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Yahboom",
+      "usd": "Isaac/Robots/Yahboom/Dofbot/dofbot.usd",
+      "load_s": 1.92,
+      "num_dof": 11,
+      "steps_per_s": 316.7,
+      "realtime_factor": 5.28,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "Yaskawa",
+      "usd": "Isaac/Robots/Yaskawa/Motoman Next/NEX4/NEX4_C00.usd",
+      "load_s": 3.87,
+      "num_dof": 6,
+      "steps_per_s": 662.1,
+      "realtime_factor": 11.03,
+      "joints_moved": false,
+      "ok": true
+    },
+    {
+      "vendor": "comau",
+      "usd": "Isaac/Robots/comau/n-220-27/n-220-27.usd",
+      "load_s": 2.27,
+      "num_dof": 6,
+      "steps_per_s": 606.1,
+      "realtime_factor": 10.1,
+      "joints_moved": true,
+      "ok": true
+    },
+    {
+      "vendor": "iRobot",
+      "usd": "Isaac/Robots/iRobot/Create3/create_3.usd",
+      "load_s": 0.74,
+      "num_dof": 4,
+      "steps_per_s": 533.6,
+      "realtime_factor": 8.89,
+      "joints_moved": true,
+      "ok": true
+    }
+  ]
+}

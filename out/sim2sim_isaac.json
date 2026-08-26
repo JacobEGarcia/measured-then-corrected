@@ -1,0 +1,71 @@
+{
+  "engine": "isaac-sim",
+  "version": "6.0.1.0",
+  "v0": 2.0,
+  "dt": 0.004166666666666667,
+  "runs": [
+    {
+      "mu": 0.2,
+      "stop_x": 1.01523,
+      "final_speed": 0.00014,
+      "stopped": true,
+      "analytic": 1.01937,
+      "err_pct_vs_analytic": 0.41,
+      "ground_material_applied": true
+    },
+    {
+      "mu": 0.3,
+      "stop_x": 0.67545,
+      "final_speed": 9e-05,
+      "stopped": true,
+      "analytic": 0.67958,
+      "err_pct_vs_analytic": 0.61,
+      "ground_material_applied": true
+    },
+    {
+      "mu": 0.4,
+      "stop_x": 0.50557,
+      "final_speed": 9e-05,
+      "stopped": true,
+      "analytic": 0.50968,
+      "err_pct_vs_analytic": 0.81,
+      "ground_material_applied": true
+    },
+    {
+      "mu": 0.5,
+      "stop_x": 0.40364,
+      "final_speed": 9e-05,
+      "stopped": true,
+      "analytic": 0.40775,
+      "err_pct_vs_analytic": 1.01,
+      "ground_material_applied": true
+    },
+    {
+      "mu": 0.6,
+      "stop_x": 0.3357,
+      "final_speed": 0.0001,
+      "stopped": true,
+      "analytic": 0.33979,
+      "err_pct_vs_analytic": 1.2,
+      "ground_material_applied": true
+    },
+    {
+      "mu": 0.8,
+      "stop_x": 0.25078,
+      "final_speed": 0.0001,
+      "stopped": true,
+      "analytic": 0.25484,
+      "err_pct_vs_analytic": 1.6,
+      "ground_material_applied": true
+    },
+    {
+      "mu": 1.0,
+      "stop_x": 0.1978,
+      "final_speed": 9e-05,
+      "stopped": true,
+      "analytic": 0.20387,
+      "err_pct_vs_analytic": 2.98,
+      "ground_material_applied": true
+    }
+  ]
+}

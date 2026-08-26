@@ -1,0 +1,73 @@
+{
+  "probe": "which simulators run on Kaggle free tier",
+  "results": {
+    "os": {
+      "ok": true,
+      "result": {
+        "distro": "ubuntu",
+        "version": "22.04",
+        "codename": "jammy",
+        "python": "3.12.13",
+        "gpu": "Tesla T4\nTesla T4"
+      },
+      "s": 0.0
+    },
+    "mujoco": {
+      "ok": true,
+      "result": {
+        "version": "3.12.0",
+        "steps_per_s": 171188.8,
+        "rest_z": 0.0999
+      },
+      "s": 9.1
+    },
+    "gazebo": {
+      "ok": true,
+      "result": {
+        "version": "Gazebo Sim, version 8.15",
+        "world": "/usr/share/gz/gz-sim8/worlds/shapes.sdf",
+        "shipped_worlds": [
+          "3k_shapes.sdf",
+          "ackermann_steering.sdf",
+          "acoustic_comms_demo.sdf",
+          "acoustic_comms_moving_targets.sdf",
+          "acoustic_comms_packet_collision.sdf",
+          "acoustic_comms_propagation.sdf",
+          "acoustic_comms.sdf",
+          "actor_crowd.sdf"
+        ],
+        "timings": {
+          "50": {
+            "rc": -1,
+            "s": 150.1,
+            "tail": "TIMEOUT"
+          },
+          "500": {
+            "rc": -1,
+            "s": 150.1,
+            "tail": "TIMEOUT"
+          }
+        }
+      },
+      "s": 388.0
+    },
+    "ros2": {
+      "ok": true,
+      "result": {
+        "distro": "humble",
+        "python_used": "/usr/bin/python3.10",
+        "install_rc": 0,
+        "node_rc": 2,
+        "node_ok": false,
+        "topic_list_rc": 0,
+        "topics": [
+          "/parameter_events",
+          "/rosout"
+        ],
+        "pubsub_ok": true,
+        "pubsub_tail": "PUBSUB_OK ['hello']\n"
+      },
+      "s": 84.8
+    }
+  }
+}

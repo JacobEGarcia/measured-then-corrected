@@ -1,0 +1,35 @@
+{
+  "engine": "mujoco",
+  "version": "3.12.0",
+  "accelerator": "CPU (Apple M-series)",
+  "throughput": [
+    {
+      "n_boxes": 512,
+      "steps": 200,
+      "steps_per_s": 92.8,
+      "realtime_factor": 0.371,
+      "n_contacts": 1002
+    },
+    {
+      "n_boxes": 1024,
+      "steps": 120,
+      "steps_per_s": 222.08,
+      "realtime_factor": 0.888,
+      "n_contacts": 755
+    },
+    {
+      "n_boxes": 2048,
+      "steps": 60,
+      "steps_per_s": 69.33,
+      "realtime_factor": 0.277,
+      "n_contacts": 528
+    },
+    {
+      "n_boxes": 4096,
+      "steps": 30,
+      "steps_per_s": 39.23,
+      "realtime_factor": 0.157,
+      "n_contacts": 120
+    }
+  ]
+}

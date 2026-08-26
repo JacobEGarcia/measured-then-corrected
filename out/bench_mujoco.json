@@ -1,0 +1,107 @@
+{
+  "engine": "mujoco",
+  "version": "3.12.0",
+  "platform": "macOS-26.7-arm64-arm-64bit",
+  "machine": "arm64",
+  "accelerator": "CPU",
+  "throughput": [
+    {
+      "n_boxes": 1,
+      "steps": 2000,
+      "wall_s": 0.0071,
+      "steps_per_s": 281548.1,
+      "realtime_factor": 1126.19,
+      "n_contacts_final": 4
+    },
+    {
+      "n_boxes": 8,
+      "steps": 2000,
+      "wall_s": 0.0446,
+      "steps_per_s": 44865.9,
+      "realtime_factor": 179.46,
+      "n_contacts_final": 32
+    },
+    {
+      "n_boxes": 32,
+      "steps": 2000,
+      "wall_s": 0.1998,
+      "steps_per_s": 10010.0,
+      "realtime_factor": 40.04,
+      "n_contacts_final": 128
+    },
+    {
+      "n_boxes": 128,
+      "steps": 2000,
+      "wall_s": 0.7357,
+      "steps_per_s": 2718.7,
+      "realtime_factor": 10.87,
+      "n_contacts_final": 509
+    },
+    {
+      "n_boxes": 512,
+      "steps": 2000,
+      "wall_s": 4.8597,
+      "steps_per_s": 411.5,
+      "realtime_factor": 1.65,
+      "n_contacts_final": 2287
+    }
+  ],
+  "accuracy": [
+    {
+      "dt": 0.01,
+      "integrator": "Euler",
+      "seconds": 10.0,
+      "rel_energy_drift_final": 0.0031773463666467205,
+      "rel_energy_drift_max": 0.0036629493564012
+    },
+    {
+      "dt": 0.01,
+      "integrator": "RK4",
+      "seconds": 10.0,
+      "rel_energy_drift_final": 1.18065986619641e-06,
+      "rel_energy_drift_max": 1.5062681917967003e-06
+    },
+    {
+      "dt": 0.005,
+      "integrator": "Euler",
+      "seconds": 10.0,
+      "rel_energy_drift_final": 0.0016362684976390192,
+      "rel_energy_drift_max": 0.00181127442613719
+    },
+    {
+      "dt": 0.005,
+      "integrator": "RK4",
+      "seconds": 10.0,
+      "rel_energy_drift_final": 1.4087484375721107e-07,
+      "rel_energy_drift_max": 1.7852482235141677e-07
+    },
+    {
+      "dt": 0.002,
+      "integrator": "Euler",
+      "seconds": 10.0,
+      "rel_energy_drift_final": 0.0006651717468267735,
+      "rel_energy_drift_max": 0.0007196702355656947
+    },
+    {
+      "dt": 0.002,
+      "integrator": "RK4",
+      "seconds": 10.0,
+      "rel_energy_drift_final": 8.817983090127101e-09,
+      "rel_energy_drift_max": 1.1127338774856674e-08
+    },
+    {
+      "dt": 0.001,
+      "integrator": "Euler",
+      "seconds": 10.0,
+      "rel_energy_drift_final": 0.0003343047013307526,
+      "rel_energy_drift_max": 0.0003590092287424367
+    },
+    {
+      "dt": 0.001,
+      "integrator": "RK4",
+      "seconds": 10.0,
+      "rel_energy_drift_final": 1.0952409019775168e-09,
+      "rel_energy_drift_max": 1.37983345445304e-09
+    }
+  ]
+}

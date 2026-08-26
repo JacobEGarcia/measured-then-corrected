@@ -1,0 +1,28 @@
+{
+  "verbose": {
+    "killed": true,
+    "rc": null,
+    "s": 75.0,
+    "n_lines": 1,
+    "last": [
+      "malloc_consolidate(): unaligned fastbin chunk detected"
+    ]
+  },
+  "no_iters": {
+    "killed": true,
+    "rc": null,
+    "s": 45.0,
+    "n_lines": 0,
+    "last": []
+  },
+  "which": "plugins\n",
+  "one_thread": {
+    "killed": true,
+    "rc": null,
+    "s": 45.0,
+    "n_lines": 1,
+    "last": [
+      "malloc_consolidate(): unaligned fastbin chunk detected"
+    ]
+  }
+}
