@@ -121,7 +121,7 @@ evidence of correct physics.**
 
 ## CI — `tests/`, `.github/workflows/simulation-ci.yml`
 
-69 gates, ~190 s.
+75 gates, ~190 s.
 
 **Gates assert closed-form physics, not golden files.** Golden values rot the
 moment someone regenerates them; `v²/(2μg)` cannot be regenerated.
@@ -559,14 +559,66 @@ phase mean anything.
 
 ---
 
+## Cross-engine mass ratio — `model/crossengine_stack.py`
+
+MuJoCo could not fix a bad mass ratio with *anything* — not iterations, not
+algorithm. Does PhysX behave the same? Two predictions recorded in the probe
+source before the run.
+
+**A. Confirmed, but a different shape.** MuJoCo slid gradually (1.2 → 5.95 →
+51 mm over ratios 1/100/10000). PhysX falls off a cliff:
+
+```
+ratio      1 ->    0.4479 mm
+ratio     10 ->    2.7221 mm
+ratio    100 ->  100.0023 mm     <- a 37x jump in one step
+ratio  10000 ->   99.9990 mm
+```
+
+100 mm of squash on a 100 mm gap means the two centres coincide — the heavy
+body has passed entirely through the light one.
+
+**B. Confirmed in direction, wrong in shape.** I predicted TGS would converge
+*gradually* where MuJoCo's convex solve cannot help at all. Instead:
+
+```
+pos_iters    1, 32, 64  ->  100 mm      indistinguishable failures
+pos_iters          96   ->    2.04 mm
+pos_iters   128 - 255   ->    0.19 - 1.10 mm
+```
+
+A **step function, not a convergence curve**. MuJoCo for comparison gives
+5.954 mm at 1, 5 *and* 50 iterations — identical, because there the squash is
+the soft-contact model behaving as specified rather than a convergence failure.
+
+**B2. The control that names the mechanism.** Velocity iterations at 1, 32, 128
+and 255 all leave it at ~100 mm. The cliff is not about total solver effort; it
+is specifically **position-level depenetration work**, which is exactly what the
+TGS hypothesis predicted.
+
+**B3. The threshold scales with the ratio.**
+
+```
+ratio    100  ->  solved from  64 iterations
+ratio   1000  ->  solved from 128 iterations
+ratio  10000  ->  NOT solved at 255, PhysX's maximum
+```
+
+**Iterations buy headroom, not immunity.**
+
+**C. Timestep is not the axis in either engine** — 0.0043 mm of spread across a
+16× range, every timestep failing equally.
+
+---
+
 ## Layout
 
 ```
 model/      robot spec, three generators, validation, sysid, contact,
             actuators, closed chains, collision cost, determinism,
             stability frontier, integrators, friction cones,
-            cross-engine PhysX comparison, solvers, gait validation
-tests/      69 CI gates, four of which test the gates themselves
+            cross-engine PhysX comparisons, solvers, gait validation
+tests/      75 CI gates, four of which test the gates themselves
 cpp/        C++ profiling harness + build script
 .github/    CI workflow
 ```
