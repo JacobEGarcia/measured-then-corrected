@@ -1,0 +1,115 @@
+{
+  "harness_lessons": {
+    "leg_grouping": "Quadruped joint naming is vendor-specific: ANYbotics LF/RF/LH/RH, Boston Dynamics fl/fr/hl/hr, Unitree FL/FR/RL/RR. A hand-written tag list failed on all three. Grouping by the prefix before the first underscore works on all three.",
+    "foot_detection": "Four schemes failed before one held. Matching link names against JOINT names fails because the two schemes differ. Global lowest-N puts two feet in one quadrant. Lowest-per-quadrant let the ROOT prim win a quadrant. Adding a Gprim filter then emptied the candidate list on ANYmal and Spot, whose link nodes are Xforms with Gprim CHILDREN.",
+    "foot_is_the_leaf": "Lowest-link-per-leg still mis-picked A1's FL_hip -- at the settled pose the hip sat lower than the foot in that one chain, with a 4 mm z range against 77-100 mm for real feet. Height is pose-dependent; CHAIN DEPTH is not. The foot is the leaf of its own chain.",
+    "the_bug_the_error_did_not_name": "An `if` block sat OUTSIDE the stepping loop, so w.step() and the height recording lived in an `else` that never ran. The sim was never stepped, foot-height arrays stayed empty, and numpy reported 'zero-size array to reduction operation minimum'. I read that as foot detection returning nothing and rewrote foot detection twice. The message was real; the attribution was not.",
+    "pin_the_accelerator": "One attempt died inside SimulationApp.__init__ after ~18 minutes of installing, with a single warning: 'Minimum GPU compute capability 7.0 is required'. It had landed on a Tesla P100 (cc 6.0). `enable_gpu: true` does not pin the GPU model -- only --accelerator does."
+  },
+  "attempt7": {
+    "commanded": {
+      "gait": "trot",
+      "frequency_hz": 1.6,
+      "duty": 0.5
+    },
+    "ANYmal": {
+      "feet": {
+        "LF": "LF_FOOT",
+        "LH": "LH_FOOT",
+        "RF": "RF_FOOT",
+        "RH": "RH_FOOT"
+      },
+      "quadrants": {
+        "LF": "FL",
+        "LH": "HL",
+        "RF": "FR",
+        "RH": "HR"
+      },
+      "duty_measured": {
+        "LF": 0.961,
+        "LH": 0.961,
+        "RF": 0.967,
+        "RH": 0.967
+      },
+      "z_range_m": {
+        "LF": 0.2903,
+        "LH": 0.2888,
+        "RF": 0.2838,
+        "RH": 0.2825
+      }
+    },
+    "Spot": {
+      "feet": {
+        "FL": "fl_foot",
+        "FR": "fr_foot",
+        "HL": "hl_foot",
+        "HR": "hr_foot"
+      },
+      "quadrants": {
+        "FL": "FL",
+        "FR": "FR",
+        "HL": "HL",
+        "HR": "HR"
+      },
+      "duty_measured": {
+        "FL": 0.075,
+        "FR": 0.222,
+        "HL": 0.092,
+        "HR": 0.297
+      },
+      "z_range_m": {
+        "FL": 0.6965,
+        "FR": 0.7561,
+        "HL": 0.6697,
+        "HR": 0.617
+      }
+    },
+    "A1": {
+      "feet": {
+        "FL": "FL_hip",
+        "FR": "FR_calf",
+        "RL": "RL_calf",
+        "RR": "RR_calf"
+      },
+      "quadrants": {
+        "FL": "FL",
+        "FR": "FR",
+        "RL": "HL",
+        "RR": "HR"
+      },
+      "duty_measured": {
+        "FL": 0.589,
+        "FR": 0.419,
+        "RL": 0.442,
+        "RR": 0.442
+      },
+      "z_range_m": {
+        "FL": 0.0041,
+        "FR": 0.0772,
+        "RL": 0.0816,
+        "RR": 0.1008
+      }
+    }
+  },
+  "swing_verdict": {
+    "ANYmal": {
+      "max_swing_m": 0.2903,
+      "swing_is_plausible": false,
+      "duty_spread": 0.006,
+      "mean_duty_error_vs_0p5": 0.464
+    },
+    "Spot": {
+      "max_swing_m": 0.7561,
+      "swing_is_plausible": false,
+      "duty_spread": 0.222,
+      "mean_duty_error_vs_0p5": 0.3285
+    },
+    "A1": {
+      "max_swing_m": 0.1008,
+      "swing_is_plausible": true,
+      "duty_spread": 0.17,
+      "mean_duty_error_vs_0p5": 0.0715
+    }
+  },
+  "why_test_stand": "Pinning the trunk to the world isolates gait KINEMATICS from balance, which is how a gait generator is validated on a bench before a controller exists. Trunk height is set from the measured leg reach so the feet still make and break contact against the plane. Only then do duty cycle and diagonal-pair phase mean anything."
+}
