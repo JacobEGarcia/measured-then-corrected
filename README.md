@@ -121,7 +121,7 @@ evidence of correct physics.**
 
 ## CI — `tests/`, `.github/workflows/simulation-ci.yml`
 
-59 gates, ~140 s.
+69 gates, ~190 s.
 
 **Gates assert closed-form physics, not golden files.** Golden values rot the
 moment someone regenerates them; `v²/(2μg)` cannot be regenerated.
@@ -457,14 +457,110 @@ and it maps 1:1 — ask for 5 mm and the body rests 4.997 mm above contact.
 
 ---
 
+## Solvers — `model/solvers.py`
+
+The stability study showed that raising *iterations* did nothing for a hard mass
+ratio. The obvious follow-up: does changing the *algorithm* do what more
+iterations of the same algorithm could not?
+
+On a well-conditioned problem all three agree on the answer, so the speed
+difference is free to take:
+
+```
+solver     steps/s    penetration mm
+Newton     20,736         1.7688
+CG          8,168         1.7689
+PGS         1,479         1.7702
+```
+
+**Newton is 14× faster than PGS** — the classic game-physics choice — at
+identical accuracy.
+
+On the 1000:1 stack, no solver helps. They only change *which* body fails:
+
+```
+Newton     squash  50.2 mm   light body driven 49.2 mm into the floor
+CG, PGS    squash 101.0 mm   heavy body passes ENTIRELY through the light one
+```
+
+101 mm of squash on a 101 mm gap means the two centres coincide. Two different
+wrong answers, neither better.
+
+**Combined with the iteration sweep: a bad mass ratio is not a solver-tuning
+problem at all** — not iterations, not algorithm. It has to be fixed in the
+model.
+
+---
+
+## Legged locomotion — `model/gait_validation.py`
+
+A trot is defined by its **contact schedule**: diagonal pairs (FL+HR, FR+HL)
+swinging in antiphase at 50% duty. Commanding sinusoids that *look* like walking
+proves nothing — the test is whether measured foot contacts match the gait
+diagram you asked for.
+
+Run in Isaac Sim on a T4 across ANYmal, Spot and A1, because a gait harness that
+only works on one robot has not been validated at all.
+
+**The harness worked. The experiment did not, and that distinction is the
+finding.**
+
+```
+robot     max foot swing   duty spread   mean |duty - 0.5|
+ANYmal          0.2903 m        0.0060              0.4640
+Spot            0.7561 m        0.2220              0.3285
+A1              0.1008 m        0.1700              0.0715
+```
+
+Foot z-ranges of 0.29 m and 0.76 m are not feet swinging through a step — they
+are **robots falling over**. Open-loop joint sinusoids with no balance
+controller topple a quadruped, so the measured contact timing describes the
+fall. The duty numbers agree: ANYmal read 0.96 on all four legs (nothing ever
+lifts), Spot read 0.075 to 0.297.
+
+A1 is a partial exception and is gated as such rather than lumped in: 0.10 m
+swing, mean duty error 0.07, closest of the three to a real trot.
+
+**The fix is a test stand.** Pinning the trunk at the measured leg reach isolates
+gait kinematics from balance — which is how a gait generator is validated on a
+bench before a controller exists. Only then do duty cycle and diagonal-pair
+phase mean anything.
+
+### Eight attempts, and what each one taught
+
+- **Leg grouping** — vendor naming differs (ANYbotics `LF/RF/LH/RH`, Boston
+  Dynamics `fl/fr/hl/hr`, Unitree `FL/FR/RL/RR`). A hand-written tag list failed
+  on all three; the prefix before the first underscore works on all three.
+- **Foot detection** — four schemes failed. Name-matching links against *joint*
+  names (different schemes). Global lowest-N (two feet, one quadrant).
+  Lowest-per-quadrant (the root prim won a quadrant). A `Gprim` filter then
+  emptied the candidate list on ANYmal and Spot, whose link nodes are Xforms
+  with Gprim *children*.
+- **The foot is the leaf** — lowest-link-per-leg still picked A1's `FL_hip`,
+  which had a 4 mm z range against 77–100 mm for real feet. Height is
+  pose-dependent; **chain depth is not**.
+- **The bug the error did not name** — an `if` block sat outside the stepping
+  loop, so `w.step()` lived in an `else` that never ran. The sim was never
+  stepped, height arrays stayed empty, and numpy reported *"zero-size array to
+  reduction operation minimum"*. I read that as foot detection returning nothing
+  and rewrote foot detection twice. The message was real; the attribution was
+  not.
+- **Pin the accelerator** — one attempt died inside `SimulationApp.__init__`
+  after ~18 minutes of installing, with one warning: *"Minimum GPU compute
+  capability 7.0 is required"*. It had landed on a Tesla P100.
+  `enable_gpu: true` does not pin the GPU model; only `--accelerator` does.
+  `tools/push_gpu.sh` now refuses to push a GPU kernel unpinned.
+
+---
+
 ## Layout
 
 ```
 model/      robot spec, three generators, validation, sysid, contact,
             actuators, closed chains, collision cost, determinism,
             stability frontier, integrators, friction cones,
-            cross-engine PhysX comparison
-tests/      59 CI gates, four of which test the gates themselves
+            cross-engine PhysX comparison, solvers, gait validation
+tests/      69 CI gates, four of which test the gates themselves
 cpp/        C++ profiling harness + build script
 .github/    CI workflow
 ```
