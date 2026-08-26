@@ -121,7 +121,7 @@ evidence of correct physics.**
 
 ## CI — `tests/`, `.github/workflows/simulation-ci.yml`
 
-38 gates, ~90 s.
+49 gates, ~110 s.
 
 **Gates assert closed-form physics, not golden files.** Golden values rot the
 moment someone regenerates them; `v²/(2μg)` cannot be regenerated.
@@ -299,12 +299,84 @@ classic solver killer.
 
 ---
 
+## Integrators — `model/integrators.py`
+
+"RK4 is more accurate than Euler" is not a validation. A method of order `p`
+has global error `O(dt^p)`, which is measurable — and an RK4 that converges at
+order 1 is broken in a way no eyeball test would catch.
+
+Observed order, as the log-log slope of global error vs `dt` against an
+RK4/1e-6 reference:
+
+```
+integrator      theory   observed
+Euler                1      1.002
+implicit             1      0.999
+implicitfast         1      1.002
+RK4                  4      3.994
+```
+
+Energy drift on a conservative system (no damping, no actuators, 5 s):
+
+```
+Euler          +4.661e-04 /s      explicit methods GAIN energy
+implicit       -3.894e-04 /s      implicit methods LOSE it
+RK4            +1.932e-10 /s      2.4 million times smaller
+```
+
+### A refuted hypothesis
+
+`implicitfast` reported drift identical to `Euler` to four significant figures.
+I predicted joint damping would separate them. **It does not** — they stay
+bit-identical at damping 0, 0.01, 1 and 50. Two controls ruled out the boring
+explanations: damping shifts the trajectory by 1.58 rad, and `m.opt.integrator`
+really does read `mjINT_IMPLICITFAST`.
+
+**MuJoCo's Euler already integrates joint damping implicitly.** Damping was
+never a discriminating variable. What separates them is fluid drag and
+**velocity actuators** — which is exactly what a joint PD controller's
+derivative term is.
+
+### `isfinite()` is not a stability test
+
+The first gain sweep reported Euler **stable at kv=500** after it had failed at
+20, 50 and 100. Non-monotonic, and wrong.
+
+**MuJoCo detects a diverged step and resets the state to zero.** Euler reached
+`|qvel| = 3.45e5` at step 3, got reset, then sat at exactly zero for the
+remaining 397 steps — perfectly finite, perfectly meaningless. The check was
+measuring MuJoCo's recovery, not the integrator's stability.
+
+With a peak-velocity and reset-fingerprint check instead, the table is
+monotonic:
+
+```
+                 kv=1    5    10    20    50   100   500     max stable
+Euler               .    .     .     R     R     R     R             10
+RK4                 .    .     R     R     R     R     R              5
+implicitfast        .    .     .     .     .     .     .           >500
+implicit            .    .     .     .     .     .     .           >500
+                                        R = diverged, then auto-reset
+```
+
+**RK4 is less stable than Euler despite being 4th order** — order of accuracy
+says nothing about the size of the stability region. And `implicitfast`'s peak
+velocity *falls* monotonically with gain (0.009 rad/s at kv=500), which is the
+physically correct response.
+
+The practical form: a joint PD controller's derivative gain is set by the
+control engineer. "Lower your gains" is the wrong answer when a one-word
+integrator change buys 50x the headroom at no measurable cost.
+
+---
+
 ## Layout
 
 ```
 model/      robot spec, three generators, validation, sysid, contact,
-            actuators, closed chains, collision cost, determinism, stability
-tests/      38 CI gates, four of which test the gates themselves
+            actuators, closed chains, collision cost, determinism,
+            stability frontier, integrators
+tests/      49 CI gates, four of which test the gates themselves
 cpp/        C++ profiling harness + build script
 .github/    CI workflow
 ```
