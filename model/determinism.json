@@ -1,0 +1,85 @@
+{
+  "repeat_runs": {
+    "trials": 5,
+    "max_abs_diff": 0.0,
+    "bit_identical": true
+  },
+  "fresh_model": {
+    "max_abs_diff": 0.0,
+    "bit_identical": true
+  },
+  "unrelated_body": {
+    "max_abs_diff": 0.0,
+    "unaffected": true
+  },
+  "chaos": {
+    "perturbation_m": 2.220446049250313e-16,
+    "t_reach_1um_s": null,
+    "t_reach_1mm_s": null,
+    "t_reach_1cm_s": null,
+    "final_separation_m": 2.220446049250313e-16,
+    "growth_factor": 1.0
+  },
+  "chaos_bad_design_note": "the original pile-of-boxes scene is dissipative and settles to a fixed point, so it cannot show a chaos horizon; growth_factor came out exactly 1.000. Replaced with one smooth and one contact-driven chaotic system.",
+  "chaos_smooth_double_pendulum": {
+    "perturbation": 2.220446049250313e-16,
+    "t_reach_1um_s": null,
+    "t_reach_1mm_s": null,
+    "t_reach_1cm_s": null,
+    "final_separation_m": 1e-18,
+    "growth_factor": 0.004503599627370496,
+    "lyapunov_exponent_per_s": -0.0,
+    "e_folding_time_s": null
+  },
+  "chaos_contact_incline": {
+    "perturbation": 5e-324,
+    "t_reach_1um_s": null,
+    "t_reach_1mm_s": null,
+    "t_reach_1cm_s": null,
+    "final_separation_m": 1e-18,
+    "growth_factor": 2.0240225330731063e+305,
+    "lyapunov_exponent_per_s": 0.0,
+    "e_folding_time_s": 235596427838288.2
+  },
+  "chaos_smooth_1ulp": {
+    "perturbation": 4.440892098500626e-16,
+    "t_reach_1um_s": 9.1995,
+    "t_reach_1mm_s": null,
+    "t_reach_1cm_s": null,
+    "final_separation_m": 1.3812330342190376e-05,
+    "growth_factor": 31102602891.103386,
+    "lyapunov_exponent_per_s": 2.258,
+    "e_folding_time_s": 0.4429
+  },
+  "chaos_smooth_seeded_1e-12": {
+    "perturbation": 1e-12,
+    "t_reach_1mm_s": 9.7225,
+    "t_reach_1cm_s": null,
+    "final_separation_m": 0.004651054400861337,
+    "growth_factor": 4651054400.861338,
+    "lyapunov_exponent_per_s": 2.232,
+    "e_folding_time_s": 0.448
+  },
+  "chaos_contact_1ulp": {
+    "perturbation": 2.220446049250313e-16,
+    "t_reach_1um_s": null,
+    "t_reach_1mm_s": null,
+    "t_reach_1cm_s": null,
+    "final_separation_m": 6.812367006808638e-14,
+    "growth_factor": 306.80173513374444,
+    "lyapunov_exponent_per_s": 0.362,
+    "e_folding_time_s": 2.7635
+  },
+  "chaos_contact_seeded_1e-12": {
+    "perturbation": 1e-12,
+    "t_reach_1mm_s": null,
+    "final_separation_m": 2.4136938610952544e-10,
+    "growth_factor": 241.36938610952544,
+    "lyapunov_exponent_per_s": 0.334,
+    "e_folding_time_s": 2.9909
+  },
+  "predictive_check": {
+    "predicted_1mm_s": 9.178,
+    "measured_1mm_s": 9.7225
+  }
+}
