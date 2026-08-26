@@ -1,0 +1,132 @@
+{
+  "g": 9.81,
+  "cases": [
+    {
+      "mu": 0.4,
+      "mass": 0.5,
+      "theory_N": 6.1312,
+      "measured_N": 6.4445,
+      "error_pct": 5.11
+    },
+    {
+      "mu": 0.8,
+      "mass": 0.5,
+      "theory_N": 3.0656,
+      "measured_N": 3.5163,
+      "error_pct": 14.7
+    },
+    {
+      "mu": 0.4,
+      "mass": 1.0,
+      "theory_N": 12.2625,
+      "measured_N": 12.5938,
+      "error_pct": 2.7
+    },
+    {
+      "mu": 1.0,
+      "mass": 1.0,
+      "theory_N": 4.905,
+      "measured_N": 5.2732,
+      "error_pct": 7.51
+    }
+  ],
+  "summary": {
+    "mean_error_pct": 7.5,
+    "max_abs_error_pct": 14.7,
+    "all_above_theory": true
+  },
+  "monotone": {
+    "rows": [
+      {
+        "force_N": 2,
+        "mu": 0.4,
+        "mass": 0.5,
+        "drop_m": 16.652682,
+        "held": false
+      },
+      {
+        "force_N": 5,
+        "mu": 0.4,
+        "mass": 0.5,
+        "drop_m": 15.131228,
+        "held": false
+      },
+      {
+        "force_N": 10,
+        "mu": 0.4,
+        "mass": 0.5,
+        "drop_m": 0.001358,
+        "held": true
+      },
+      {
+        "force_N": 20,
+        "mu": 0.4,
+        "mass": 0.5,
+        "drop_m": 0.001353,
+        "held": true
+      },
+      {
+        "force_N": 40,
+        "mu": 0.4,
+        "mass": 0.5,
+        "drop_m": 0.001336,
+        "held": true
+      },
+      {
+        "force_N": 80,
+        "mu": 0.4,
+        "mass": 0.5,
+        "drop_m": 0.001277,
+        "held": true
+      },
+      {
+        "force_N": 160,
+        "mu": 0.4,
+        "mass": 0.5,
+        "drop_m": 0.001118,
+        "held": true
+      }
+    ],
+    "monotone": true,
+    "held_then_failed": 0
+  },
+  "offset_shape": {
+    "rows": [
+      {
+        "mu": 0.4,
+        "mass": 0.5,
+        "theory_N": 6.1312,
+        "measured_N": 6.4445,
+        "abs_excess_N": 0.3132,
+        "rel_excess_pct": 5.11
+      },
+      {
+        "mu": 0.8,
+        "mass": 0.5,
+        "theory_N": 3.0656,
+        "measured_N": 3.5163,
+        "abs_excess_N": 0.4506,
+        "rel_excess_pct": 14.7
+      },
+      {
+        "mu": 0.4,
+        "mass": 1.0,
+        "theory_N": 12.2625,
+        "measured_N": 12.5938,
+        "abs_excess_N": 0.3313,
+        "rel_excess_pct": 2.7
+      },
+      {
+        "mu": 1.0,
+        "mass": 1.0,
+        "theory_N": 4.905,
+        "measured_N": 5.2732,
+        "abs_excess_N": 0.3682,
+        "rel_excess_pct": 7.51
+      }
+    ],
+    "abs_excess_cv": 0.144,
+    "rel_excess_cv": 0.598,
+    "additive_is_tighter": true
+  }
+}

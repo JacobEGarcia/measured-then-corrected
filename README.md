@@ -121,7 +121,7 @@ evidence of correct physics.**
 
 ## CI — `tests/`, `.github/workflows/simulation-ci.yml`
 
-75 gates, ~190 s.
+82 gates, ~200 s.
 
 **Gates assert closed-form physics, not golden files.** Golden values rot the
 moment someone regenerates them; `v²/(2μg)` cannot be regenerated.
@@ -611,14 +611,60 @@ ratio  10000  ->  NOT solved at 255, PhysX's maximum
 
 ---
 
+## Manipulation — `model/grasp.py`
+
+A parallel-jaw grasp holds when friction at the two contacts carries the weight:
+
+```
+2 * mu * F  >=  m * g          ->          F_min = m*g / (2*mu)
+```
+
+`mu` and `m` are inputs; `F_min` is emergent. Sweeping the grip force and
+bisecting for where the object stops falling recovers it without ever asking
+the engine.
+
+```
+  mu   mass   theory N   measured N    error
+ 0.4    0.5      6.131        6.444    +5.1%
+ 0.8    0.5      3.066        3.516   +14.7%
+ 0.4    1.0     12.262       12.594    +2.7%
+ 1.0    1.0      4.905        5.273    +7.5%
+```
+
+**All four land above the closed form**, and that sign is the point. `m*g/(2*mu)`
+is the *marginal* holding force — the exact limit of static friction — so it
+holds with zero margin. A measurement **below** theory would have been the
+alarming one: it would mean the contact model generates friction the material
+properties do not license. A gate asserts the direction, not just the tolerance.
+
+### Testing the explanation, not just asserting it
+
+The spread (2.7% to 14.7%) tracks absolute force, which is what a constant
+additive offset looks like in percentage terms. Checked rather than assumed:
+
+```
+excess force:  0.313  0.451  0.331  0.368 N
+coefficient of variation, ABSOLUTE excess:  0.144
+coefficient of variation, RELATIVE excess:  0.598
+```
+
+The additive reading is **4x more consistent**. The excess is a ~0.37 N offset
+from finite contact stiffness and settling, not a proportional error.
+
+Bisection assumes the hold/fail predicate is monotone in force. A stiff contact
+*can* eject an object, so that is verified across seven force levels rather than
+taken on faith.
+
+---
+
 ## Layout
 
 ```
 model/      robot spec, three generators, validation, sysid, contact,
             actuators, closed chains, collision cost, determinism,
             stability frontier, integrators, friction cones,
-            cross-engine PhysX comparisons, solvers, gait validation
-tests/      75 CI gates, four of which test the gates themselves
+            cross-engine PhysX comparisons, solvers, gait, grasping
+tests/      82 CI gates, four of which test the gates themselves
 cpp/        C++ profiling harness + build script
 .github/    CI workflow
 ```
