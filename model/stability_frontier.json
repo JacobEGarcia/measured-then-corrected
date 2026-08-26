@@ -1,0 +1,279 @@
+{
+  "rows": [
+    {
+      "dt": 0.0005,
+      "iterations": 1,
+      "wall_s": 0.1931,
+      "steps_per_s": 20709.9,
+      "cost_per_simsec": 0.09657,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.0005,
+      "iterations": 5,
+      "wall_s": 0.1425,
+      "steps_per_s": 28075.2,
+      "cost_per_simsec": 0.07124,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.0005,
+      "iterations": 20,
+      "wall_s": 0.1597,
+      "steps_per_s": 25054.0,
+      "cost_per_simsec": 0.07983,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.0005,
+      "iterations": 100,
+      "wall_s": 0.1739,
+      "steps_per_s": 22996.8,
+      "cost_per_simsec": 0.08697,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.001,
+      "iterations": 1,
+      "wall_s": 0.0811,
+      "steps_per_s": 24674.9,
+      "cost_per_simsec": 0.04053,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.001,
+      "iterations": 5,
+      "wall_s": 0.0739,
+      "steps_per_s": 27049.3,
+      "cost_per_simsec": 0.03697,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.001,
+      "iterations": 20,
+      "wall_s": 0.0739,
+      "steps_per_s": 27049.7,
+      "cost_per_simsec": 0.03697,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.001,
+      "iterations": 100,
+      "wall_s": 0.085,
+      "steps_per_s": 23529.7,
+      "cost_per_simsec": 0.0425,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.002,
+      "iterations": 1,
+      "wall_s": 0.0555,
+      "steps_per_s": 18006.2,
+      "cost_per_simsec": 0.02777,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.002,
+      "iterations": 5,
+      "wall_s": 0.0515,
+      "steps_per_s": 19414.3,
+      "cost_per_simsec": 0.02575,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.002,
+      "iterations": 20,
+      "wall_s": 0.0487,
+      "steps_per_s": 20537.3,
+      "cost_per_simsec": 0.02435,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.002,
+      "iterations": 100,
+      "wall_s": 0.0381,
+      "steps_per_s": 26258.3,
+      "cost_per_simsec": 0.01904,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.004,
+      "iterations": 1,
+      "wall_s": 0.0188,
+      "steps_per_s": 26539.1,
+      "cost_per_simsec": 0.00942,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.004,
+      "iterations": 5,
+      "wall_s": 0.0225,
+      "steps_per_s": 22212.0,
+      "cost_per_simsec": 0.01126,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.004,
+      "iterations": 20,
+      "wall_s": 0.0179,
+      "steps_per_s": 27997.4,
+      "cost_per_simsec": 0.00893,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.004,
+      "iterations": 100,
+      "wall_s": 0.02,
+      "steps_per_s": 25010.4,
+      "cost_per_simsec": 0.01,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.008,
+      "iterations": 1,
+      "wall_s": 0.0098,
+      "steps_per_s": 25481.8,
+      "cost_per_simsec": 0.00491,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.008,
+      "iterations": 5,
+      "wall_s": 0.0098,
+      "steps_per_s": 25481.4,
+      "cost_per_simsec": 0.00491,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.008,
+      "iterations": 20,
+      "wall_s": 0.0102,
+      "steps_per_s": 24605.8,
+      "cost_per_simsec": 0.00508,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.008,
+      "iterations": 100,
+      "wall_s": 0.0086,
+      "steps_per_s": 28940.1,
+      "cost_per_simsec": 0.00432,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 1.6372,
+      "stable": true
+    },
+    {
+      "dt": 0.016,
+      "iterations": 1,
+      "wall_s": 0.0063,
+      "steps_per_s": 19804.1,
+      "cost_per_simsec": 0.00316,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 2.8726,
+      "stable": true
+    },
+    {
+      "dt": 0.016,
+      "iterations": 5,
+      "wall_s": 0.0052,
+      "steps_per_s": 24089.6,
+      "cost_per_simsec": 0.00259,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 2.2557,
+      "stable": true
+    },
+    {
+      "dt": 0.016,
+      "iterations": 20,
+      "wall_s": 0.0052,
+      "steps_per_s": 24088.8,
+      "cost_per_simsec": 0.00259,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 2.2557,
+      "stable": true
+    },
+    {
+      "dt": 0.016,
+      "iterations": 100,
+      "wall_s": 0.0068,
+      "steps_per_s": 18423.4,
+      "cost_per_simsec": 0.00339,
+      "blowup": false,
+      "sinking": false,
+      "penetration_mm": 2.2557,
+      "stable": true
+    }
+  ],
+  "cheapest_stable": {
+    "dt": 0.016,
+    "iterations": 5,
+    "wall_s": 0.0052,
+    "steps_per_s": 24089.6,
+    "cost_per_simsec": 0.00259,
+    "blowup": false,
+    "sinking": false,
+    "penetration_mm": 2.2557,
+    "stable": true
+  }
+}

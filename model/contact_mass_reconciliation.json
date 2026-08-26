@@ -1,0 +1,24 @@
+{
+  "reconciliation": [
+    {
+      "total_load_kg": 2.0,
+      "single_box_pen_mm": 0.1078,
+      "stacked_on_1kg_pen_mm": 0.2072
+    },
+    {
+      "total_load_kg": 10.0,
+      "single_box_pen_mm": 0.1078,
+      "stacked_on_1kg_pen_mm": 0.6372
+    },
+    {
+      "total_load_kg": 100.0,
+      "single_box_pen_mm": 0.1078,
+      "stacked_on_1kg_pen_mm": 4.905
+    },
+    {
+      "total_load_kg": 1000.0,
+      "single_box_pen_mm": 0.1078,
+      "stacked_on_1kg_pen_mm": 49.1324
+    }
+  ]
+}
