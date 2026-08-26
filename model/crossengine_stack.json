@@ -1,0 +1,88 @@
+{
+  "mass_ratio": {
+    "1": 0.4479,
+    "10": 2.7221,
+    "100": 100.0023,
+    "1000": 99.9992,
+    "10000": 99.999
+  },
+  "position_iters": {
+    "1": 99.999,
+    "32": 99.9991,
+    "64": 100.0001,
+    "96": 2.0421,
+    "128": 0.5548,
+    "160": 1.1049,
+    "192": 0.8365,
+    "224": 0.1899,
+    "255": 0.4387
+  },
+  "velocity_iters": {
+    "1": 100.0016,
+    "32": 109.8345,
+    "128": 100.0006,
+    "255": 99.9999
+  },
+  "cliff_vs_ratio": {
+    "100": {
+      "64": 0.3359,
+      "128": 0.0834,
+      "255": -0.0304
+    },
+    "1000": {
+      "64": 100.0001,
+      "128": 1.7998,
+      "255": 0.203
+    },
+    "10000": {
+      "64": 99.9999,
+      "128": 100.0,
+      "255": 100.0
+    }
+  },
+  "timestep_hz": {
+    "480": 100.0,
+    "120": 99.9994,
+    "60": 99.9992,
+    "30": 99.9957
+  },
+  "mass_ratio_cliff": {
+    "last_working_ratio": 10,
+    "first_failing_ratio": 100,
+    "squash_at_last_ok_mm": 2.7221,
+    "squash_at_first_bad_mm": 100.0023,
+    "jump_factor": 36.7
+  },
+  "iteration_threshold": {
+    "highest_failing": 64,
+    "lowest_working": 96,
+    "squash_below_mm": 100.0001,
+    "squash_above_mm": 2.0421
+  },
+  "velocity_control": {
+    "range_mm": [
+      99.9999,
+      109.8345
+    ],
+    "any_resolved": false,
+    "spread_mm": 9.8346
+  },
+  "threshold_scales": {
+    "100": {
+      "min_iters_that_work": 64,
+      "solvable_at_all": true
+    },
+    "1000": {
+      "min_iters_that_work": 128,
+      "solvable_at_all": true
+    },
+    "10000": {
+      "min_iters_that_work": null,
+      "solvable_at_all": false
+    }
+  },
+  "timestep_verdict": {
+    "spread_mm": 0.0043,
+    "all_fail": true
+  }
+}
