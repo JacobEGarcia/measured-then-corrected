@@ -121,7 +121,7 @@ evidence of correct physics.**
 
 ## CI — `tests/`, `.github/workflows/simulation-ci.yml`
 
-49 gates, ~110 s.
+59 gates, ~140 s.
 
 **Gates assert closed-form physics, not golden files.** Golden values rot the
 moment someone regenerates them; `v²/(2μg)` cannot be regenerated.
@@ -370,13 +370,101 @@ integrator change buys 50x the headroom at no measurable cost.
 
 ---
 
+## Friction cones — `model/friction_cone.py`
+
+Coulomb friction confines the tangential force to a **circle** of radius `μ·Fn`.
+Solving that exactly is a second-order cone constraint; the common
+approximation replaces the circle with a **polygon**, turning it into linear
+constraints.
+
+Measured by launching a box across a floor at 19 headings and comparing the
+direction it *slid* against the direction it was *launched*:
+
+```
+heading    pyramidal    elliptic
+     0°       0.0000      0.0000
+    20°      12.7557     -0.1026      <- worst case
+    45°       0.0000      0.0000
+    70°     -12.7557      0.1026
+    90°       0.0000      0.0000
+
+max |error|  12.76°       0.71°
+mean         7.13°        0.30°
+```
+
+The pyramidal error has the exact signature of a square approximating a circle:
+**identically zero at 0°, 45° and 90°** — the square's symmetry axes — peaking
+near 20° and 70°, and antisymmetric about 45°. That structure is gated, so the
+finding cannot decay into generic noise without failing the build.
+
+### The prediction in my own docstring was wrong
+
+I wrote that the pyramid is "the cheaper option". It is not:
+
+```
+pyramidal      637.9 steps/s
+elliptic     1,641.8 steps/s      2.6x FASTER
+```
+
+The exact cone is **2.6× faster and 18× more accurate** — dominated on both
+axes, no trade at all. The "linear constraints are cheaper" intuition comes
+from LCP-style solvers; MuJoCo's convex solver handles the elliptic cone
+natively.
+
+Partial mechanism only: pyramidal builds 480 constraint rows to elliptic's 360
+for the same 120 contacts (4 vs 3 per contact). **1.33× the rows does not
+account for 2.6× the wall-clock**, so solver conditioning is doing the rest. I
+have not isolated that part, and say so rather than inventing a mechanism.
+
+---
+
+## Cross-engine — `model/crossengine_contact.py`
+
+Do the MuJoCo contact findings survive a different solver? The identical
+experiment, run in Isaac Sim 6.0.1 / PhysX on a Kaggle T4, against two
+predictions recorded in the probe source **before** the run.
+
+**Agreement, and it is the non-obvious one.** Both engines make resting
+penetration invariant to mass — PhysX at 0.00453 mm, MuJoCo at 0.27583 mm, each
+flat across a 1000× mass range. Two solvers sharing no code, same invariant.
+
+**Disagreement on timestep**, exactly as predicted:
+
+```
+  rate      PhysX       MuJoCo      ratio
+480 Hz    0.00005 mm   0.10776 mm    2155x
+240 Hz    0.00016      0.10776        673x
+120 Hz    0.00066      0.10776        163x
+ 60 Hz    0.00453      0.27583         61x
+ 30 Hz    0.01081      0.67503         62x
+```
+
+MuJoCo is **flat** at 480/240/120 Hz then degrades — `2·dt` is 0.01667 at
+120 Hz (under `solref`'s 0.02 s default) and 0.03333 at 60 Hz (over it). That is
+the 2·dt clamp appearing for a **third time, independently**. PhysX is monotonic
+across the whole range with no plateau, because it has no time constant to
+clamp.
+
+**Contact parameters do not port between the engines.** Default MuJoCo contact
+is 61×–2155× softer depending on rate.
+
+PhysX also exposes `rest_offset`, a **length** knob with no MuJoCo equivalent,
+and it maps 1:1 — ask for 5 mm and the body rests 4.997 mm above contact.
+
+> Both predictions were right. One of the two *reasons* was not: I attributed
+> PhysX's mass independence to the rest offset, but `rest_offset` read 0.0 for
+> the entire mass sweep. Right answer, unverified reasoning.
+
+---
+
 ## Layout
 
 ```
 model/      robot spec, three generators, validation, sysid, contact,
             actuators, closed chains, collision cost, determinism,
-            stability frontier, integrators
-tests/      49 CI gates, four of which test the gates themselves
+            stability frontier, integrators, friction cones,
+            cross-engine PhysX comparison
+tests/      59 CI gates, four of which test the gates themselves
 cpp/        C++ profiling harness + build script
 .github/    CI workflow
 ```
