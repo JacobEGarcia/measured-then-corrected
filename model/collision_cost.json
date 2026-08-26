@@ -1,113 +1,114 @@
 {
   "scenes": [
     {
-      "steps_per_s": 21792.6,
-      "us_per_step": 45.89,
+      "steps_per_s": 12402.8,
+      "us_per_step": 80.63,
       "mean_contacts": 40.0,
       "kind": "sphere",
       "label": "primitive sphere",
       "hull_vertices": 0,
-      "us_per_contact": 1.1473
+      "us_per_contact": 2.0157
     },
     {
-      "steps_per_s": 7920.6,
-      "us_per_step": 126.25,
+      "steps_per_s": 5580.2,
+      "us_per_step": 179.21,
       "mean_contacts": 160.0,
       "kind": "box",
       "label": "primitive box",
       "hull_vertices": 0,
-      "us_per_contact": 0.7891
+      "us_per_contact": 1.1201
     },
     {
-      "steps_per_s": 8273.7,
-      "us_per_step": 120.86,
+      "steps_per_s": 4122.0,
+      "us_per_step": 242.6,
       "mean_contacts": 109.5,
       "kind": "mesh",
       "label": "mesh (icosa, 12 v)",
       "hull_vertices": 12,
-      "us_per_contact": 1.1037
+      "us_per_contact": 2.2155
     },
     {
-      "steps_per_s": 3632.0,
-      "us_per_step": 275.33,
+      "steps_per_s": 1093.8,
+      "us_per_step": 914.21,
       "mean_contacts": 120.0,
       "kind": "mesh",
       "label": "mesh (subdiv 1)",
       "hull_vertices": 42,
-      "us_per_contact": 2.2944
+      "us_per_contact": 7.6184
     },
     {
-      "steps_per_s": 1842.0,
-      "us_per_step": 542.89,
+      "steps_per_s": 785.8,
+      "us_per_step": 1272.62,
       "mean_contacts": 103.9,
       "kind": "mesh",
       "label": "mesh (subdiv 2)",
       "hull_vertices": 282,
-      "us_per_contact": 5.2251
+      "us_per_contact": 12.2485
     }
   ],
   "primitive_baseline": {
-    "steps_per_s": 21792.6,
-    "us_per_step": 45.89,
+    "steps_per_s": 12402.8,
+    "us_per_step": 80.63,
     "mean_contacts": 40.0,
     "kind": "sphere",
     "label": "primitive sphere",
-    "hull_vertices": 0
+    "hull_vertices": 0,
+    "us_per_contact": 2.0157
   },
   "normalised": {
     "rows": [
       {
-        "steps_per_s": 21792.6,
-        "us_per_step": 45.89,
+        "steps_per_s": 12402.8,
+        "us_per_step": 80.63,
         "mean_contacts": 40.0,
         "kind": "sphere",
         "label": "primitive sphere",
         "hull_vertices": 0,
-        "us_per_contact": 1.1473
+        "us_per_contact": 2.0157
       },
       {
-        "steps_per_s": 7920.6,
-        "us_per_step": 126.25,
+        "steps_per_s": 5580.2,
+        "us_per_step": 179.21,
         "mean_contacts": 160.0,
         "kind": "box",
         "label": "primitive box",
         "hull_vertices": 0,
-        "us_per_contact": 0.7891
+        "us_per_contact": 1.1201
       },
       {
-        "steps_per_s": 8273.7,
-        "us_per_step": 120.86,
+        "steps_per_s": 4122.0,
+        "us_per_step": 242.6,
         "mean_contacts": 109.5,
         "kind": "mesh",
         "label": "mesh (icosa, 12 v)",
         "hull_vertices": 12,
-        "us_per_contact": 1.1037
+        "us_per_contact": 2.2155
       },
       {
-        "steps_per_s": 3632.0,
-        "us_per_step": 275.33,
+        "steps_per_s": 1093.8,
+        "us_per_step": 914.21,
         "mean_contacts": 120.0,
         "kind": "mesh",
         "label": "mesh (subdiv 1)",
         "hull_vertices": 42,
-        "us_per_contact": 2.2944
+        "us_per_contact": 7.6184
       },
       {
-        "steps_per_s": 1842.0,
-        "us_per_step": 542.89,
+        "steps_per_s": 785.8,
+        "us_per_step": 1272.62,
         "mean_contacts": 103.9,
         "kind": "mesh",
         "label": "mesh (subdiv 2)",
         "hull_vertices": 282,
-        "us_per_contact": 5.2251
+        "us_per_contact": 12.2485
       }
     ],
     "controlled_mesh_scaling": {
       "from_vertices": 12,
       "to_vertices": 282,
-      "from_us_per_contact": 1.1037,
-      "to_us_per_contact": 5.2251,
-      "cost_ratio": 4.73,
+      "from_us_per_contact": 2.2155,
+      "to_us_per_contact": 12.2485,
+      "cost_ratio": 5.53,
       "vertex_ratio": 23.5
     },
     "caveat": "raw steps/s comparisons across shape TYPES conflate per-contact cost with contact COUNT; only the mesh-vs-mesh sweep isolates hull-size scaling"

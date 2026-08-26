@@ -109,37 +109,6 @@ def q3_chaos_horizon(perturb=None, steps=1500, dt=0.002):
             "growth_factor": float(sep[-1] / perturb) if perturb else None}
 
 
-if __name__ == "__main__":
-    out = {}
-    print("Q1  repeated runs, same MjModel object")
-    out["repeat_runs"] = r = q1_repeat_runs_bit_identical()
-    print(f"    max |diff| over {r['trials']} runs : {r['max_abs_diff']:.3e}"
-          f"   bit-identical: {r['bit_identical']}")
-
-    print("\nQ1b re-parsed model, same XML")
-    out["fresh_model"] = r = q1b_fresh_model_object()
-    print(f"    max |diff| : {r['max_abs_diff']:.3e}   bit-identical: {r['bit_identical']}")
-
-    print("\nQ2  add an untouched box 3 m away")
-    out["unrelated_body"] = r = q2_unrelated_body_perturbs_the_scene()
-    print(f"    max |diff| on body 0 : {r['max_abs_diff']:.3e}"
-          f"   unaffected: {r['unaffected']}")
-
-    print("\nQ3  one-ULP perturbation, divergence horizon")
-    out["chaos"] = r = q3_chaos_horizon()
-    print(f"    perturbation      : {r['perturbation_m']:.3e} m")
-    for k, lbl in (("t_reach_1um_s", "1 um"), ("t_reach_1mm_s", "1 mm"),
-                   ("t_reach_1cm_s", "1 cm")):
-        v = r[k]
-        print(f"    separation hits {lbl:<5}: " + (f"{v} s" if v is not None else "never (in 3 s)"))
-    print(f"    final separation  : {r['final_separation_m']:.4e} m")
-    if r["growth_factor"]:
-        print(f"    growth factor     : {r['growth_factor']:.3e}x")
-
-    json.dump(out, open(os.path.join(HERE, "determinism.json"), "w"), indent=2)
-    print("\nwrote model/determinism.json")
-
-
 # --------------------------------------------------------------------------
 # BAD EXPERIMENT DESIGN, then the fix.
 #
@@ -316,3 +285,46 @@ def predict_ulp_horizon(lam, eps, target=1e-3):
     time-to-target for a DIFFERENT seed. If it does, the exponent is real."""
     import math
     return round(math.log(target / eps) / lam, 3)
+
+
+if __name__ == "__main__":
+    out = {}
+    print("Q1  repeated runs, same MjModel object")
+    out["repeat_runs"] = r = q1_repeat_runs_bit_identical()
+    print(f"    max |diff| over {r['trials']} runs : {r['max_abs_diff']:.3e}"
+          f"   bit-identical: {r['bit_identical']}")
+
+    print("\nQ1b re-parsed model, same XML")
+    out["fresh_model"] = r = q1b_fresh_model_object()
+    print(f"    max |diff| : {r['max_abs_diff']:.3e}   bit-identical: {r['bit_identical']}")
+
+    print("\nQ2  add an untouched box 3 m away")
+    out["unrelated_body"] = r = q2_unrelated_body_perturbs_the_scene()
+    print(f"    max |diff| on body 0 : {r['max_abs_diff']:.3e}"
+          f"   unaffected: {r['unaffected']}")
+
+    print("\nQ3  one-ULP perturbation, divergence horizon")
+    out["chaos"] = r = q3_chaos_horizon()
+    print(f"    perturbation      : {r['perturbation_m']:.3e} m")
+    for k, lbl in (("t_reach_1um_s", "1 um"), ("t_reach_1mm_s", "1 mm"),
+                   ("t_reach_1cm_s", "1 cm")):
+        v = r[k]
+        print(f"    separation hits {lbl:<5}: " + (f"{v} s" if v is not None else "never (in 3 s)"))
+    print(f"    final separation  : {r['final_separation_m']:.4e} m")
+    if r["growth_factor"]:
+        print(f"    growth factor     : {r['growth_factor']:.3e}x")
+
+    out["chaos_bad_design_note"] = (
+        "the pile-of-boxes scene is dissipative and settles to a fixed point, "
+        "so it cannot show a chaos horizon; growth_factor came out exactly "
+        "1.000. Replaced with one smooth and one contact-driven system.")
+    out["chaos_smooth_1ulp"] = q3_chaos_smooth()
+    out["chaos_smooth_seeded_1e-12"] = q3_chaos_smooth_seeded()
+    out["chaos_contact_1ulp"] = q3_chaos_contact()
+    out["chaos_contact_seeded_1e-12"] = q3_chaos_contact_seeded()
+    lam = out["chaos_smooth_1ulp"]["lyapunov_exponent_per_s"]
+    out["predictive_check"] = {
+        "predicted_1mm_s": predict_ulp_horizon(lam, 1e-12),
+        "measured_1mm_s": out["chaos_smooth_seeded_1e-12"]["t_reach_1mm_s"]}
+    json.dump(out, open(os.path.join(HERE, "determinism.json"), "w"), indent=2)
+    print("\nwrote model/determinism.json")

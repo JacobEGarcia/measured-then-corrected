@@ -33,8 +33,12 @@ def readme():
         return f.read()
 
 
-# (label, README substring that must appear, callable -> the measured value,
-#  formatter turning the measured value into the substring it must equal)
+# Claims are (label, README substring, getter, formatter) for DETERMINISTIC
+# quantities, or (..., tol) for ones derived from a clock. Throughput varies
+# run to run on the same machine, so quoting a four-decimal microsecond figure
+# as if it were a constant is a claim the data cannot support. Those are
+# checked within a tolerance, and the ORDERING they exist to demonstrate is
+# checked exactly.
 def build_checks():
     checks = []
 
@@ -61,21 +65,30 @@ def build_checks():
     col = load("collision_cost.json")
     if col:
         rows = {r["label"]: r for r in col["normalised"]["rows"]}
+        # ABSOLUTE microsecond figures are not checkable. Under load the
+        # same two numbers moved 42% and 76% between runs on this machine, so
+        # no tolerance makes them meaningful -- widening it until they pass
+        # would be a gate that cannot fail. What IS stable, and what the study
+        # actually claims, is the set of RELATIONSHIPS. Those are checked
+        # exactly; the README labels the table as a single run.
         checks.append((
-            "collision: per-contact cost of a primitive box",
-            "0.7891",
-            lambda: rows["primitive box"]["us_per_contact"],
-            lambda v: f"{v:.4f}"))
+            "collision: box is cheaper per contact than sphere (ordering)",
+            "box is *cheaper* than the sphere",
+            lambda: rows["primitive box"]["us_per_contact"]
+                    < rows["primitive sphere"]["us_per_contact"],
+            lambda v: ("box is *cheaper* than the sphere" if v
+                       else "box is NOT cheaper than the sphere")))
         checks.append((
-            "collision: per-contact cost of a primitive sphere",
-            "1.1473",
-            lambda: rows["primitive sphere"]["us_per_contact"],
-            lambda v: f"{v:.4f}"))
+            "collision: hull cost grows SUB-linearly in vertex count (shape)",
+            "sub-linear",
+            lambda: (col["normalised"]["controlled_mesh_scaling"]["cost_ratio"]
+                     < col["normalised"]["controlled_mesh_scaling"]["vertex_ratio"]),
+            lambda v: "sub-linear" if v else "LINEAR OR WORSE"))
         checks.append((
-            "collision: mesh hull scaling",
-            "4.73",
-            lambda: col["normalised"]["controlled_mesh_scaling"]["cost_ratio"],
-            lambda v: f"{v:.2f}"))
+            "collision: a 23.5x hull really is the comparison being made",
+            "23.5x the hull vertices",
+            lambda: col["normalised"]["controlled_mesh_scaling"]["vertex_ratio"],
+            lambda v: f"{v}x the hull vertices"))
 
     det = load("determinism.json")
     if det:
@@ -171,20 +184,31 @@ def main():
         return 1
 
     bad = []
-    missing_json = 0
-    for label, substring, get, fmt in checks:
+    for check in checks:
+        label, substring, get, fmt = check[:4]
+        tol = check[4] if len(check) > 4 else None
         try:
             measured = get()
         except (KeyError, TypeError, IndexError) as exc:
             bad.append(f"{label}: could not read the measurement ({exc})")
             continue
-        rendered = fmt(measured)
-        in_readme = substring in text
-        agrees = rendered == substring
-        if not in_readme:
+        if substring not in text:
             bad.append(f"{label}: README no longer contains {substring!r}")
-        elif not agrees:
-            bad.append(f"{label}: README says {substring!r}, data says {rendered!r}")
+            continue
+        rendered = fmt(measured)
+        if rendered == substring:
+            continue
+        if tol is not None:
+            try:
+                claimed = float(re.sub(r"[^0-9.eE+-]", "", substring))
+                if claimed and abs(measured - claimed) / abs(claimed) <= tol:
+                    continue
+                bad.append(f"{label}: README says {substring!r}, data says "
+                           f"{rendered!r} -- outside +/-{tol:.0%}")
+                continue
+            except (ValueError, TypeError):
+                pass
+        bad.append(f"{label}: README says {substring!r}, data says {rendered!r}")
 
     print(f"checked {len(checks)} README claims against measured JSON")
     if bad:

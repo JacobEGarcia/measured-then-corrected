@@ -295,13 +295,13 @@
   "cost": [
     {
       "cone": "pyramidal",
-      "steps_per_s": 637.9,
-      "us_per_step": 1567.522
+      "steps_per_s": 3174.3,
+      "us_per_step": 315.033
     },
     {
       "cone": "elliptic",
-      "steps_per_s": 1641.8,
-      "us_per_step": 609.09
+      "steps_per_s": 10246.8,
+      "us_per_step": 97.591
     }
   ],
   "pyramidal_summary": {

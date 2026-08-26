@@ -87,35 +87,6 @@ def bench(m, steps=2000, warmup=200):
             "mean_contacts": round(float(np.mean(ncon)), 1)}
 
 
-if __name__ == "__main__":
-    out, rows = {}, []
-
-    for kind, sub, label in (("sphere", None, "primitive sphere"),
-                             ("box", None, "primitive box"),
-                             ("mesh", 0, "mesh (icosa, 12 v)"),
-                             ("mesh", 1, "mesh (subdiv 1)"),
-                             ("mesh", 2, "mesh (subdiv 2)")):
-        m = scene(kind, subdiv=sub or 0)
-        nv = int(m.mesh_vertnum[0]) if kind == "mesh" else 0
-        r = bench(m)
-        r.update({"kind": kind, "label": label, "hull_vertices": nv})
-        rows.append(r)
-        print(f"  {label:<22} v={nv:<4} {r['steps_per_s']:>9.1f} steps/s   "
-              f"{r['us_per_step']:>7.2f} us/step   contacts {r['mean_contacts']:>6.1f}")
-
-    base = next(r for r in rows if r["label"] == "primitive sphere")
-    print()
-    for r in rows:
-        if r["kind"] == "mesh":
-            print(f"  {r['label']:<22} is {base['steps_per_s']/r['steps_per_s']:>5.2f}x "
-                  f"SLOWER than the primitive sphere it approximates")
-
-    out["scenes"] = rows
-    out["primitive_baseline"] = base
-    json.dump(out, open(os.path.join(HERE, "collision_cost.json"), "w"), indent=2)
-    print("\nwrote model/collision_cost.json")
-
-
 def normalise(rows):
     """CONFOUND FOUND, then corrected.
 
@@ -143,3 +114,36 @@ def normalise(rows):
             "caveat": ("raw steps/s comparisons across shape TYPES conflate "
                        "per-contact cost with contact COUNT; only the "
                        "mesh-vs-mesh sweep isolates hull-size scaling")}
+
+
+if __name__ == "__main__":
+    out, rows = {}, []
+
+    for kind, sub, label in (("sphere", None, "primitive sphere"),
+                             ("box", None, "primitive box"),
+                             ("mesh", 0, "mesh (icosa, 12 v)"),
+                             ("mesh", 1, "mesh (subdiv 1)"),
+                             ("mesh", 2, "mesh (subdiv 2)")):
+        m = scene(kind, subdiv=sub or 0)
+        nv = int(m.mesh_vertnum[0]) if kind == "mesh" else 0
+        r = bench(m)
+        r.update({"kind": kind, "label": label, "hull_vertices": nv})
+        rows.append(r)
+        print(f"  {label:<22} v={nv:<4} {r['steps_per_s']:>9.1f} steps/s   "
+              f"{r['us_per_step']:>7.2f} us/step   contacts {r['mean_contacts']:>6.1f}")
+
+    base = next(r for r in rows if r["label"] == "primitive sphere")
+    print()
+    for r in rows:
+        if r["kind"] == "mesh":
+            print(f"  {r['label']:<22} is {base['steps_per_s']/r['steps_per_s']:>5.2f}x "
+                  f"SLOWER than the primitive sphere it approximates")
+
+    out["scenes"] = rows
+    out["primitive_baseline"] = base
+    # The per-contact normalisation is the POINT of this study, not an
+    # afterthought. It lived in an ad-hoc script for a while, which meant
+    # re-running this file silently dropped it from the JSON.
+    out["normalised"] = normalise(rows)
+    json.dump(out, open(os.path.join(HERE, "collision_cost.json"), "w"), indent=2)
+    print("\nwrote model/collision_cost.json")

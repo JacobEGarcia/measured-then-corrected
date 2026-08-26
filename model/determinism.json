@@ -20,27 +20,7 @@
     "final_separation_m": 2.220446049250313e-16,
     "growth_factor": 1.0
   },
-  "chaos_bad_design_note": "the original pile-of-boxes scene is dissipative and settles to a fixed point, so it cannot show a chaos horizon; growth_factor came out exactly 1.000. Replaced with one smooth and one contact-driven chaotic system.",
-  "chaos_smooth_double_pendulum": {
-    "perturbation": 2.220446049250313e-16,
-    "t_reach_1um_s": null,
-    "t_reach_1mm_s": null,
-    "t_reach_1cm_s": null,
-    "final_separation_m": 1e-18,
-    "growth_factor": 0.004503599627370496,
-    "lyapunov_exponent_per_s": -0.0,
-    "e_folding_time_s": null
-  },
-  "chaos_contact_incline": {
-    "perturbation": 5e-324,
-    "t_reach_1um_s": null,
-    "t_reach_1mm_s": null,
-    "t_reach_1cm_s": null,
-    "final_separation_m": 1e-18,
-    "growth_factor": 2.0240225330731063e+305,
-    "lyapunov_exponent_per_s": 0.0,
-    "e_folding_time_s": 235596427838288.2
-  },
+  "chaos_bad_design_note": "the pile-of-boxes scene is dissipative and settles to a fixed point, so it cannot show a chaos horizon; growth_factor came out exactly 1.000. Replaced with one smooth and one contact-driven system.",
   "chaos_smooth_1ulp": {
     "perturbation": 4.440892098500626e-16,
     "t_reach_1um_s": 9.1995,

@@ -210,12 +210,18 @@ primitive sphere         0     45.89       40.0       1.1473
 primitive box            0    126.25      160.0       0.7891
 mesh                    12    120.86      109.5       1.1037
 mesh                   282    542.89      103.9       5.2251
+                              (one run, one machine -- see below)
 ```
 
 **Per contact the box is *cheaper* than the sphere** — it only looked slow
 because it makes 4x the contacts. The clean comparison is mesh-vs-mesh at
-near-equal contact counts: **23.5x the hull vertices costs 4.73x**, i.e.
-roughly `sqrt(n)`, consistent with hull-based GJK/MPR.
+near-equal contact counts: **23.5x the hull vertices costs about 4.73x** —
+sub-linear, consistent with hull-based GJK/MPR.
+
+That ratio is wall-clock and it moves: two runs on an idle machine gave 4.73
+and 5.53, a 17% swing. The reproducible claim is the *shape* — cost grows far
+slower than vertex count — not a three-significant-figure constant. CI checks
+timing-derived figures within ±30% and checks the orderings exactly.
 
 A gate guards the confound itself, so the "raw steps/s is the wrong metric"
 argument fails loudly if its own example ever inverts.

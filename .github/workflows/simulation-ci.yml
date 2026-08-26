@@ -55,11 +55,27 @@ jobs:
           python model/validate.py
           cat model/validation.json
 
-      - name: README claims must match the measured JSON
+      - name: regenerate every measured JSON the README quotes
+        # ALL of them, including the slow ones. Regenerating only the fast
+        # studies would let the checker pass against stale committed JSON,
+        # which is precisely the drift it exists to catch.
+        # determinism.py ~90 s, integrators.py ~20 s; the rest are seconds.
         run: |
           python model/closed_chain.py > /dev/null
           python model/collision_cost.py > /dev/null
           python model/friction_cone.py > /dev/null
+          python model/integrators.py > /dev/null
+          python model/determinism.py > /dev/null
           python model/crossengine_contact.py > /dev/null
           python model/gait_validation.py > /dev/null
-          python tools/check_readme_claims.py
+
+      - name: README claims must match the measured JSON
+        run: python tools/check_readme_claims.py
+
+      - name: measured JSON must not have drifted (deterministic fields only)
+        # If a study now produces different PHYSICS, that is a finding, not a
+        # nuisance -- it must be reviewed and committed deliberately.
+        # Clock-derived fields are excluded: absolute throughput moved 42-76%
+        # between runs on one idle machine, so diffing it would produce a gate
+        # that always fails and therefore always gets ignored.
+        run: PY=python bash tools/check_json_drift.sh

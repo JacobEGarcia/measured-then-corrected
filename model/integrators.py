@@ -101,33 +101,6 @@ def energy_drift(integ, dt=0.001, t_end=5.0):
 
 THEORY = {"Euler": 1, "implicit": 1, "implicitfast": 1, "RK4": 4}
 
-if __name__ == "__main__":
-    ref = reference()
-    dts = [2e-3, 1e-3, 5e-4, 2.5e-4, 1.25e-4]
-    out = {"reference_qpos": ref.tolist(), "t_end": T_END, "order": [], "energy": []}
-
-    print("observed order of accuracy  (global error vs dt, log-log slope)\n")
-    print(f"  {'integrator':<14} {'theory':>7} {'observed':>9}   verdict")
-    for integ in ("Euler", "implicit", "implicitfast", "RK4"):
-        r = order_of_accuracy(integ, dts, ref)
-        out["order"].append(r)
-        th = THEORY[integ]; ob = r["observed_order"]
-        ok = "matches" if ob and abs(ob - th) < 0.5 else "MISMATCH"
-        print(f"  {integ:<14} {th:>7} {ob if ob else 'n/a':>9}   {ok}")
-
-    print("\nenergy drift on a conservative system (5 s, dt=1e-3)\n")
-    print(f"  {'integrator':<14} {'rel drift/s':>13} {'max |rel|':>12} {'steps/s':>10}")
-    for integ in ("Euler", "implicit", "implicitfast", "RK4"):
-        r = energy_drift(integ)
-        if r:
-            out["energy"].append(r)
-            print(f"  {integ:<14} {r['drift_per_s']:>13.3e} "
-                  f"{r['rel_drift_max_abs']:>12.3e} {r['steps_per_s']:>10.1f}")
-
-    json.dump(out, open(os.path.join(HERE, "integrators.json"), "w"), indent=2)
-    print("\nwrote model/integrators.json")
-
-
 # --------------------------------------------------------------------------
 # `implicitfast` reported energy drift IDENTICAL to `Euler` to four significant
 # figures (4.661e-04 /s, max 2.437e-03). Two integrators agreeing that exactly
@@ -284,3 +257,32 @@ def gain_stability_threshold(kvs=(1, 5, 10, 20, 50, 100, 500),
                      "max_stable_kv": max([k for k in kvs if first_bad is None or k < first_bad],
                                           default=None)})
     return rows
+
+
+if __name__ == "__main__":
+    ref = reference()
+    dts = [2e-3, 1e-3, 5e-4, 2.5e-4, 1.25e-4]
+    out = {"reference_qpos": ref.tolist(), "t_end": T_END, "order": [], "energy": []}
+
+    print("observed order of accuracy  (global error vs dt, log-log slope)\n")
+    print(f"  {'integrator':<14} {'theory':>7} {'observed':>9}   verdict")
+    for integ in ("Euler", "implicit", "implicitfast", "RK4"):
+        r = order_of_accuracy(integ, dts, ref)
+        out["order"].append(r)
+        th = THEORY[integ]; ob = r["observed_order"]
+        ok = "matches" if ob and abs(ob - th) < 0.5 else "MISMATCH"
+        print(f"  {integ:<14} {th:>7} {ob if ob else 'n/a':>9}   {ok}")
+
+    print("\nenergy drift on a conservative system (5 s, dt=1e-3)\n")
+    print(f"  {'integrator':<14} {'rel drift/s':>13} {'max |rel|':>12} {'steps/s':>10}")
+    for integ in ("Euler", "implicit", "implicitfast", "RK4"):
+        r = energy_drift(integ)
+        if r:
+            out["energy"].append(r)
+            print(f"  {integ:<14} {r['drift_per_s']:>13.3e} "
+                  f"{r['rel_drift_max_abs']:>12.3e} {r['steps_per_s']:>10.1f}")
+
+    out["implicitfast_vs_euler"] = implicitfast_vs_euler()
+    out["gain_stability"] = gain_stability_threshold()
+    json.dump(out, open(os.path.join(HERE, "integrators.json"), "w"), indent=2)
+    print("\nwrote model/integrators.json")

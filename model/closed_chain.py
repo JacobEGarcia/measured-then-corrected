@@ -75,54 +75,6 @@ def simulate(closed, steps=3000, q0=0.6):
     return m, np.array(gaps), np.array(qs)
 
 
-if __name__ == "__main__":
-    out = {}
-    m_open, gap_open, q_open = simulate(closed=False)
-    m_cl, gap_cl, q_cl = simulate(closed=True)
-
-    out["dof"] = {"open_chain_nv": int(m_open.nv), "closed_chain_nv": int(m_cl.nv),
-                  "equality_constraints": int(m_cl.neq)}
-    print("degrees of freedom")
-    print(f"  open  chain : nv={m_open.nv}  (3 independent joints)")
-    print(f"  closed loop : nv={m_cl.nv}  with {m_cl.neq} equality constraint")
-    print("  NOTE: nv is unchanged -- MuJoCo keeps the tree coordinates and")
-    print("        enforces the loop as a CONSTRAINT, rather than reducing DOF.")
-
-    out["loop_gap"] = {
-        "open_mean_m": float(gap_open.mean()), "open_max_m": float(gap_open.max()),
-        "closed_mean_m": float(gap_cl.mean()), "closed_max_m": float(gap_cl.max())}
-    print("\nloop closure error (distance between the two pivot sites)")
-    print(f"  open  chain : mean {gap_open.mean():.5f} m   max {gap_open.max():.5f} m")
-    print(f"  closed loop : mean {gap_cl.mean():.3e} m   max {gap_cl.max():.3e} m")
-    print(f"  ratio       : {gap_open.mean()/max(gap_cl.mean(),1e-12):.0f}x tighter")
-
-    # the mechanism's actual behaviour differs, not just its bookkeeping
-    out["motion"] = {
-        "open_crank_range_rad": float(q_open[:, 0].max() - q_open[:, 0].min()),
-        "closed_crank_range_rad": float(q_cl[:, 0].max() - q_cl[:, 0].min()),
-        "open_rocker_range_rad": float(q_open[:, 2].max() - q_open[:, 2].min()),
-        "closed_rocker_range_rad": float(q_cl[:, 2].max() - q_cl[:, 2].min())}
-    print("\njoint travel over 3 s")
-    print(f"  crank  : open {out['motion']['open_crank_range_rad']:.4f} rad   "
-          f"closed {out['motion']['closed_crank_range_rad']:.4f} rad")
-    print(f"  rocker : open {out['motion']['open_rocker_range_rad']:.4f} rad   "
-          f"closed {out['motion']['closed_rocker_range_rad']:.4f} rad")
-    print("\n  In the open chain the rocker is a free pendulum -- it has no idea")
-    print("  the coupler exists. Closing the loop couples them, which is the")
-    print("  entire point of the mechanism.")
-
-    out["format_support"] = {
-        "URDF": "cannot express -- strictly a tree, one parent per link",
-        "MJCF": "<equality><connect> between two sites",
-        "SDF": "a second <joint> reconnecting to an existing link"}
-    print("\nformat support")
-    for k, v in out["format_support"].items():
-        print(f"  {k:<5}: {v}")
-
-    json.dump(out, open(os.path.join(HERE, "closed_chain.json"), "w"), indent=2)
-    print("\nwrote model/closed_chain.json")
-
-
 CLOSED_TUNED = """
   <equality>
     <connect name="loop" site1="tip" site2="rock_tip"
@@ -203,3 +155,53 @@ def spawn_manifold_check(solref="0.002 1", solimp="0.99 0.9999 0.0001", q0=0.6):
             "diagnosis": ("max gap is at step 0 -- an off-manifold spawn, not a "
                           "soft constraint. Loop-closed models must be "
                           "initialised ON the constraint manifold.")}
+
+
+if __name__ == "__main__":
+    out = {}
+    m_open, gap_open, q_open = simulate(closed=False)
+    m_cl, gap_cl, q_cl = simulate(closed=True)
+
+    out["dof"] = {"open_chain_nv": int(m_open.nv), "closed_chain_nv": int(m_cl.nv),
+                  "equality_constraints": int(m_cl.neq)}
+    print("degrees of freedom")
+    print(f"  open  chain : nv={m_open.nv}  (3 independent joints)")
+    print(f"  closed loop : nv={m_cl.nv}  with {m_cl.neq} equality constraint")
+    print("  NOTE: nv is unchanged -- MuJoCo keeps the tree coordinates and")
+    print("        enforces the loop as a CONSTRAINT, rather than reducing DOF.")
+
+    out["loop_gap"] = {
+        "open_mean_m": float(gap_open.mean()), "open_max_m": float(gap_open.max()),
+        "closed_mean_m": float(gap_cl.mean()), "closed_max_m": float(gap_cl.max())}
+    print("\nloop closure error (distance between the two pivot sites)")
+    print(f"  open  chain : mean {gap_open.mean():.5f} m   max {gap_open.max():.5f} m")
+    print(f"  closed loop : mean {gap_cl.mean():.3e} m   max {gap_cl.max():.3e} m")
+    print(f"  ratio       : {gap_open.mean()/max(gap_cl.mean(),1e-12):.0f}x tighter")
+
+    # the mechanism's actual behaviour differs, not just its bookkeeping
+    out["motion"] = {
+        "open_crank_range_rad": float(q_open[:, 0].max() - q_open[:, 0].min()),
+        "closed_crank_range_rad": float(q_cl[:, 0].max() - q_cl[:, 0].min()),
+        "open_rocker_range_rad": float(q_open[:, 2].max() - q_open[:, 2].min()),
+        "closed_rocker_range_rad": float(q_cl[:, 2].max() - q_cl[:, 2].min())}
+    print("\njoint travel over 3 s")
+    print(f"  crank  : open {out['motion']['open_crank_range_rad']:.4f} rad   "
+          f"closed {out['motion']['closed_crank_range_rad']:.4f} rad")
+    print(f"  rocker : open {out['motion']['open_rocker_range_rad']:.4f} rad   "
+          f"closed {out['motion']['closed_rocker_range_rad']:.4f} rad")
+    print("\n  In the open chain the rocker is a free pendulum -- it has no idea")
+    print("  the coupler exists. Closing the loop couples them, which is the")
+    print("  entire point of the mechanism.")
+
+    out["format_support"] = {
+        "URDF": "cannot express -- strictly a tree, one parent per link",
+        "MJCF": "<equality><connect> between two sites",
+        "SDF": "a second <joint> reconnecting to an existing link"}
+    print("\nformat support")
+    for k, v in out["format_support"].items():
+        print(f"  {k:<5}: {v}")
+
+    out["loop_stiffness_sweep"] = loop_stiffness_sweep()
+    out["spawn_manifold"] = spawn_manifold_check()
+    json.dump(out, open(os.path.join(HERE, "closed_chain.json"), "w"), indent=2)
+    print("\nwrote model/closed_chain.json")
