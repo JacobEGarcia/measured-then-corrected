@@ -1,0 +1,96 @@
+{
+  "mass_sweep": {
+    "physx": {
+      "0.5": 0.00453,
+      "5.0": 0.00453,
+      "50.0": 0.00452,
+      "500.0": 0.00453
+    },
+    "mujoco": {
+      "0.5": 0.27583,
+      "5.0": 0.27583,
+      "50.0": 0.27583,
+      "500.0": 0.27583
+    }
+  },
+  "dt_sweep": {
+    "physx": {
+      "480": 5e-05,
+      "240": 0.00016,
+      "120": 0.00066,
+      "60": 0.00453,
+      "30": 0.01081
+    },
+    "mujoco": {
+      "480": 0.10776,
+      "240": 0.10776,
+      "120": 0.10776,
+      "60": 0.27583,
+      "30": 0.67503
+    }
+  },
+  "rest_offset": {
+    "0.0": 0.00453,
+    "0.001": -0.99728,
+    "0.005": -4.99684
+  },
+  "agreements": {
+    "physx": {
+      "spread_mm": 1e-05,
+      "range_of_mass": "0.5 kg to 500 kg (1000x)"
+    },
+    "mujoco": {
+      "spread_mm": 0.0,
+      "range_of_mass": "0.5 kg to 500 kg (1000x)"
+    }
+  },
+  "disagreements": {
+    "mujoco_flat_region_hz": [
+      480,
+      240,
+      120
+    ],
+    "mujoco_flat_value_mm": 0.10776,
+    "mujoco_is_flat_at_fine_dt": true,
+    "mujoco_clamp_onset_between_hz": [
+      120,
+      60
+    ],
+    "mujoco_2dt_at_120hz": 0.01667,
+    "mujoco_2dt_at_60hz": 0.03333,
+    "physx_is_flat_at_fine_dt": false,
+    "physx_monotonic_in_dt": true
+  },
+  "stiffness_gap": [
+    {
+      "hz": 480,
+      "mujoco_mm": 0.10776,
+      "physx_mm": 5e-05,
+      "mujoco_over_physx": 2155
+    },
+    {
+      "hz": 240,
+      "mujoco_mm": 0.10776,
+      "physx_mm": 0.00016,
+      "mujoco_over_physx": 673
+    },
+    {
+      "hz": 120,
+      "mujoco_mm": 0.10776,
+      "physx_mm": 0.00066,
+      "mujoco_over_physx": 163
+    },
+    {
+      "hz": 60,
+      "mujoco_mm": 0.27583,
+      "physx_mm": 0.00453,
+      "mujoco_over_physx": 61
+    },
+    {
+      "hz": 30,
+      "mujoco_mm": 0.67503,
+      "physx_mm": 0.01081,
+      "mujoco_over_physx": 62
+    }
+  ]
+}
