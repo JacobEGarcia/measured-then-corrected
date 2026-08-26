@@ -236,7 +236,7 @@ So reproducibility failures here are not solver nondeterminism. What *does*
 bound them is chaos:
 
 ```
-double pendulum (smooth)    lambda = 2.24 /s    e-folding 0.44 s
+double pendulum (smooth)    lambda = 2.25 /s    e-folding 0.44 s
 box on a 20 deg incline     lambda = 0.35 /s    e-folding 2.9 s
 ```
 

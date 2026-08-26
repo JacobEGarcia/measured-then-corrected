@@ -54,3 +54,12 @@ jobs:
         run: |
           python model/validate.py
           cat model/validation.json
+
+      - name: README claims must match the measured JSON
+        run: |
+          python model/closed_chain.py > /dev/null
+          python model/collision_cost.py > /dev/null
+          python model/friction_cone.py > /dev/null
+          python model/crossengine_contact.py > /dev/null
+          python model/gait_validation.py > /dev/null
+          python tools/check_readme_claims.py
