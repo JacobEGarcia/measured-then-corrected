@@ -23,18 +23,20 @@ sys.path.insert(0, os.path.join(HERE, "figs"))
 import charts   # noqa: E402
 import pixel    # noqa: E402
 import demos    # noqa: E402
+import anim     # noqa: E402
 import json as _json
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(REPO, "artifact_kare.html")
 
-F = {n: getattr(charts, n)() for n in (
+F = {n: anim.animate_svg(getattr(charts, n)()) for n in (
     "friction_polar", "integrator_order", "physx_iteration_cliff", "grasp_bars",
     "integrator_stability_bars", "crossengine_penetration", "mass_ratio_cliff",
     "collision_bars", "tree_vs_loop", "gait_schedule", "trot_wheel",
     "friction_recovery", "chaos_divergence", "one_spec_three_formats",
     "reflected_inertia", "identifiability", "solver_speed",
     "phase_profile", "scale_bars", "contact_clamp")}
-F["corrections_tally"] = charts.corrections_tally(total=13, studies=19)
+F["corrections_tally"] = anim.animate_svg(
+    charts.corrections_tally(total=13, studies=19))
 
 det = charts.load("determinism")
 LAM = round((det["chaos_smooth_1ulp"]["lyapunov_exponent_per_s"]
@@ -50,7 +52,11 @@ CONE = {c: [[r["heading_deg"], r["direction_error_deg"]]
 GRIP_MARK = {"3": 0, "4.5": 0, "6": 0, "6.5": 1, "7.5": 1, "10": 1}
 STACK_MARK = {"1": 1, "10": 1, "100": 0, "1000": 0}
 
-I = lambda n, px=4: pixel.icon(n, px=px)          # noqa: E731
+def I(n, px=4):
+    """Animated where Kare animated: the bomb's fuse and the watch hand."""
+    if n in pixel.ANIM:
+        return anim.animated_icon(pixel.ANIM[n], px=px, title=n, cls=f"ico-{n}")
+    return pixel.icon(n, px=px)
 
 HEAD = """<title>Measured, Then Corrected</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -253,6 +259,59 @@ svg:not(.px){display:block;max-width:100%;height:auto;overflow:visible}
   border-top:2px solid var(--rule);text-align:center}
 .note{font-family:var(--fC);font-size:.52rem;color:var(--stone);
   padding:.4rem .6rem;border-top:2px solid var(--rule);line-height:1.6}
+
+/* ---------- figures animate on first sight ---------- */
+.js .figwrap svg path[pathLength]{stroke-dasharray:1;stroke-dashoffset:1}
+.figwrap.in svg path[pathLength]{animation:draw 1.05s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+.js .figwrap svg [style*="--i"]{opacity:0}
+.figwrap.in svg [style*="--i"]{animation:fade .34s ease-out forwards;
+  animation-delay:calc(var(--i,0) * 16ms)}
+@keyframes fade{to{opacity:1}}
+
+/* the tally is the page's thesis, so it gets a real pop */
+.figwrap svg .tally-on,.figwrap svg .tally-off{transform-box:fill-box;
+  transform-origin:50% 50%}
+.figwrap.in svg .tally-on{animation:pop .38s cubic-bezier(.2,1.5,.4,1) forwards;
+  animation-delay:calc(var(--i,0) * 70ms)}
+.figwrap.in svg .tally-off{animation:fade .3s ease-out forwards;
+  animation-delay:calc(var(--i,0) * 70ms)}
+@keyframes pop{0%{opacity:0;transform:scale(.15)}100%{opacity:1;transform:scale(1)}}
+
+/* ---------- two-frame pixel icons ---------- */
+.pxa .fl{opacity:0;animation:flip steps(1,end) infinite}
+/* no JS: show the first frame of every animated icon */
+html:not(.js) .pxa .fl:nth-child(1){opacity:1;animation:none}
+html:not(.js) .pxa .fl:nth-child(n+2){display:none}
+@keyframes flip{0%,100%{opacity:0}}
+.pxa{--dur:520ms}
+.pxa .fl:nth-child(1){animation-name:f1}
+.pxa .fl:nth-child(2){animation-name:f2}
+.pxa .fl:nth-child(3){animation-name:f3}
+.pxa .fl:nth-child(4){animation-name:f4}
+@keyframes f1{0%,24%{opacity:1}25%,100%{opacity:0}}
+@keyframes f2{0%,24%{opacity:0}25%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes f3{0%,49%{opacity:0}50%,74%{opacity:1}75%,100%{opacity:0}}
+@keyframes f4{0%,74%{opacity:0}75%,100%{opacity:1}}
+.pxa.ico-bomb .fl:nth-child(1){animation-name:b1}
+.pxa.ico-bomb .fl:nth-child(2){animation-name:b2}
+@keyframes b1{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes b2{0%,49%{opacity:0}50%,100%{opacity:1}}
+.pxa .fl{animation-iteration-count:infinite;animation-timing-function:steps(1,end)}
+
+/* ---------- windows arrive ---------- */
+.js .win{opacity:0;transform:translateY(10px)}
+.win.in{animation:winin .5s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes winin{to{opacity:1;transform:translateY(0)}}
+
+@media (prefers-reduced-motion:reduce){
+  .js .figwrap svg path[pathLength]{stroke-dashoffset:0}
+  .js .figwrap svg [style*="--i"]{opacity:1}
+  .js .win{opacity:1;transform:none}
+  .pxa .fl:nth-child(n+2){display:none}
+  .pxa .fl:nth-child(1){opacity:1;animation:none}
+}
 footer{padding:0 0 clamp(3rem,8vw,5rem)}
 footer p{margin:0 0 .8rem;max-width:var(--col);color:var(--stone);font-size:.94rem}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
@@ -803,8 +862,12 @@ for _k, _first in (("grasp_slider", "3"), ("stack_slider", "1")):
 DATA_JS = ("<script>window.__SEQ__=" + demos.frames_json(SEQ)
            + ";window.__CONE__=" + _json.dumps(CONE, separators=(",", ":"))
            + ";</script>")
-DEMO_JS = "<script>" + demos.PLAYER_JS + "</script>"
+DEMO_JS = "<script>" + demos.PLAYER_JS + demos.REVEAL_JS + "</script>"
+
+# Set the class BEFORE any content paints, or the windows flash in and then
+# hide themselves the moment the reveal script loads at the end of the body.
+EARLY_JS = "<script>document.documentElement.classList.add('js');</script>"
 
 with open(OUT, "w") as f:
-    f.write(HEAD + CSS + BODY + DATA_JS + HERO_JS + DEMO_JS)
+    f.write(HEAD + CSS + EARLY_JS + BODY + DATA_JS + HERO_JS + DEMO_JS)
 print(f"wrote {OUT}  ({os.path.getsize(OUT)/1024/1024:.2f} MB)")

@@ -148,3 +148,65 @@ document.querySelectorAll('[data-slider]').forEach(function(root){
   hIn.addEventListener('input',draw); draw(); addEventListener('resize',draw);
 })();
 """
+
+
+REVEAL_JS = """
+// Everything below only hides things it will later reveal, so the CSS that
+// starts elements invisible is gated on this class. If this script never
+// runs, the page renders complete rather than blank.
+document.documentElement.classList.add('js');
+
+// ---- reveal on first sight ---------------------------------------------
+// Charts draw themselves when they scroll into view rather than being already
+// finished when the reader arrives. Fires once per element, then unobserves.
+(function(){
+  const reduce = matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const targets = document.querySelectorAll('.figwrap, .win');
+  if (reduce || !('IntersectionObserver' in window)){
+    targets.forEach(function(el){ el.classList.add('in'); });
+    return;
+  }
+  const io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+  targets.forEach(function(el){ io.observe(el); });
+})();
+
+// ---- headline numbers count up -----------------------------------------
+// Only the tiles that are plainly numeric; anything with a unit or exponent is
+// left alone rather than mangled into a wrong intermediate value.
+(function(){
+  const reduce = matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const tiles = document.querySelectorAll('.tile b, .chip b');
+  const numeric = [];
+  tiles.forEach(function(el){
+    const raw = el.textContent.trim();
+    if (!/^[0-9][0-9,]*$/.test(raw)) return;          // integers only
+    numeric.push([el, parseInt(raw.replace(/,/g,''),10), raw]);
+    if (!reduce) el.textContent = '0';
+  });
+  if (reduce || !('IntersectionObserver' in window)){
+    numeric.forEach(function(n){ n[0].textContent = n[2]; });
+    return;
+  }
+  const io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      const rec = numeric.find(function(n){ return n[0] === e.target; });
+      if (!rec) return;
+      io.unobserve(e.target);
+      const [el, target, raw] = rec;
+      const dur = 620, t0 = performance.now();
+      (function tick(t){
+        const p = Math.min(1, (t - t0)/dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target*eased).toLocaleString();
+        if (p < 1) requestAnimationFrame(tick); else el.textContent = raw;
+      })(t0);
+    });
+  }, { threshold: 0.6 });
+  numeric.forEach(function(n){ io.observe(n[0]); });
+})();
+"""

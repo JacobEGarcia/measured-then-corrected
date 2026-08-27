@@ -287,3 +287,44 @@ ICONS = {"bomb": BOMB, "mac": MAC, "stopwatch": STOPWATCH,
 
 def icon(name, px=4, **kw):
     return render(ICONS[name], px=px, title=name, cls=f"ico-{name}", **kw)
+
+
+
+# ---------------------------------------------------- two-frame animations
+# Kare's cursors animated by flipping a handful of hand-drawn frames. These do
+# the same: the change is always a whole pixel, never a slide between two.
+
+BOMB_2 = [
+    "................",
+    ".............X..",
+    "............o.X.",
+    "......XXX..o....",
+    ".....XXXXXo.X...",
+    "....XXXXXXX.....",
+    "...XXXXXXXXX....",
+    "...XXX.XXXXX....",
+    "...XX...XXXX....",
+    "...XX...XXXX....",
+    "...XXX.XXXXX....",
+    "...XXXXXXXXX....",
+    "....XXXXXXX.....",
+    ".....XXXXX......",
+    "......XXX.......",
+    "................",
+]
+
+# the classic wristwatch: the hand sweeps a quarter turn per frame
+def _watch(hand):
+    g = [list("................") for _ in range(16)]
+    ring = [(6,3),(7,3),(8,3),(9,3),(5,4),(10,4),(4,5),(11,5),(3,6),(12,6),
+            (3,7),(12,7),(3,8),(12,8),(4,9),(11,9),(5,10),(10,10),
+            (6,11),(7,11),(8,11),(9,11)]
+    for x,y in ring: g[y][x]="X"
+    for x,y in ((7,1),(8,1),(7,2),(8,2),(7,13),(8,13),(7,14),(8,14)): g[y][x]="X"
+    g[7][7]="X"
+    arms = {0:[(7,5),(7,6)], 1:[(9,7),(10,7)], 2:[(8,9),(8,8)], 3:[(5,7),(6,7)]}
+    for x,y in arms[hand]: g[y][x]="o"
+    return ["".join(r) for r in g]
+
+WATCH_FRAMES = [_watch(i) for i in range(4)]
+ANIM = {"bomb": [BOMB, BOMB_2], "watch": WATCH_FRAMES}
