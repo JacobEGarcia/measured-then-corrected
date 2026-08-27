@@ -667,3 +667,216 @@ def chaos_divergence():
     out.append(txt(-(T + ph / 2), 14, "separation  (m)", "cap", "middle"
                    ).replace("<text ", '<text transform="rotate(-90)" '))
     return frame(W, H, "".join(out), "Separation against time for two perturbation sizes")
+
+
+# ---------------------------------------------------------------- authoring
+def one_spec_three_formats():
+    """The foundation: a Python spec emitting MJCF, URDF and SDF, with the
+    validation that proves they agree. Drawn rather than described because the
+    fan-out IS the claim."""
+    val = load("validation")
+    W, H = 520, 260
+    out = []
+    cx, top = W / 2, 46
+    out.append(f'<rect x="{cx-78:.0f}" y="{top}" width="156" height="38" class="node"/>')
+    out.append(txt(cx, top + 24, "robot_spec.py", "figtitle", "middle"))
+    outs = [("MJCF", cx - 172), ("URDF", cx - 34), ("SDF", cx + 104)]
+    for lab, x in outs:
+        out.append(f'<line x1="{cx}" y1="{top+38}" x2="{x+34}" y2="{top+86}" class="link"/>')
+        out.append(f'<rect x="{x}" y="{top+86}" width="68" height="34" class="node"/>')
+        out.append(txt(x + 34, top + 107, lab, "figtitle", "middle"))
+    bar = top + 152
+    out.append(f'<line x1="{cx-172}" y1="{bar}" x2="{cx+172}" y2="{bar}" class="axis"/>')
+    cv = val["cross_validation"]
+    fk = val["forward_kinematics"]
+    cells = [(f'{cv["comparisons"]}/{cv["comparisons"]}', "properties agree"),
+             (f'{fk["samples"]}', "FK samples"),
+             (f'{fk["max_abs_err_m"]:.2e}', "max FK error, m")]
+    for i, (v, lab) in enumerate(cells):
+        x = cx - 172 + (i + 0.5) * (344 / 3)
+        out.append(txt(x, bar + 24, v, "key-num", "middle"))
+        out.append(txt(x, bar + 40, lab, "cap", "middle"))
+    out.append(txt(cx, 24, "ONE SPEC, THREE FORMATS, CHECKED BOTH WAYS",
+                   "figtitle", "middle"))
+    return frame(W, H, "".join(out), "One spec emitting three formats, with validation")
+
+
+# --------------------------------------------------------------- actuators
+def reflected_inertia():
+    """Rotor inertia reflects through a gearbox as N squared. At N=100 a 2e-5
+    rotor outweighs the whole link it drives."""
+    a = load("actuators")["reflected_inertia"]
+    W, H = 520, 290
+    L, Rm, T, B = 62, 20, 34, 50
+    pw, ph = W - L - Rm, H - T - B
+    I_link = a[0]["I_link"]
+    lo, hi = -5.5, 0.2
+
+    def Y(v):
+        return T + (1 - (math.log10(max(v, 1e-6)) - lo) / (hi - lo)) * ph
+
+    n = len(a)
+    slot = pw / n
+    out = [f'<rect x="{L}" y="{T}" width="{pw}" height="{ph}" class="plot-bg"/>']
+    for e in range(-5, 1):
+        y = Y(10.0 ** e)
+        out.append(f'<line x1="{L}" y1="{y:.1f}" x2="{L+pw}" y2="{y:.1f}" class="grid"/>')
+        out.append(txt(L - 8, y + 4, f"1e{e}", "tick", "end"))
+    yl = Y(I_link)
+    out.append(f'<line x1="{L}" y1="{yl:.1f}" x2="{L+pw}" y2="{yl:.1f}" class="marker"/>')
+    out.append(txt(L + 6, yl - 6, f"the LINK itself: {I_link:.4f}", "key-warn"))
+    for i, r in enumerate(a):
+        v = r["reflected_inertia"]
+        x = L + slot * (i + 0.5) - slot * 0.22
+        y = Y(v)
+        h = T + ph - y
+        cls = "bar-warn" if v > I_link else "bar-b"
+        out.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{slot*0.44:.1f}" '
+                   f'height="{h:.1f}" class="{cls}"/>')
+        out.append(txt(x + slot * 0.22, y - 6, f"{v:g}", "barval", "middle"))
+        out.append(txt(x + slot * 0.22, T + ph + 18, f"N={r['gear']:g}", "tick", "middle"))
+    out.append(txt(L + pw / 2, H - 8,
+                   "reflected rotor inertia  (kg m^2)", "cap", "middle"))
+    return frame(W, H, "".join(out), "Reflected rotor inertia against gear ratio")
+
+
+# ------------------------------------------------------------- system ID
+def identifiability():
+    """One parameter has a sensitivity of exactly zero. No optimiser can
+    recover it, and saying so is the honest answer."""
+    rows = load("sensitivity")
+    W, H = 520, 230
+    L, Rm, T, B = 130, 70, 26, 44
+    pw, ph = W - L - Rm, H - T - B
+    vmax = max(r["sensitivity_rad"] for r in rows) * 1.2
+    bh = ph / len(rows) * 0.55
+    out = []
+    for i, r in enumerate(rows):
+        y = T + ph * (i + 0.5) / len(rows) - bh / 2
+        v = r["sensitivity_rad"]
+        w = max(v / vmax * pw, 2)
+        cls = "bar-b" if r["identifiable"] else "bar-warn"
+        out.append(f'<rect x="{L}" y="{y:.1f}" width="{w:.1f}" height="{bh:.1f}" class="{cls}"/>')
+        out.append(txt(L - 10, y + bh / 2 + 4, r["param"], "tick", "end"))
+        lab = f"{v:.3f}" if v else "0.000  UNIDENTIFIABLE"
+        out.append(txt(L + w + 8, y + bh / 2 + 4, lab,
+                       "barval" if v else "key-warn"))
+    out.append(f'<line x1="{L}" y1="{T}" x2="{L}" y2="{T+ph}" class="axis"/>')
+    out.append(txt(L + pw / 2, H - 8,
+                   "trajectory sensitivity to the parameter  (rad)", "cap", "middle"))
+    return frame(W, H, "".join(out), "Parameter identifiability from trajectory sensitivity")
+
+
+# ---------------------------------------------------------------- solvers
+def solver_speed():
+    rows = load("solvers")["easy"]
+    W, H = 520, 220
+    L, Rm, T, B = 96, 96, 26, 46
+    pw, ph = W - L - Rm, H - T - B
+    vmax = max(r["steps_per_s"] for r in rows) * 1.15
+    bh = ph / len(rows) * 0.55
+    out = []
+    for i, r in enumerate(rows):
+        y = T + ph * (i + 0.5) / len(rows) - bh / 2
+        w = r["steps_per_s"] / vmax * pw
+        cls = "bar-b" if r["solver"] == "Newton" else "bar-warn"
+        out.append(f'<rect x="{L}" y="{y:.1f}" width="{w:.1f}" height="{bh:.1f}" class="{cls}"/>')
+        out.append(txt(L - 10, y + bh / 2 + 4, r["solver"], "tick", "end"))
+        out.append(txt(L + w + 8, y + bh / 2 + 4, f"{r['steps_per_s']:,.0f}", "barval"))
+        out.append(txt(L + w + 8, y + bh / 2 + 16,
+                       f"{r['penetration_mm']} mm", "cap"))
+    out.append(f'<line x1="{L}" y1="{T}" x2="{L}" y2="{T+ph}" class="axis"/>')
+    out.append(txt(L + pw / 2, H - 8,
+                   "steps/s, and the penetration each one produces", "cap", "middle"))
+    return frame(W, H, "".join(out), "Solver throughput at identical accuracy")
+
+
+# --------------------------------------------------------------- profiling
+def phase_profile():
+    """Measured with MuJoCo's per-phase timers in the C++ harness."""
+    phases = [("collision", 26.9), ("make constraint", 21.0), ("solve", 10.0),
+              ("everything else", 42.1)]
+    W, H = 520, 190
+    L, Rm, T = 20, 20, 60
+    pw = W - L - Rm
+    out = [txt(L, 28, "142,241 STEPS/S   =   284x REALTIME", "figtitle")]
+    x = L
+    for i, (lab, pct) in enumerate(phases):
+        w = pw * pct / 100
+        cls = ["bar-warn", "bar-a", "bar-b", "tally-off"][i]
+        out.append(f'<rect x="{x:.1f}" y="{T}" width="{w:.1f}" height="34" class="{cls}"/>')
+        out.append(txt(x + w / 2, T + 22, f"{pct}%", "barval", "middle"))
+        out.append(txt(x + w / 2, T + 54, lab, "cap", "middle"))
+        x += w
+    out.append(txt(L, T + 92, "COLLISION COSTS ~3x THE CONSTRAINT SOLVER", "figtitle-warn"))
+    out.append(txt(L, T + 112, "so tuning solver iterations would have been wasted effort",
+                   "cap"))
+    return frame(W, H, "".join(out), "Where simulation time is spent, by phase")
+
+
+# ------------------------------------------------------------------ scale
+def scale_bars():
+    # ONLY the two figures actually measured. An intermediate 4096-env point
+    # was in an earlier draft of this chart and was never run -- inventing a
+    # data point to make a bar chart look better is the exact failure this
+    # whole repository is about.
+    rows = [("MuJoCo, 1 env", 171000, "bar-b"),
+            ("Isaac Lab, 65,536 envs", 812670, "bar-warn")]
+    W, H = 520, 200
+    L, Rm, T, B = 150, 86, 26, 40
+    pw, ph = W - L - Rm, H - T - B
+    vmax = max(r[1] for r in rows) * 1.1
+    bh = ph / len(rows) * 0.52
+    out = []
+    for i, (lab, v, cls) in enumerate(rows):
+        y = T + ph * (i + 0.5) / len(rows) - bh / 2
+        w = v / vmax * pw
+        out.append(f'<rect x="{L}" y="{y:.1f}" width="{w:.1f}" height="{bh:.1f}" class="{cls}"/>')
+        out.append(txt(L - 10, y + bh / 2 + 4, lab, "tick", "end"))
+        out.append(txt(L + w + 8, y + bh / 2 + 4, f"{v:,}", "barval"))
+    out.append(f'<line x1="{L}" y1="{T}" x2="{L}" y2="{T+ph}" class="axis"/>')
+    out.append(txt(L + pw / 2, H - 8, "physics steps per second, free-tier T4",
+                   "cap", "middle"))
+    return frame(W, H, "".join(out), "Simulation throughput against parallel environment count")
+
+
+# --------------------------------------------------------- contact clamp
+def contact_clamp():
+    """Penetration against the requested time constant, and against mass.
+    One curve bends; the other is a flat line across a 1000x load range."""
+    ct = load("contact_tuning")
+    W, H = 520, 280
+    L, Rm, T, B = 64, 96, 30, 48
+    pw, ph = W - L - Rm, H - T - B
+    sr = ct["penetration_vs_solref"]
+    lo, hi = -3.0, 0.0
+
+    def X(tc):
+        a, b = math.log10(0.001), math.log10(0.05)
+        return L + (math.log10(tc) - a) / (b - a) * pw
+
+    def Y(mm):
+        return T + (1 - (math.log10(max(mm, 1e-3)) - lo) / (hi - lo)) * ph
+
+    out = [f'<rect x="{L}" y="{T}" width="{pw}" height="{ph}" class="plot-bg"/>']
+    for e in (-3, -2, -1, 0):
+        y = Y(10.0 ** e)
+        out.append(f'<line x1="{L}" y1="{y:.1f}" x2="{L+pw}" y2="{y:.1f}" class="grid"/>')
+        out.append(txt(L - 8, y + 4, f"1e{e}", "tick", "end"))
+    pts = [(X(r["solref_timeconst"]), Y(r["penetration_mm"])) for r in sr]
+    out.append('<path d="M ' + " L ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
+               + '" class="series-a" fill="none"/>')
+    for (x, y), r in zip(pts, sr):
+        out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4" class="series-a-dot"/>')
+        out.append(txt(x, T + ph + 18, f'{r["solref_timeconst"]:g}', "tick", "middle"))
+    out.append(txt(L + pw + 10, pts[-1][1] + 4, "vs TIMECONST", "key-a"))
+
+    ym = Y(ct["penetration_vs_mass"][0]["penetration_mm"])
+    out.append(f'<line x1="{L}" y1="{ym:.1f}" x2="{L+pw}" y2="{ym:.1f}" class="series-warn"/>')
+    out.append(txt(L + pw + 10, ym + 4, "vs MASS", "key-warn"))
+    out.append(txt(L + pw + 10, ym + 18, "0.1 to 100 kg", "tick"))
+    out.append(txt(L + pw + 10, ym + 32, "FLAT", "key-warn"))
+    out.append(txt(L + pw / 2, H - 8, "requested solref timeconst  (s)", "cap", "middle"))
+    out.append(txt(-(T + ph / 2), 14, "penetration  (mm)", "cap", "middle"
+                   ).replace("<text ", '<text transform="rotate(-90)" '))
+    return frame(W, H, "".join(out), "Penetration against time constant and against mass")

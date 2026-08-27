@@ -31,7 +31,9 @@ F = {n: getattr(charts, n)() for n in (
     "friction_polar", "integrator_order", "physx_iteration_cliff", "grasp_bars",
     "integrator_stability_bars", "crossengine_penetration", "mass_ratio_cliff",
     "collision_bars", "tree_vs_loop", "gait_schedule", "trot_wheel",
-    "friction_recovery", "chaos_divergence")}
+    "friction_recovery", "chaos_divergence", "one_spec_three_formats",
+    "reflected_inertia", "identifiability", "solver_speed",
+    "phase_profile", "scale_bars", "contact_clamp")}
 F["corrections_tally"] = charts.corrections_tally(total=13, studies=19)
 
 det = charts.load("determinism")
@@ -464,6 +466,14 @@ BODY = f"""
         says it needs 6.13 N; measured 6.44 N. Below it, the block leaves.</div>
       </div>
       <div class="demo" style="margin-top:1rem">
+        <img src="{SEQ['arm'][0]}" data-seq="arm" data-fps="20"
+             alt="the three-DOF arm swinging under gravity">
+        <div class="note">The 3-DOF arm this whole repository is built around,
+        released from a raised pose and swinging under gravity. Same
+        <code>model/arm3.xml</code> the 151 property checks and the
+        forward-kinematics cross-check run against.</div>
+      </div>
+      <div class="demo" style="margin-top:1rem">
         <div class="duo">
           <div><img src="{SEQ['stack_slider']['1'][0]}" data-seq="stack_slider.1" data-fps="14" alt="equal mass stack, stable">
             <div class="cap2">MASS RATIO 1</div></div>
@@ -478,6 +488,24 @@ BODY = f"""
 </div>
 
 <main class="wrap">
+
+{study("One spec, three formats", "floppy",
+  ["A single Python spec emits MJCF, URDF and SDF. Link geometry, mass, inertia "
+   "and joint limits are computed once, never typed twice.",
+   "Validated two ways: 151 property comparisons across the three files, then "
+   "an independent NumPy forward-kinematics implementation checked against "
+   "MuJoCo's own over 2000 random configurations."],
+  [F["one_spec_three_formats"]],
+  chips=[("151/151", "properties agree", "ok"),
+         ("3.3e-16", "max FK error m", "ok"),
+         ("2000", "configs checked", "")],
+  bomb=("The files agreed with themselves",
+        ["The first emitter passed all 147 numeric checks and still had a "
+         "<b>0.23 m</b> forward-kinematics error. MJCF <code>size</code> is a "
+         "<b>half</b> extent; URDF and SDF <code>box size</code> is the "
+         "<b>full</b> extent. Every property matched because each format was "
+         "being compared against itself."]),
+  src="model/robot_spec.py &middot; model/emit.py &middot; model/validate.py")}
 
 {study("Reproducibility", "stopwatch",
   ["Repeated runs are <b>bit-identical</b>. So is a re-parsed model. Adding an "
@@ -646,6 +674,89 @@ BODY += f"""
          "if its own example ever inverts."]),
   src="model/collision_cost.py")}
 
+
+{study("The stiffness you asked for is not the one you got", "wrench",
+  ["MuJoCo parameterises contact softness in <b>time</b>, not stiffness &mdash; "
+   "and silently clamps the requested time constant to twice the timestep.",
+   "Ask for a contact stiffer than your timestep supports and you quietly get "
+   "the softer one. No warning is emitted. This finding turned up again, "
+   "independently, in two later studies."],
+  [F["contact_clamp"]],
+  chips=[("0.1078", "mm, tc=0.0001", "bad"),
+         ("0.1078", "mm, tc=0.02", "bad"),
+         ("flat", "across 1000x mass", "ok")],
+  bomb=("I predicted penetration would scale with load",
+        ["It does not. The solver normalises by the contact's effective mass, "
+         "so the load cancels exactly &mdash; 0.1078 mm at 0.1 kg and at 100 kg. "
+         "The prediction is kept in the source next to the measurement that "
+         "refuted it, because the reason it fails is the interesting part."]),
+  src="model/contact_tuning.py")}
+
+{study("Rotor inertia reflects as N squared", "wrench",
+  ["The gearbox term everyone drops. A rotor's inertia appears at the joint "
+   "multiplied by the square of the gear ratio.",
+   "At N=100, a <b>2e-5</b> kg&middot;m&sup2; rotor contributes more inertia "
+   "than the entire link it drives. Four actuator models validated against "
+   "closed-form torque, all to 0.00% error."],
+  [F["reflected_inertia"]],
+  chips=[("0.00%", "torque error", "ok"),
+         ("2.3x", "rotor vs link at N=100", "bad")],
+  bomb=("A 196% discrepancy that was mine",
+        ["I reported a large simulator disagreement that turned out to be a "
+         "sign error in my own torque expression, plus a thin-rod inertia used "
+         "for a capsule &mdash; 4.3% off. The gate now asks MuJoCo for the body "
+         "inertia rather than assuming it."]),
+  src="model/actuators.py")}
+
+{study("The parameter you cannot identify", "magnifier",
+  ["System identification over the same model. Three parameters recover; one "
+   "has a trajectory sensitivity of <b>exactly zero</b>.",
+   "That is the honest answer, not a failure: the experiment carries no "
+   "information about it, so no optimiser can recover it. Reporting a fitted "
+   "value would be inventing one."],
+  [F["identifiability"]],
+  chips=[("0.000", "damping_j1 sens.", "bad"),
+         ("3", "of 4 identifiable", ""),
+         ("35x", "better with true seed", "")],
+  bomb=("Two hypotheses refuted in a row",
+        ["I predicted richer excitation would improve the fit. It did not "
+         "&mdash; 168.8% to 168.3%. I then concluded the parameters were "
+         "unidentifiable, which was <b>also wrong</b>: seeding the optimiser "
+         "with the true values fit 35x better, so the problem was a trapped "
+         "optimiser, not missing information."]),
+  src="model/sysid.py")}
+
+{study("Newton, CG, PGS", "wrench",
+  ["On a well-conditioned problem all three agree on the answer to 0.01 mm, "
+   "which makes the speed difference free to take.",
+   "<b>Newton is 14x faster than PGS</b> &mdash; the classic game-physics "
+   "choice &mdash; at identical accuracy."],
+  [F["solver_speed"]],
+  chips=[("14x", "Newton over PGS", "ok"),
+         ("0.01mm", "they all agree to", "ok")],
+  bomb=("No solver rescues a bad mass ratio",
+        ["On the 1000:1 stack they only change WHICH body fails. Newton drives "
+         "the light block 49 mm into the floor; CG and PGS let the heavy one "
+         "pass entirely through it. Two different wrong answers, neither "
+         "better. With the iteration sweep, that closes it: a bad mass ratio "
+         "is not a solver-tuning problem at all."]),
+  src="model/solvers.py")}
+
+{study("Where the time actually goes", "stopwatch",
+  ["A C++ harness against the same model, with MuJoCo's per-phase timers "
+   "enabled. Collision detection costs roughly <b>three times</b> the "
+   "constraint solver.",
+   "Which is why solver-iteration tuning was the wrong lever &mdash; something "
+   "the stability study independently confirmed from the other direction."],
+  [F["phase_profile"], F["scale_bars"]],
+  chips=[("284x", "realtime, C++", "ok"),
+         ("26.9%", "collision", ""),
+         ("10.0%", "solve", "")],
+  bomb=("MuJoCo's profiler is opt-in",
+        ["Without installing <code>mjcb_time</code> the entire timer array "
+         "reads zero &mdash; which looks exactly like every phase being free."]),
+  src="cpp/sim_bench.cpp")}
+
 </main>
 
 <div class="wrap">
@@ -664,9 +775,14 @@ BODY += f"""
       chrome and labels, a legible one for prose. Icons are 16x16, drawn a
       pixel at a time. The bomb is what a classic Mac showed when something
       went wrong, which is why it marks the corrections.</p>
-      <p>Nineteen studies. One honest gap: the trot validates on Spot and not
-      on ANYmal or A1, and both failures are diagnosed in the repository rather
-      than smoothed over here.</p>
+      <p><b>Sixteen of the nineteen studies have a window here.</b> The other
+      three are folded in rather than dropped: the ten failed gait attempts sit
+      inside the trot window, and the stability-frontier sweep supplies the
+      mass-ratio and iteration charts in two windows above. All nineteen are in
+      the repository.</p>
+      <p>One honest gap in the results themselves: the trot validates on Spot
+      and not on ANYmal or A1, and both failures are diagnosed rather than
+      smoothed over.</p>
       <div class="chips">
         <div class="chip"><b>19</b><span>studies</span></div>
         <div class="chip"><b>90</b><span>CI gates</span></div>
