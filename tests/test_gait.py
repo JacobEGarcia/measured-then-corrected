@@ -60,3 +60,24 @@ def test_a1_is_the_partial_exception_and_should_be_reported_as_such():
         "A1 was closest to a real trot of the three")
     assert v["A1"]["mean_duty_error_vs_0p5"] < v["ANYmal"]["mean_duty_error_vs_0p5"]
     assert v["A1"]["mean_duty_error_vs_0p5"] < v["Spot"]["mean_duty_error_vs_0p5"]
+
+
+def test_the_pin_never_held_and_that_is_recorded():
+    """The test-stand approach was abandoned on evidence, not on a hunch.
+    A FixedJoint targeting the reference Xform does not anchor an
+    articulation's root link."""
+    drift = gv.pin_never_held()
+    assert drift["ANYmal"] > 0.1, "ANYmal trunk drift was 0.30 m"
+    assert drift["Spot"] > 0.5, "Spot trunk drift was 1.03 m"
+
+
+def test_the_fall_contaminated_foot_detection():
+    """Ranking links by WORLD-frame excursion during a leg sweep fails while
+    the body is descending: the fall adds the same offset to every link.
+    Four of eight legs resolved to a thigh, shank or upper-leg link. This is
+    the evidence that the frame, not the stand, was the problem."""
+    bad = gv.fall_contaminated_foot_detection()
+    assert len(bad) >= 3, (
+        f"only {len(bad)} mis-detected links; the contamination argument for "
+        "switching to the trunk frame rests on this being widespread")
+    assert "ANYmal.LF" in bad and bad["ANYmal.LF"] == "LF_THIGH"

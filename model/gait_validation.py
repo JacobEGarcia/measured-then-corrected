@@ -75,6 +75,68 @@ ATTEMPT7 = {
 # a foot executing a trot step swings a few centimetres
 PLAUSIBLE_SWING_M = 0.15
 
+# ---- attempts 8-10: the test stand, and why it was abandoned -------------
+#
+# Three separate attempts tried to isolate gait kinematics from balance by
+# pinning the trunk. All three failed, and each failure was instructive:
+#
+#   #8  trunk height read 0.0 for every robot -- I measured the /World/bot
+#       reference Xform, which sits at the origin, not the trunk BODY. The
+#       fallback stand height of 0.12 m was then used for all three.
+#       Separately, the FixedJoint was created AFTER the articulation was
+#       initialised, so PhysX never saw it.
+#   #9  every robot died with AttributeError on
+#       set_joint_position_targets. A clean rewrite had dropped a hasattr
+#       guard -- and attempt 7 only worked BECAUSE it fell through that
+#       guard's else branch. I removed a fallback without checking what it
+#       was falling back from.
+#   #10 the plumbing finally worked: the drive API resolved to
+#       apply_action(ArticulationAction), trunk_z read 0.5697 m, leg reach
+#       0.5694 m. The pin STILL did not hold -- 0.30 m of trunk drift on
+#       ANYmal, 1.03 m on Spot -- because a FixedJoint targeting the
+#       reference Xform does not anchor the articulation's root LINK.
+#
+# The fall then contaminated foot detection too: ranking links by vertical
+# excursion during a leg sweep picked LF_THIGH and fl_uleg, because the whole
+# body was descending while the leg wiggled.
+#
+# THE FRAME WAS THE PROBLEM, NOT THE STAND. A gait generator's output is the
+# foot trajectory RELATIVE TO THE TRUNK. Measured there, duty cycle and
+# diagonal-pair phase are well-posed whether or not the robot balances, and
+# the falling body cancels out of both detection and measurement. Attempt 11
+# drops the pin entirely.
+#
+# World-frame ground contact still requires a balance controller. That is a
+# real limit of this work and is reported, not papered over.
+
+ATTEMPT10_PIN = {
+    "ANYmal": {"trunk_drift_m": 0.30441, "pin_held": False,
+               "feet": {"LF": "LF_THIGH", "LH": "LH_SHANK",
+                        "RF": "RF_FOOT", "RH": "RH_SHANK"}},
+    "Spot": {"trunk_drift_m": 1.02785, "pin_held": False,
+             "feet": {"FL": "fl_uleg", "FR": "fr_foot",
+                      "HL": "hl_foot", "HR": "hr_foot"}},
+    "A1": {"error": "implausible leg reach 0.0048 m"},
+}
+
+
+def pin_never_held():
+    """Recorded so the abandonment is evidence-backed rather than a shrug."""
+    return {r: v.get("trunk_drift_m") for r, v in ATTEMPT10_PIN.items()
+            if "trunk_drift_m" in v}
+
+
+def fall_contaminated_foot_detection():
+    """Two of eight legs across the two robots that ran resolved to a thigh or
+    upper-leg link rather than a foot -- the signature of ranking by world-frame
+    excursion while the body is descending."""
+    bad = {}
+    for robot, v in ATTEMPT10_PIN.items():
+        for leg, link in v.get("feet", {}).items():
+            if "foot" not in link.lower():
+                bad[f"{robot}.{leg}"] = link
+    return bad
+
 
 def swing_verdict():
     """The measurement that invalidates the measurement.
