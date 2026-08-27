@@ -22,6 +22,8 @@ REPO = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(HERE, "figs"))
 import charts   # noqa: E402
 import pixel    # noqa: E402
+import demos    # noqa: E402
+import json as _json
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(REPO, "artifact_kare.html")
 
@@ -37,6 +39,14 @@ LAM = round((det["chaos_smooth_1ulp"]["lyapunov_exponent_per_s"]
              + det["chaos_smooth_seeded_1e-12"]["lyapunov_exponent_per_s"]) / 2, 2)
 PRED = det["predictive_check"]
 SPOT = charts.load("gait_result")["trot_error"]["Spot"]
+SEQ = charts.load("render_frames")
+_fc = charts.load("friction_cone")
+CONE = {c: [[r["heading_deg"], r["direction_error_deg"]]
+            for r in _fc["sweeps"][c]] for c in ("pyramidal", "elliptic")}
+
+# which pre-rendered runs held, from the closed form F_min = m*g/(2*mu) = 6.13 N
+GRIP_MARK = {"3": 0, "4.5": 0, "6": 0, "6.5": 1, "7.5": 1, "10": 1}
+STACK_MARK = {"1": 1, "10": 1, "100": 0, "1000": 0}
 
 I = lambda n, px=4: pixel.icon(n, px=px)          # noqa: E731
 
@@ -219,6 +229,28 @@ svg:not(.px){display:block;max-width:100%;height:auto;overflow:visible}
 .sw{width:10px;height:10px;display:inline-block;margin-right:.35rem;
   vertical-align:-1px}
 
+/* ---------- demos ---------- */
+.demo{border:2px solid var(--rule);background:var(--paper)}
+.demo img,.demo canvas{display:block;width:100%;background:var(--paper);
+  image-rendering:auto}
+.demo canvas{height:230px}
+.ctl{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .9rem;
+  padding:.55rem .6rem;border-top:2px solid var(--rule);font-family:var(--fC);
+  font-size:.6rem}
+.ctl input[type=range]{flex:1 1 8rem;min-width:7rem;accent-color:var(--blue);
+  height:1.1rem}
+.ctl label{white-space:nowrap}
+.verdict{font-family:var(--fC);font-size:.62rem;padding:.15rem .4rem;
+  border:2px solid var(--rule);white-space:nowrap}
+.v-ok{background:var(--green);color:#000}
+.v-bad{background:var(--red);color:#FFF}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.duo>div{border-right:2px solid var(--rule)}
+.duo>div:last-child{border-right:0}
+.duo .cap2{font-family:var(--fC);font-size:.58rem;padding:.35rem .45rem;
+  border-top:2px solid var(--rule);text-align:center}
+.note{font-family:var(--fC);font-size:.52rem;color:var(--stone);
+  padding:.4rem .6rem;border-top:2px solid var(--rule);line-height:1.6}
 footer{padding:0 0 clamp(3rem,8vw,5rem)}
 footer p{margin:0 0 .8rem;max-width:var(--col);color:var(--stone);font-size:.94rem}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
@@ -316,6 +348,66 @@ def study(title, icon_name, said, figs, chips=None, bomb=None, src=""):
                f'<div>{right}</div></div>')
 
 
+GRIP_DEMO = """
+      <div class="demo" data-slider="grasp_slider"
+           data-keys='["3","4.5","6","6.5","7.5","10"]'
+           data-marks='{"3":0,"4.5":0,"6":0,"6.5":1,"7.5":1,"10":1}'
+           data-unit="grip force %s N" data-ok="HELD" data-bad="DROPPED" data-fps="16">
+        <img alt="grasp at the selected grip force">
+        <div class="ctl">
+          <label data-val>grip force 3 N</label>
+          <input type="range" min="0" max="5" step="1" value="0" aria-label="grip force">
+          <span data-verdict class="verdict">DROPPED</span>
+        </div>
+        <div class="note">Each position is a separate MuJoCo run, rendered
+        offscreen. Nothing is recomputed when you drag &mdash; you are switching
+        between real runs. The threshold falls between 6 and 6.5 N; closed form
+        says 6.13, bisection measured 6.44.</div>
+      </div>"""
+STACK_DEMO = """
+      <div class="demo" data-slider="stack_slider"
+           data-keys='["1","10","100","1000"]'
+           data-marks='{"1":1,"10":1,"100":0,"1000":0}'
+           data-unit="mass ratio %s to 1" data-ok="STACK HOLDS" data-bad="CRUSHED" data-fps="14">
+        <img alt="stack at the selected mass ratio">
+        <div class="ctl">
+          <label data-val>mass ratio 1 to 1</label>
+          <input type="range" min="0" max="3" step="1" value="0" aria-label="mass ratio">
+          <span data-verdict class="verdict">STACK HOLDS</span>
+        </div>
+        <div class="note">Four real runs. The light block is 1 kg throughout;
+        only the block on top changes. PhysX fails between 10 and 100, MuJoCo
+        degrades gradually &mdash; the charts above measure both.</div>
+      </div>"""
+KV_DEMO = """
+      <div class="demo">
+        <canvas id="kvdemo" aria-label="explicit versus implicit damping at the selected gain"></canvas>
+        <div class="ctl">
+          <label id="kvval">kv = 5</label>
+          <input type="range" id="kv" min="1" max="120" step="1" value="5" aria-label="derivative gain">
+          <span id="kvstate" class="verdict v-ok">both stable</span>
+        </div>
+        <div class="note">LIVE, and a reduced model: one rotational DOF, not the
+        measured system. Explicit Euler (red) applies the damping force using the
+        OLD velocity, so past kv&middot;dt/I = 2 the correction overshoots and
+        compounds. The implicit form (blue) solves for the new velocity and
+        cannot. Push the gain past about 100.</div>
+      </div>"""
+CONE_DEMO = """
+      <div class="demo">
+        <canvas id="conedemo" aria-label="direction a box slid versus the direction it was pushed"></canvas>
+        <div class="ctl">
+          <label id="hval">push heading 20&deg;</label>
+          <input type="range" id="heading" min="0" max="90" step="5" value="20" aria-label="push heading">
+          <span class="verdict v-bad">PYR <span id="perr">0</span></span>
+          <span class="verdict v-ok">ELL <span id="eerr">0</span></span>
+        </div>
+        <div class="note">Dashed line is where the box was pushed; solid lines
+        are where it actually went. Values are looked up from the MEASURED
+        sweep, not simulated here. Try 0, 45 and 90 &mdash; the square&rsquo;s
+        symmetry axes, where the error vanishes.</div>
+      </div>"""
+
 BODY = f"""
 <div class="wrap mast">
   <section class="win">
@@ -352,6 +444,39 @@ BODY = f"""
   </section>
 </div>
 
+<div class="wrap">
+  <section class="win">
+    <div class="bar"><span class="box"></span><h3>Footage.mov &mdash; rendered from the models</h3>
+      <span class="grow"></span></div>
+    <div class="body">
+      <p class="sub" style="margin-bottom:.9rem">No photographs of any of this
+      exist: the runs were headless, on a GPU whose RTX renderer never
+      initialised. What follows is the <b>actual models</b>, rasterised
+      offscreen from the same XML the physics ran on.</p>
+      <div class="demo">
+        <div class="duo">
+          <div><img src="{SEQ['grasp_slips'][0]}" data-seq="grasp_slips" data-fps="16" alt="grip force below the Coulomb threshold, block falls">
+            <div class="cap2">4 N &mdash; BELOW THRESHOLD</div></div>
+          <div><img src="{SEQ['grasp_holds'][0]}" data-seq="grasp_holds" data-fps="16" alt="grip force above the threshold, block held">
+            <div class="cap2">9 N &mdash; ABOVE THRESHOLD</div></div>
+        </div>
+        <div class="note">Same grasp, same block, same friction. The closed form
+        says it needs 6.13 N; measured 6.44 N. Below it, the block leaves.</div>
+      </div>
+      <div class="demo" style="margin-top:1rem">
+        <div class="duo">
+          <div><img src="{SEQ['stack_slider']['1'][0]}" data-seq="stack_slider.1" data-fps="14" alt="equal mass stack, stable">
+            <div class="cap2">MASS RATIO 1</div></div>
+          <div><img src="{SEQ['stack_slider']['1000'][0]}" data-seq="stack_slider.1000" data-fps="14" alt="1000 to 1 mass ratio, light box crushed">
+            <div class="cap2">MASS RATIO 1000</div></div>
+        </div>
+        <div class="note">The heavy block drives the light one into the floor.
+        This is the 50 mm of squash the stability study measured, happening.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
 <main class="wrap">
 
 {study("Reproducibility", "stopwatch",
@@ -377,7 +502,7 @@ BODY = f"""
    "common approximation uses a <b>polygon</b> &mdash; and the polygon shows.",
    "Error is zero at 0, 45 and 90 degrees &mdash; the square's symmetry axes "
    "&mdash; and peaks between them. Eight lobes around the circle."],
-  [F["friction_polar"]],
+  [F["friction_polar"], CONE_DEMO],
   chips=[("12.76d", "pyramidal worst", "bad"),
          ("0.71d", "elliptic worst", "ok"),
          ("2.6x", "elliptic faster", "ok")],
@@ -391,7 +516,7 @@ BODY = f"""
    "slope of a log-log plot <b>is</b> the order. All four land on theirs.",
    "Then the ranking reverses. With a stiff velocity actuator &mdash; a joint "
    "PD controller's derivative term &mdash; <b>RK4 is less stable than Euler</b>."],
-  [F["integrator_order"], F["integrator_stability_bars"]],
+  [F["integrator_order"], F["integrator_stability_bars"], KV_DEMO],
   bomb=("isfinite() is not a stability test",
         ["The first sweep called Euler <b>stable at kv=500</b> after it failed "
          "at 20, 50 and 100. MuJoCo detects a diverged step and <b>resets the "
@@ -420,7 +545,7 @@ BODY = f"""
    "give identical results.",
    "In PhysX they help, but as a <b>step function</b>: 1, 32 and 64 are "
    "indistinguishable failures and 96 is a working stack."],
-  [F["physx_iteration_cliff"]],
+  [F["physx_iteration_cliff"], STACK_DEMO],
   chips=[("64>96", "where it flips", "bad"),
          ("0", "velocity iters help", "bad"),
          ("255", "still fails at 1e4", "bad")],
@@ -440,7 +565,7 @@ BODY += f"""
    "<b>All four land above the closed form</b>, and the sign is the point. A "
    "measurement <b>below</b> theory would mean the contact model invents "
    "friction the materials do not license."],
-  [F["grasp_bars"]],
+  [F["grasp_bars"], GRIP_DEMO],
   chips=[("+7.5%", "mean excess", ""),
          ("0.37N", "additive offset", "ok"),
          ("4x", "tighter than rel.", "ok")],
@@ -554,6 +679,16 @@ BODY += f"""
 </div>
 """
 
+for _k, _first in (("grasp_slider", "3"), ("stack_slider", "1")):
+    BODY = BODY.replace(f'<img alt="{"grasp" if _k.startswith("grasp") else "stack"}',
+                        f'<img src="{SEQ[_k][_first][0]}" alt="'
+                        + ("grasp" if _k.startswith("grasp") else "stack"), 1)
+
+DATA_JS = ("<script>window.__SEQ__=" + demos.frames_json(SEQ)
+           + ";window.__CONE__=" + _json.dumps(CONE, separators=(",", ":"))
+           + ";</script>")
+DEMO_JS = "<script>" + demos.PLAYER_JS + "</script>"
+
 with open(OUT, "w") as f:
-    f.write(HEAD + CSS + BODY + HERO_JS)
-print(f"wrote {OUT}  ({len(HEAD+CSS+BODY+HERO_JS):,} bytes)")
+    f.write(HEAD + CSS + BODY + DATA_JS + HERO_JS + DEMO_JS)
+print(f"wrote {OUT}  ({os.path.getsize(OUT)/1024/1024:.2f} MB)")

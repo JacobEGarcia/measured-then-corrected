@@ -7,3 +7,6 @@ cpp/sim_bench
 cpp/.rpath/
 media/_frames/
 *.egg-info/
+
+# 3.3 MB of base64 PNG frames, regenerate with tools/figs/render.py
+model/render_frames.json
