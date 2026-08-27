@@ -1,0 +1,68 @@
+{
+  "recovered": [
+    {
+      "mu_input": 0.3,
+      "slip_angle_deg": 17,
+      "true_slip_angle_deg": 16.699,
+      "mu_recovered": 0.3057,
+      "error_pct": 1.9,
+      "overshoot_deg": 0.301
+    },
+    {
+      "mu_input": 0.5,
+      "slip_angle_deg": 27,
+      "true_slip_angle_deg": 26.565,
+      "mu_recovered": 0.5095,
+      "error_pct": 1.9,
+      "overshoot_deg": 0.435
+    },
+    {
+      "mu_input": 0.8,
+      "slip_angle_deg": 39,
+      "true_slip_angle_deg": 38.66,
+      "mu_recovered": 0.8098,
+      "error_pct": 1.22,
+      "overshoot_deg": 0.34
+    }
+  ],
+  "bias_check": {
+    "all_above_true": true,
+    "all_within_one_step": true,
+    "max_overshoot_deg": 0.435,
+    "grid_step_deg": 2.0,
+    "all_errors_positive": true
+  },
+  "creep": [
+    {
+      "mu_input": 0.3,
+      "creep_samples_m": [
+        [
+          15,
+          0.0004
+        ]
+      ]
+    },
+    {
+      "mu_input": 0.5,
+      "creep_samples_m": [
+        [
+          25,
+          0.00073
+        ]
+      ]
+    },
+    {
+      "mu_input": 0.8,
+      "creep_samples_m": [
+        [
+          35,
+          7e-05
+        ],
+        [
+          37,
+          0.00079
+        ]
+      ]
+    }
+  ]
+}

@@ -81,3 +81,40 @@ def test_the_fall_contaminated_foot_detection():
         f"only {len(bad)} mis-detected links; the contamination argument for "
         "switching to the trunk frame rests on this being widespread")
     assert "ANYmal.LF" in bad and bad["ANYmal.LF"] == "LF_THIGH"
+
+
+# ---------------------------------------------------- the trot that worked
+
+import gait_result as gres
+
+
+def test_spot_reproduces_the_commanded_trot():
+    """A trot has one signature: diagonal pairs together, the two pairs half a
+    cycle apart. Scored against that directly, not against a duty number whose
+    stance threshold I chose."""
+    t = gres.trot_error("Spot")
+    assert t is not None
+    assert t["diag_FL_HR_deg"] < 15, f"FL and HR {t['diag_FL_HR_deg']}° apart"
+    assert t["diag_FR_HL_deg"] < 15, f"FR and HL {t['diag_FR_HL_deg']}° apart"
+    assert abs(t["between_pairs_deg"] - 180) < 15, (
+        f"pairs {t['between_pairs_deg']}° apart, expected 180")
+    assert t["worst_deviation_deg"] < 10, (
+        f"worst deviation {t['worst_deviation_deg']}° from an ideal trot")
+
+
+def test_the_other_two_robots_are_diagnosed_not_hidden():
+    """One of three is the honest result. Both failures have named causes in
+    the recorded data, and this gate makes sure they stay named."""
+    w = gres.why_the_others_failed()
+    assert "shank or thigh" in w["ANYmal"]["cause"], (
+        "ANYmal's cause was mis-resolved foot links")
+    assert w["A1"]["max_swing_m"] < 1e-3, (
+        f"A1's legs moved {w['A1']['max_swing_m']} m; the 'never moved' "
+        "diagnosis no longer holds")
+
+
+def test_only_one_robot_passes_and_that_is_recorded():
+    """Guards against quietly claiming three."""
+    passing = [n for n in ("Spot", "ANYmal", "A1")
+               if (gres.trot_error(n) or {}).get("worst_deviation_deg", 999) < 15]
+    assert passing == ["Spot"], f"passing robots changed: {passing}"

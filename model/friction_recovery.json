@@ -1,0 +1,221 @@
+{
+  "predictions": {
+    "1_resting_force": "exact to solver tolerance, well under 1%",
+    "2_accumulation": "exact -- accumulation is what a solver is for",
+    "3_friction": "within a few percent but BIASED LOW (discrete angles + creep)"
+  },
+  "friction_sweep": [
+    {
+      "mu_input": 0.3,
+      "rows": [
+        {
+          "angle_deg": 5,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 7,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 9,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 11,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 13,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 15,
+          "moved_m": 0.0004,
+          "slipped": false
+        },
+        {
+          "angle_deg": 17,
+          "moved_m": 0.07158,
+          "slipped": true
+        }
+      ],
+      "slip_angle_deg": 17,
+      "mu_recovered": 0.3057,
+      "error_pct": 1.9,
+      "expected_slip_angle_deg": 16.7
+    },
+    {
+      "mu_input": 0.5,
+      "rows": [
+        {
+          "angle_deg": 5,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 7,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 9,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 11,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 13,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 15,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 17,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 19,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 21,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 23,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 25,
+          "moved_m": 0.00073,
+          "slipped": false
+        },
+        {
+          "angle_deg": 27,
+          "moved_m": 0.11083,
+          "slipped": true
+        }
+      ],
+      "slip_angle_deg": 27,
+      "mu_recovered": 0.5095,
+      "error_pct": 1.9,
+      "expected_slip_angle_deg": 26.57
+    },
+    {
+      "mu_input": 0.8,
+      "rows": [
+        {
+          "angle_deg": 5,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 7,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 9,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 11,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 13,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 15,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 17,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 19,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 21,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 23,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 25,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 27,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 29,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 31,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 33,
+          "moved_m": 0.0,
+          "slipped": false
+        },
+        {
+          "angle_deg": 35,
+          "moved_m": 7e-05,
+          "slipped": false
+        },
+        {
+          "angle_deg": 37,
+          "moved_m": 0.00079,
+          "slipped": false
+        },
+        {
+          "angle_deg": 39,
+          "moved_m": 0.1168,
+          "slipped": true
+        }
+      ],
+      "slip_angle_deg": 39,
+      "mu_recovered": 0.8098,
+      "error_pct": 1.22,
+      "expected_slip_angle_deg": 38.66
+    }
+  ]
+}

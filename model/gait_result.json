@@ -1,0 +1,63 @@
+{
+  "commanded_hz": 1.6,
+  "trot_error": {
+    "Spot": {
+      "robot": "Spot",
+      "phase_by_quadrant": {
+        "FL": 0.0,
+        "FR": 182.4,
+        "HL": 177.6,
+        "HR": 0.0
+      },
+      "diag_FL_HR_deg": 0.0,
+      "diag_FR_HL_deg": 4.8,
+      "between_pairs_deg": 177.6,
+      "worst_deviation_deg": 4.8
+    },
+    "ANYmal": {
+      "robot": "ANYmal",
+      "phase_by_quadrant": {
+        "FL": 0.0,
+        "HL": 340.8,
+        "FR": 177.6,
+        "HR": 158.4
+      },
+      "diag_FL_HR_deg": 158.4,
+      "diag_FR_HL_deg": 163.2,
+      "between_pairs_deg": 177.6,
+      "worst_deviation_deg": 163.2
+    },
+    "A1": {
+      "robot": "A1",
+      "phase_by_quadrant": {
+        "FL": 0.0,
+        "FR": 326.4,
+        "HL": 153.6,
+        "HR": 67.2
+      },
+      "diag_FL_HR_deg": 67.2,
+      "diag_FR_HL_deg": 172.8,
+      "between_pairs_deg": 33.6,
+      "worst_deviation_deg": 172.8
+    }
+  },
+  "failures": {
+    "ANYmal": {
+      "links_that_are_not_feet": {
+        "LH": "LH_SHANK",
+        "RH": "RH_SHANK"
+      },
+      "max_swing_m": 0.06179,
+      "cause": "2 of 4 legs resolved to a shank or thigh rather than a foot, so the tracked points are partway up the chain and their phase is not the foot's"
+    },
+    "A1": {
+      "links_that_are_not_feet": {
+        "FR": "FR_thigh",
+        "RL": "RL_hip",
+        "RR": "RR_hip"
+      },
+      "max_swing_m": 1e-05,
+      "cause": "legs never moved -- max foot excursion 1e-05 m, so the joint targets produced no motion at all"
+    }
+  }
+}

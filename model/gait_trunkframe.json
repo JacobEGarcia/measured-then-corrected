@@ -1,0 +1,478 @@
+{
+  "dt": 0.004166666666666667,
+  "gait_hz": 1.6,
+  "duty_commanded": 0.5,
+  "robots": [
+    {
+      "name": "ANYmal",
+      "legs_found": {
+        "LF": 3,
+        "LH": 3,
+        "RF": 3,
+        "RH": 3
+      },
+      "candidate_links_per_leg": {
+        "LF": 5,
+        "LH": 5,
+        "RF": 5,
+        "RH": 5
+      },
+      "articulation_api": [
+        "apply_action",
+        "get_applied_action",
+        "get_applied_joint_efforts",
+        "get_joint_positions",
+        "get_joint_velocities",
+        "get_joints_default_state",
+        "get_joints_state",
+        "get_measured_joint_efforts",
+        "get_measured_joint_forces",
+        "set_joint_efforts",
+        "set_joint_positions",
+        "set_joint_velocities",
+        "set_joints_default_state"
+      ],
+      "drive_mode": "apply_action(ArticulationAction) -- through the drives",
+      "foot_prims": {
+        "LF": "LF_FOOT",
+        "LH": "LH_SHANK",
+        "RF": "RF_FOOT",
+        "RH": "RH_SHANK"
+      },
+      "foot_detection": "largest vertical excursion under a leg sweep",
+      "excursion_ranking": {
+        "LF": [
+          [
+            "LF_FOOT",
+            0.06414
+          ],
+          [
+            "LF_ADAPTER",
+            0.0585
+          ],
+          [
+            "LF_SHANK",
+            0.05791
+          ],
+          [
+            "LF_THIGH",
+            0.0064
+          ]
+        ],
+        "LH": [
+          [
+            "LH_SHANK",
+            0.04803
+          ],
+          [
+            "LH_FOOT",
+            0.03072
+          ],
+          [
+            "LH_ADAPTER",
+            0.02449
+          ],
+          [
+            "LH_THIGH",
+            0.00705
+          ]
+        ],
+        "RF": [
+          [
+            "RF_FOOT",
+            0.05293
+          ],
+          [
+            "RF_ADAPTER",
+            0.04804
+          ],
+          [
+            "RF_SHANK",
+            0.03761
+          ],
+          [
+            "RF_THIGH",
+            0.00338
+          ]
+        ],
+        "RH": [
+          [
+            "RH_SHANK",
+            0.03263
+          ],
+          [
+            "RH_FOOT",
+            0.02571
+          ],
+          [
+            "RH_ADAPTER",
+            0.02158
+          ],
+          [
+            "RH_THIGH",
+            0.00171
+          ]
+        ]
+      },
+      "measured_quadrant": {
+        "LF": "FL",
+        "LH": "HL",
+        "RF": "FR",
+        "RH": "HR"
+      },
+      "phase_map": {
+        "LF": 0.0,
+        "LH": 3.142,
+        "RF": 3.142,
+        "RH": 0.0
+      },
+      "trunk_drift_m": 0.04891,
+      "balanced": true,
+      "frame": "trunk-relative (immune to the body falling)",
+      "swing_ranges_m": {
+        "LF": 0.06179,
+        "LH": 0.05484,
+        "RF": 0.05369,
+        "RH": 0.04394
+      },
+      "duty_measured": {
+        "LF": 0.175,
+        "LH": 0.3306,
+        "RF": 0.2583,
+        "RH": 0.1083
+      },
+      "phase_offset_deg": {
+        "LF": 0.0,
+        "LH": 340.8,
+        "RF": 177.6,
+        "RH": 158.4
+      },
+      "diagonal_pairs": {
+        "expected": "FL and HR near 0 deg apart; FR and HL near 0; diagonals 180 deg from each other",
+        "measured": {
+          "FL": 0.0,
+          "HL": 340.8,
+          "FR": 177.6,
+          "HR": 158.4
+        }
+      },
+      "mean_duty_error": 0.2819,
+      "gait_verdict": false,
+      "ok": true
+    },
+    {
+      "name": "Spot",
+      "legs_found": {
+        "FL": 3,
+        "FR": 3,
+        "HL": 3,
+        "HR": 3
+      },
+      "candidate_links_per_leg": {
+        "FL": 4,
+        "FR": 4,
+        "HL": 4,
+        "HR": 4
+      },
+      "articulation_api": [
+        "apply_action",
+        "get_applied_action",
+        "get_applied_joint_efforts",
+        "get_joint_positions",
+        "get_joint_velocities",
+        "get_joints_default_state",
+        "get_joints_state",
+        "get_measured_joint_efforts",
+        "get_measured_joint_forces",
+        "set_joint_efforts",
+        "set_joint_positions",
+        "set_joint_velocities",
+        "set_joints_default_state"
+      ],
+      "drive_mode": "apply_action(ArticulationAction) -- through the drives",
+      "foot_prims": {
+        "FL": "fl_foot",
+        "FR": "fr_foot",
+        "HL": "hl_foot",
+        "HR": "hr_foot"
+      },
+      "foot_detection": "largest vertical excursion under a leg sweep",
+      "excursion_ranking": {
+        "FL": [
+          [
+            "fl_foot",
+            0.20279
+          ],
+          [
+            "fl_lleg",
+            0.14956
+          ],
+          [
+            "fl_uleg",
+            0.00238
+          ],
+          [
+            "fl_hip",
+            0.0
+          ]
+        ],
+        "FR": [
+          [
+            "fr_foot",
+            0.17222
+          ],
+          [
+            "fr_lleg",
+            0.13636
+          ],
+          [
+            "fr_uleg",
+            0.00171
+          ],
+          [
+            "fr_hip",
+            0.0
+          ]
+        ],
+        "HL": [
+          [
+            "hl_foot",
+            0.18031
+          ],
+          [
+            "hl_lleg",
+            0.14866
+          ],
+          [
+            "hl_uleg",
+            0.0011
+          ],
+          [
+            "hl_hip",
+            0.0
+          ]
+        ],
+        "HR": [
+          [
+            "hr_foot",
+            0.17839
+          ],
+          [
+            "hr_lleg",
+            0.15069
+          ],
+          [
+            "hr_uleg",
+            0.00072
+          ],
+          [
+            "hr_hip",
+            0.0
+          ]
+        ]
+      },
+      "measured_quadrant": {
+        "FL": "FL",
+        "FR": "FR",
+        "HL": "HL",
+        "HR": "HR"
+      },
+      "phase_map": {
+        "FL": 0.0,
+        "FR": 3.142,
+        "HL": 3.142,
+        "HR": 0.0
+      },
+      "trunk_drift_m": 0.56666,
+      "balanced": false,
+      "frame": "trunk-relative (immune to the body falling)",
+      "swing_ranges_m": {
+        "FL": 0.22443,
+        "FR": 0.25855,
+        "HL": 0.22324,
+        "HR": 0.28561
+      },
+      "duty_measured": {
+        "FL": 0.3333,
+        "FR": 0.3667,
+        "HL": 0.3722,
+        "HR": 0.3417
+      },
+      "phase_offset_deg": {
+        "FL": 0.0,
+        "FR": 182.4,
+        "HL": 177.6,
+        "HR": 0.0
+      },
+      "diagonal_pairs": {
+        "expected": "FL and HR near 0 deg apart; FR and HL near 0; diagonals 180 deg from each other",
+        "measured": {
+          "FL": 0.0,
+          "FR": 182.4,
+          "HL": 177.6,
+          "HR": 0.0
+        }
+      },
+      "mean_duty_error": 0.1465,
+      "gait_verdict": true,
+      "ok": true
+    },
+    {
+      "name": "A1",
+      "legs_found": {
+        "FL": 3,
+        "FR": 3,
+        "RL": 3,
+        "RR": 3
+      },
+      "candidate_links_per_leg": {
+        "FL": 4,
+        "FR": 4,
+        "RL": 4,
+        "RR": 4
+      },
+      "articulation_api": [
+        "apply_action",
+        "get_applied_action",
+        "get_applied_joint_efforts",
+        "get_joint_positions",
+        "get_joint_velocities",
+        "get_joints_default_state",
+        "get_joints_state",
+        "get_measured_joint_efforts",
+        "get_measured_joint_forces",
+        "set_joint_efforts",
+        "set_joint_positions",
+        "set_joint_velocities",
+        "set_joints_default_state"
+      ],
+      "drive_mode": "apply_action(ArticulationAction) -- through the drives",
+      "foot_prims": {
+        "FL": "FL_foot",
+        "FR": "FR_thigh",
+        "RL": "RL_hip",
+        "RR": "RR_hip"
+      },
+      "foot_detection": "largest vertical excursion under a leg sweep",
+      "excursion_ranking": {
+        "FL": [
+          [
+            "FL_foot",
+            0.20751
+          ],
+          [
+            "FL_calf",
+            0.1251
+          ],
+          [
+            "FL_thigh",
+            0.083
+          ],
+          [
+            "FL_hip",
+            0.0
+          ]
+        ],
+        "FR": [
+          [
+            "FR_thigh",
+            8e-05
+          ],
+          [
+            "FR_foot",
+            4e-05
+          ],
+          [
+            "FR_calf",
+            2e-05
+          ],
+          [
+            "FR_hip",
+            0.0
+          ]
+        ],
+        "RL": [
+          [
+            "RL_hip",
+            0.0
+          ],
+          [
+            "RL_thigh",
+            0.0
+          ],
+          [
+            "RL_calf",
+            0.0
+          ],
+          [
+            "RL_foot",
+            0.0
+          ]
+        ],
+        "RR": [
+          [
+            "RR_hip",
+            0.0
+          ],
+          [
+            "RR_thigh",
+            0.0
+          ],
+          [
+            "RR_calf",
+            0.0
+          ],
+          [
+            "RR_foot",
+            0.0
+          ]
+        ]
+      },
+      "measured_quadrant": {
+        "FL": "FL",
+        "FR": "FR",
+        "RL": "HL",
+        "RR": "HR"
+      },
+      "phase_map": {
+        "FL": 0.0,
+        "FR": 3.142,
+        "RL": 3.142,
+        "RR": 0.0
+      },
+      "trunk_drift_m": 0.0,
+      "balanced": true,
+      "frame": "trunk-relative (immune to the body falling)",
+      "swing_ranges_m": {
+        "FL": 0.0,
+        "FR": 1e-05,
+        "RL": 0.0,
+        "RR": 0.0
+      },
+      "duty_measured": {
+        "FL": 0.7944,
+        "FR": 0.2611,
+        "RL": 0.1306,
+        "RR": 0.1083
+      },
+      "phase_offset_deg": {
+        "FL": 0.0,
+        "FR": 326.4,
+        "RL": 153.6,
+        "RR": 67.2
+      },
+      "diagonal_pairs": {
+        "expected": "FL and HR near 0 deg apart; FR and HL near 0; diagonals 180 deg from each other",
+        "measured": {
+          "FL": 0.0,
+          "FR": 326.4,
+          "HL": 153.6,
+          "HR": 67.2
+        }
+      },
+      "mean_duty_error": 0.3236,
+      "gait_verdict": false,
+      "ok": true
+    }
+  ]
+}
