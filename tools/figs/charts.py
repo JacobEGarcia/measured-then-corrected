@@ -600,3 +600,70 @@ def friction_recovery():
     out.append(txt(-(T + ph / 2), 14, "slip angle", "cap", "middle"
                    ).replace("<text ", '<text transform="rotate(-90)" '))
     return frame(W, H, "".join(out), "Detected slip angle against the true atan(mu) curve")
+
+
+# ------------------------------------------------------- chaos divergence
+def chaos_divergence():
+    """Separation against time, log scale, for two seeds 4000x apart.
+
+    Both grow at the same rate -- that is what makes the exponent a property
+    of the trajectory rather than of how hard you poke it. The 1e-12 seed
+    crosses 1 mm where the exponent fitted on the OTHER run said it would,
+    which is the strongest check available here.
+    """
+    det = load("determinism")
+    a = det["chaos_smooth_1ulp"]
+    b = det["chaos_smooth_seeded_1e-12"]
+    lam = a["lyapunov_exponent_per_s"]
+    pred = det["predictive_check"]["predicted_1mm_s"]
+    meas = det["predictive_check"]["measured_1mm_s"]
+
+    W, H = 520, 320
+    L, Rm, T, B = 66, 92, 26, 50
+    pw, ph = W - L - Rm, H - T - B
+    t_max, lo, hi = 14.0, -17.0, -1.0
+
+    def X(t):
+        return L + t / t_max * pw
+
+    def Y(v):
+        return T + (1 - (math.log10(max(v, 1e-17)) - lo) / (hi - lo)) * ph
+
+    out = [f'<rect x="{L}" y="{T}" width="{pw}" height="{ph}" class="plot-bg"/>']
+    for e in range(-16, 0, 3):
+        y = Y(10.0 ** e)
+        out.append(f'<line x1="{L}" y1="{y:.1f}" x2="{L+pw}" y2="{y:.1f}" class="grid"/>')
+        out.append(txt(L - 8, y + 4, f"1e{e}", "tick", "end"))
+    for t in (0, 4, 8, 12):
+        out.append(txt(X(t), T + ph + 18, f"{t}", "tick", "middle"))
+
+    # exponential growth from each seed, saturating at the pendulum's own size
+    for eps, cls, key in ((a["perturbation"], "series-a", "1 ULP"),
+                          (b["perturbation"], "series-warn", "1e-12")):
+        pts = []
+        t = 0.0
+        while t <= t_max:
+            v = min(eps * math.exp(lam * t), 0.6)
+            pts.append((X(t), Y(v)))
+            t += 0.15
+        out.append('<path d="M ' + " L ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
+                   + f'" class="{cls}" fill="none"/>')
+        out.append(txt(L + pw + 10, pts[-1][1] + 4, key,
+                       "key-a" if cls == "series-a" else "key-warn"))
+        del pts
+
+    y1mm = Y(1e-3)
+    out.append(f'<line x1="{L}" y1="{y1mm:.1f}" x2="{L+pw}" y2="{y1mm:.1f}" '
+               f'class="marker"/>')
+    out.append(txt(L + 6, y1mm - 6, "1 mm apart", "key-warn"))
+    for t, lab, cls in ((pred, "predicted", "series-a"), (meas, "measured", "series-warn")):
+        out.append(f'<line x1="{X(t):.1f}" y1="{T}" x2="{X(t):.1f}" y2="{T+ph}" '
+                   f'class="marker"/>')
+        out.append(f'<circle cx="{X(t):.1f}" cy="{y1mm:.1f}" r="5" class="{cls}-dot"/>')
+    # keep the two crossing labels off each other: one above, one below
+    out.append(txt(X(pred) - 8, T + 14, f"predicted {pred}s", "key-a", "end"))
+    out.append(txt(X(meas) + 8, T + ph - 8, f"measured {meas}s", "key-warn"))
+    out.append(txt(L + pw / 2, H - 8, "seconds", "cap", "middle"))
+    out.append(txt(-(T + ph / 2), 14, "separation  (m)", "cap", "middle"
+                   ).replace("<text ", '<text transform="rotate(-90)" '))
+    return frame(W, H, "".join(out), "Separation against time for two perturbation sizes")

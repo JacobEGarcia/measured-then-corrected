@@ -121,7 +121,7 @@ evidence of correct physics.**
 
 ## CI — `tests/`, `.github/workflows/simulation-ci.yml`
 
-82 gates, ~200 s.
+90 gates, ~200 s.
 
 **Gates assert closed-form physics, not golden files.** Golden values rot the
 moment someone regenerates them; `v²/(2μg)` cannot be regenerated.
@@ -527,10 +527,70 @@ lifts), Spot read 0.075 to 0.297.
 A1 is a partial exception and is gated as such rather than lumped in: 0.10 m
 swing, mean duty error 0.07, closest of the three to a real trot.
 
-**The fix is a test stand.** Pinning the trunk at the measured leg reach isolates
-gait kinematics from balance — which is how a gait generator is validated on a
-bench before a controller exists. Only then do duty cycle and diagonal-pair
-phase mean anything.
+### The fix was the frame, not a test stand
+
+Pinning the trunk was tried three times and failed three times — 0.30 m of trunk
+drift on ANYmal, 1.03 m on Spot, because a `FixedJoint` targeting the reference
+Xform does not anchor an articulation's root *link*. The fall then contaminated
+foot detection: ranking links by world-frame excursion picked `LF_THIGH` and
+`fl_uleg`, since the whole body was descending while the leg wiggled.
+
+**A gait generator's output is the foot trajectory relative to the TRUNK.**
+Measured there, duty and diagonal-pair phase are well-posed whether or not the
+robot balances, and the falling body cancels out of both detection and
+measurement.
+
+### The result — `model/gait_result.py`
+
+Attempt 11. **Spot reproduces the commanded 1.6 Hz trot to within 4.8°:**
+
+```
+    FL    0.0°       diagonal FL+HR :   0.0° apart    (ideal 0)
+    HR    0.0°       diagonal FR+HL :   4.8° apart    (ideal 0)
+    FR  182.4°       between pairs  : 177.6°          (ideal 180)
+    HL  177.6°       worst deviation:   4.8°
+```
+
+Scored against the trot's actual signature — diagonal pairs together, the two
+pairs half a cycle apart — rather than against a duty number whose stance
+threshold I chose.
+
+**One robot of three, and the other two are diagnosed rather than hidden.**
+ANYmal: two of four legs resolved to a `SHANK`, so the tracked points sit
+partway up the chain and their phase is not the foot's. A1: the legs never
+moved at all — 1e−5 m of excursion, so the joint targets produced no motion.
+A gate asserts that **exactly one** robot passes, so the count cannot quietly
+become three.
+
+---
+
+## Fidelity — `model/friction_recovery.py`
+
+`mu` goes into PhysX as a material property. The angle at which a block starts
+to slide comes out of the dynamics. Coulomb connects them: `tan(θ) = mu`.
+
+```
+mu in    true angle    detected    mu out    error
+  0.3        16.70°         17°    0.3057    +1.9%
+  0.5        26.57°         27°    0.5095    +1.9%
+  0.8        38.66°         39°    0.8098    +1.2%
+```
+
+Three coefficients recovered to better than 2%, without ever asking the engine
+what friction it was using.
+
+### The prediction was wrong in direction
+
+I predicted a **low** bias, reasoning that pre-slip creep would trip the
+detector early. But the sweep steps in 2° increments, so the first angle
+flagged can only ever be the first grid line **at or above** the true
+threshold — the bias had to be positive whatever creep does. Every overshoot is
+positive and under one grid step (max 0.435°), so discretisation fully accounts
+for it.
+
+Creep *is* in the data — 0.4 to 0.8 mm one step before release — it simply
+never reaches the 20 mm detection threshold, which is why it could not cause an
+early trigger.
 
 ### Eight attempts, and what each one taught
 
@@ -663,8 +723,9 @@ taken on faith.
 model/      robot spec, three generators, validation, sysid, contact,
             actuators, closed chains, collision cost, determinism,
             stability frontier, integrators, friction cones,
-            cross-engine PhysX comparisons, solvers, gait, grasping
-tests/      82 CI gates, four of which test the gates themselves
+            cross-engine PhysX comparisons, solvers, gait, grasping,
+            friction recovery
+tests/      90 CI gates, four of which test the gates themselves
 cpp/        C++ profiling harness + build script
 .github/    CI workflow
 ```

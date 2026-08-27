@@ -165,6 +165,48 @@ def build_checks():
             lambda: ce["dt_sweep"]["physx"]["60"],
             lambda v: f"{v:.5f}"))
 
+    gr = load("gait_result.json")
+    if gr:
+        spot = gr["trot_error"]["Spot"]
+        checks.append((
+            "gait: Spot's worst deviation from an ideal trot",
+            "4.8°",
+            lambda: spot["worst_deviation_deg"],
+            lambda v: f"{v}°"))
+        checks.append((
+            "gait: the two diagonal pairs are half a cycle apart",
+            "177.6°",
+            lambda: spot["between_pairs_deg"],
+            lambda v: f"{v}°"))
+        checks.append((
+            "gait: exactly one robot passes, and the README says so",
+            "One robot of three",
+            lambda: sum(1 for n in ("Spot", "ANYmal", "A1")
+                        if (gr["trot_error"].get(n) or {})
+                        .get("worst_deviation_deg", 999) < 15),
+            lambda v: "One robot of three" if v == 1 else f"{v} robots of three"))
+
+    fr = load("friction_recovery_analysis.json")
+    if fr:
+        by_mu = {r["mu_input"]: r for r in fr["recovered"]}
+        for mu, want in ((0.3, "0.3057"), (0.5, "0.5095"), (0.8, "0.8098")):
+            checks.append((
+                f"friction: mu {mu} recovered from the slip angle",
+                want,
+                lambda m=mu: by_mu[m]["mu_recovered"],
+                lambda v: f"{v}"))
+        checks.append((
+            "friction: the bias is positive, contradicting my prediction",
+            "the bias had to be positive",
+            lambda: fr["bias_check"]["all_errors_positive"],
+            lambda v: ("the bias had to be positive" if v
+                       else "some errors are NEGATIVE")))
+        checks.append((
+            "friction: every overshoot fits inside one grid step",
+            "max 0.435°",
+            lambda: fr["bias_check"]["max_overshoot_deg"],
+            lambda v: f"max {v}\u00b0"))
+
     gv = load("gait_validation.json")
     if gv:
         checks.append((
