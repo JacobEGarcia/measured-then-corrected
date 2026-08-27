@@ -5,7 +5,12 @@
 #
 #   bash tools/queue_runner.sh <dir1> [dir2 ...]
 set -uo pipefail
-: "${KAGGLE_API_TOKEN:?set KAGGLE_API_TOKEN before running}"
+# The token is read from the environment, never written here. An earlier
+# version hardcoded it, which put a live credential into every commit in this
+# repository's history -- caught by a secret scan before the first push, and
+# purged with git filter-branch. Treat any token that has ever been in a file
+# as compromised and rotate it.
+: "${KAGGLE_API_TOKEN:?set KAGGLE_API_TOKEN before running (export KAGGLE_API_TOKEN=...)}"
 K=/Users/jacobgarcia/2099/isaacfree/.venv/bin/kaggle
 
 for dir in "$@"; do
