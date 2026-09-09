@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Measured, Then Corrected - robot simulation studies</title>
+<meta name="description" content="Nineteen robotics simulation studies across MuJoCo, Isaac Sim, Gazebo and ROS 2 - with the thirteen wrong answers that got caught.">
+<meta property="og:title" content="Measured, Then Corrected">
+<meta property="og:description" content="A robot authored from scratch for three simulators, validated to machine precision, with every wrong prediction documented next to its correction.">
+<meta property="og:image" content="media/robot_zoo.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect x='3' y='3' width='10' height='10' fill='%231a3c46'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f5f0; --ink: #1a2024; --muted: #5c6670;
+    --line: #ddd8ce; --accent: #1a3c46; --warn: #b3502e;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: Newsreader, Georgia, serif; font-size: 19px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+  header.site { padding: 64px 0 36px; border-bottom: 1px solid var(--line); }
+  .kicker {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .26em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
+  }
+  h1 { font-weight: 600; font-size: clamp(32px, 5.5vw, 48px); line-height: 1.12; letter-spacing: -0.01em; max-width: 720px; }
+  header.site p.lede { color: var(--muted); max-width: 600px; margin-top: 18px; font-size: 20px; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); margin: 44px 0 0; }
+  .stats div { background: var(--bg); padding: 18px 20px; }
+  .stats b { display: block; font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 22px; color: var(--accent); }
+  .stats span { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+
+  section { padding: 52px 0; border-bottom: 1px solid var(--line); }
+  h2 { font-weight: 600; font-size: clamp(22px, 3.6vw, 30px); letter-spacing: -0.01em; margin-bottom: 14px; }
+  section p { max-width: 640px; }
+  section p + p { margin-top: 12px; }
+  .wrong { color: var(--warn); font-style: italic; }
+
+  figure { margin: 30px 0 8px; }
+  figure img { width: 100%; display: block; border: 1px solid var(--line); background: #fff; }
+  figcaption { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; color: var(--muted); margin-top: 10px; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; } }
+
+  pre {
+    font-family: "IBM Plex Mono", monospace; font-size: 13px; line-height: 1.7;
+    background: #fff; border: 1px solid var(--line); padding: 18px 20px;
+    overflow-x: auto; margin-top: 22px; color: #2c363c;
+  }
+
+  footer.site { padding: 44px 0 64px; color: var(--muted); }
+  footer.site a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site">
+    <div class="kicker">Measured, Then Corrected</div>
+    <h1>Robot simulation: authoring, validation, and the traps in between</h1>
+    <p class="lede">A robot authored from scratch for three simulators, validated to machine precision, wrapped in CI that asserts against closed-form physics rather than stored golden values. Where a prediction turned out wrong, the wrong answer is documented next to the correction - because those are the parts worth reading.</p>
+    <div class="stats">
+      <div><b>151</b><span>cross-format checks, 0 mismatches</span></div>
+      <div><b>3.3e-16 m</b><span>max FK error over 2000 configs</span></div>
+      <div><b>17</b><span>CI physics gates</span></div>
+      <div><b>13</b><span>wrong answers caught</span></div>
+    </div>
+  </header>
+
+  <section>
+    <h2>One source, three simulators</h2>
+    <p><code>model/robot_spec.py</code> holds the parameters; <code>model/emit.py</code> generates MJCF, URDF and SDF from that single source so the three formats cannot drift. Comparing numbers proves the <em>files</em> agree; comparing kinematics proves the <em>robots</em> agree. The first run reported 147/147 numbers correct with 0.23 m of forward-kinematics error - <span class="wrong">in URDF the link frame sits at the joint, so every centre of mass was attached to the wrong place.</span></p>
+    <pre>python model/emit.py        # regenerate all three formats
+python model/validate.py    # 151 comparisons + 2000-config FK
+pytest tests/               # 17 gates</pre>
+  </section>
+
+  <section>
+    <h2>How fast is free compute, really</h2>
+    <p>Forty-nine robots from the public libraries, simulated physics-only on a free Kaggle T4. Realtime factor falls off with degrees of freedom (r = -0.82), and the trend line says exactly which machines are cheap to train and which are not.</p>
+    <figure>
+      <img src="media/robot_zoo.png" alt="Simulation speed vs robot complexity for 49 robots on a free Kaggle T4">
+      <figcaption>FIG. 1 - REALTIME FACTOR VS DEGREES OF FREEDOM, 49 ROBOTS, KAGGLE T4</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Two engines against closed-form theory</h2>
+    <p>A sliding box is one of the few contact problems with an exact answer: stopping distance v&sup2;/2&mu;g. Isaac Sim carries a small, honest bias everywhere. <span class="wrong">MuJoCo is exact until the box tips at &mu; = 1.0 and lands 16% short</span> - the kind of failure a golden-value test would never catch, because the stored golden value would be wrong too.</p>
+    <figure>
+      <img src="media/sim2sim.png" alt="Both engines against closed-form Coulomb theory across friction coefficients">
+      <figcaption>FIG. 2 - SIM2SIM CHECK AGAINST CLOSED-FORM COULOMB FRICTION</figcaption>
+    </figure>
+    <div class="grid2">
+      <figure>
+        <img src="media/mujoco_benchmark.png" alt="MuJoCo benchmark results">
+        <figcaption>FIG. 3 - MUJOCO BENCHMARK SWEEP</figcaption>
+      </figure>
+      <figure>
+        <img src="media/crossover.png" alt="Crossover analysis between solver settings">
+        <figcaption>FIG. 4 - SOLVER CROSSOVER</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>The standing rules</h2>
+    <p>To halve penetration, halve the timestep - <code>solref</code> below 2&middot;dt is silently clamped and does nothing. A gearbox multiplies rotor inertia by N&sup2;, so at 100:1 a 2e-5 kg&middot;m&sup2; rotor outweighs the entire link. <code>isfinite()</code> is not a stability test. Each rule exists because a measurement, not a hunch, put it there.</p>
+    <figure>
+      <img src="media/dr_sweep.png" alt="Domain randomization sweep results">
+      <figcaption>FIG. 5 - DOMAIN RANDOMIZATION SWEEP</figcaption>
+    </figure>
+  </section>
+
+  <footer class="site">
+    <p>Full write-up, studies, and reproducible harnesses in the <a href="https://github.com/JacobEGarcia/measured-then-corrected">repository</a>. Jacob E. Garcia, Chicago.</p>
+  </footer>
+</div>
+</body>
+</html>
