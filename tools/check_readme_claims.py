@@ -92,34 +92,40 @@ def build_checks():
 
     det = load("determinism.json")
     if det:
-        # The README quotes a CONSENSUS exponent, not a single run. The whole
-        # claim of the determinism study is that two independent perturbation
-        # sizes (1 ULP and 1e-12) recover the same exponent, so the figure in
-        # the prose is their mean. Checking against just the 1-ULP run reported
-        # a mismatch (2.24 vs 2.258) that was really a units-of-claim error in
-        # this checker, not a drift in the README -- caught on its first run.
-        def consensus(a, b):
-            return round((det[a]["lyapunov_exponent_per_s"]
-                          + det[b]["lyapunov_exponent_per_s"]) / 2.0, 2)
-
+        # The README quotes the SEEDED (1e-12) runs. A 1-ULP perturbation sits
+        # at the scale of the floating-point differences BETWEEN machines, so a
+        # 1-ULP run measures a slightly different trajectory everywhere it
+        # runs: 2.258 /s on the machine that first committed the JSON, 2.256
+        # /s on x86_64 CI, for every MuJoCo from 3.10 through 3.16. That is
+        # the study's own point -- sub-ULP differences explode -- so no second
+        # machine can reproduce a 1-ULP run, and a mean that includes one
+        # lands on a rounding boundary (2.245 on one machine, 2.244 on
+        # another) and flips the quoted digit. The 1e-12-seeded runs sit four
+        # orders of magnitude above machine noise and come out identical on
+        # every machine tested, so they are what the prose quotes.
         checks.append((
-            "determinism: smooth-chaos Lyapunov exponent (mean of both seeds)",
-            "2.25 /s",
-            lambda: consensus("chaos_smooth_1ulp", "chaos_smooth_seeded_1e-12"),
-            lambda v: f"{v} /s"))
+            "determinism: smooth-chaos Lyapunov exponent (seeded run)",
+            "2.23 /s",
+            lambda: det["chaos_smooth_seeded_1e-12"]["lyapunov_exponent_per_s"],
+            lambda v: f"{v:.2f} /s"))
         checks.append((
-            "determinism: contact-chaos Lyapunov exponent (mean of both seeds)",
-            "0.35 /s",
-            lambda: consensus("chaos_contact_1ulp", "chaos_contact_seeded_1e-12"),
-            lambda v: f"{v} /s"))
-        # and guard the agreement itself, which is what licenses quoting a mean
+            "determinism: contact-chaos Lyapunov exponent (seeded run)",
+            "0.33 /s",
+            lambda: det["chaos_contact_seeded_1e-12"]["lyapunov_exponent_per_s"],
+            lambda v: f"{v:.2f} /s"))
+        # The physical claim is that the perturbation SIZE does not change the
+        # exponent. The exact agreement inherits the 1-ULP run's machine noise
+        # (1.15% on one machine, 1.06% on another), so the gate is the bound
+        # the README states -- if an upstream change ever makes the two seeds
+        # disagree by more than that, the claim is false and the gate fires.
         checks.append((
-            "determinism: the two seeds agree closely enough to quote a mean",
-            "1.2%",
+            "determinism: the two seeds recover the same exponent (bound)",
+            "to within **1.2%**",
             lambda: abs(det["chaos_smooth_1ulp"]["lyapunov_exponent_per_s"]
                         - det["chaos_smooth_seeded_1e-12"]["lyapunov_exponent_per_s"])
-                    / det["chaos_smooth_1ulp"]["lyapunov_exponent_per_s"] * 100,
-            lambda v: f"{v:.1f}%"))
+                    / det["chaos_smooth_1ulp"]["lyapunov_exponent_per_s"] * 100
+                    <= 1.2,
+            lambda v: "to within **1.2%**" if v else "seeds DISAGREE by over 1.2%"))
         pc = det.get("predictive_check")
         if pc:
             checks.append((

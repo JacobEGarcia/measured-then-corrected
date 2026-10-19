@@ -242,16 +242,19 @@ So reproducibility failures here are not solver nondeterminism. What *does*
 bound them is chaos:
 
 ```
-double pendulum (smooth)    lambda = 2.25 /s    e-folding 0.44 s
-box on a 20 deg incline     lambda = 0.35 /s    e-folding 2.9 s
+double pendulum (smooth)    lambda = 2.23 /s    e-folding 0.45 s
+box on a 20 deg incline     lambda = 0.33 /s    e-folding 3.0 s
 ```
 
 **Contact chaos is 6.5x slower than smooth chaos** — friction and inelastic
 contact dissipate.
 
-Validated three ways: two perturbation sizes (1 ULP and 1e-12) recover the same
-exponent to **1.2%**, and the exponent fitted on one run blind-predicts the
-other's 1 mm crossing at 9.18 s against **9.72 s measured**.
+Validated three ways: two perturbation sizes (1 ULP and 1e-12) recover the
+same exponent to within **1.2%**, and the exponent fitted on one run
+blind-predicts the other's 1 mm crossing at 9.18 s against **9.72 s
+measured**. (The table quotes the seeded runs: a 1-ULP perturbation sits at
+the scale of the floating-point differences between machines, so 1-ULP runs
+reproduce on no second machine -- which is the point of the study.)
 
 **Two floating-point traps, both now gated:**
 
